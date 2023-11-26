@@ -13,10 +13,11 @@ import Tooltip from "@mui/material/Tooltip";
 
 import { Link } from "react-router-dom";
 import userLogo from "/user.png";
-import logo from "/pet.jpg"
+import logo from "/pet.jpg";
+import useAuth from "../../Hooks/useAuth";
 const pages = (
   <>
-    <Link>
+    <Link to="/">
       {" "}
       <Button sx={{ color: "#023047", fontSize: { xs: 15, md: 20 } }}>
         Home
@@ -34,30 +35,11 @@ const pages = (
         Donation-CamPaigns
       </Button>
     </Link>
-    <Link to="login">
-      {" "}
-      <Button sx={{ color: {xs:"#023047",md:"#ccd5ae"}, fontSize: { xs: 15, md: 20 },backgroundColor:{md:"#023047"} }}>
-        Login
-      </Button>
-    </Link>
-  </>
-);
-
-const settings = (
-  <>
-    <Typography
-      sx={{ display: "flex", flexDirection: "column", gap: 1 ,fontFamily:"sans-serif"}}
-      textAlign="center"
-    >
-      <Link>
-        <Button>Dashboard</Button>
-      </Link>
-      <Button>Logout</Button>
-    </Typography>
   </>
 );
 
 const NavBar = () => {
+  const { user, logOut } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -75,15 +57,25 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleLogout = async () => {
+    const res = await logOut();
+  };
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ccd5ae" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo */}
-          <Avatar  sx={{ display: { xs: "none", md: "flex" }, mr: 1,width:70,height:70,marginY:1 }} src={logo}></Avatar>
-         
-      
+          <Avatar
+            sx={{
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+              width: 70,
+              height: 70,
+              marginY: 1,
+            }}
+            src={logo}
+          ></Avatar>
 
           {/* responsive pages */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -121,12 +113,34 @@ const NavBar = () => {
               >
                 {" "}
                 {pages}
+                {!user && (
+                  <Link to="login">
+                    {" "}
+                    <Button
+                      sx={{
+                        color: { xs: "#023047", md: "#ccd5ae" },
+                        fontSize: { xs: 15, md: 20 },
+                        backgroundColor: { md: "#023047" },
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                )}
               </Typography>
             </Menu>
           </Box>
           {/* responsive logo */}
-          <Avatar sx={{ display: { xs: "flex", md: "none" },mr:{xs:10,sm:35},width:55,height:55,marginY:1 }} src={logo}></Avatar>
-   
+          <Avatar
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: { xs: 10, sm: 35 },
+              width: 55,
+              height: 55,
+              marginY: 1,
+            }}
+            src={logo}
+          ></Avatar>
 
           {/* Pages */}
           <Box
@@ -138,14 +152,31 @@ const NavBar = () => {
             }}
           >
             {pages}
+            {!user && (
+              <Link to="login">
+                {" "}
+                <Button
+                  sx={{
+                    color: { xs: "#023047", md: "#ccd5ae" },
+                    fontSize: { xs: 15, md: 20 },
+                    backgroundColor: { md: "#023047" },
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
           </Box>
           {/* User Setting */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={userLogo} />
-                {/* avatar modifcation needed */}
-              </IconButton>
+              {user && (
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 } }>
+                  <Avatar sx={{width:60,height:60}} alt="" src={user?.photoURL} />
+
+                  {/* avatar modifcation needed */}
+                </IconButton>
+              )}
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
@@ -163,7 +194,29 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <Box>{settings}</Box>
+              {/* Settings */}
+              <Box>
+                {" "}
+                <Typography
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
+                    fontFamily: "sans-serif",
+                  }}
+                  textAlign="center"
+                >
+                  {user && (
+                    <>
+                      {" "}
+                      <Link>
+                        <Button>Dashboard</Button>
+                      </Link>
+                      <Button onClick={handleLogout}>Logout</Button>
+                    </>
+                  )}
+                </Typography>
+              </Box>
             </Menu>
           </Box>
         </Toolbar>

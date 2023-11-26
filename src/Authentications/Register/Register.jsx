@@ -7,37 +7,66 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import gitLogo from "/Github.png";
 import ggLogo from "/google.png";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import styled from "styled-components";
+
+import useAuth from "../../Hooks/useAuth";
+import { Helmet } from "react-helmet-async";
+
+import { imageUpload } from "../../api/utils";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => {
-      // alert(JSON.stringify(values,null,2))
-      console.log(values);
-    },
-  });
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
+  const { register, updateUser, googleLogin, gitLogin } = useAuth();
+  const navigate=useNavigate()
+  const handleReg = async (e) => {
+    e.preventDefault();
+
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const pass = e.target.password.value;
+    const image = e.target.image.files[0];
+       const toasted =toast.loading("Creating User")
+    try {
+      // upload image
+      const imageData = await imageUpload(image);
+
+      // create user
+      const result = await register(email, pass);
+      // user name and image
+      await updateUser(name, imageData?.data?.display_url);
+      toast.success("User Created",{id:toasted})
+         navigate("/")
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleGoogle = async () => {
+    const toasted = toast.loading("Signning In")
+     googleLogin().then(res=>{
+      toast.success("Signed In",{id:toasted})
+      navigate("/")
+     }).catch(err=>{
+      toast.error("Invalid",{id:toasted})
+     })
+  };
+  const handleGithub =async()=>{
+    const toasted = toast.loading("Signning In")
+    gitLogin().then(res=>{
+     toast.success("Signed In",{id:toasted})
+     navigate("/")
+    }).catch(err=>{
+     toast.error("Invalid",{id:toasted})
+    })
+  }
   return (
     <Grid sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
+      <Helmet>
+        <title>Pet Adoption | Register</title>
+      </Helmet>
       <Grid border={1}>
         {/* Email Pass Login */}
         <Grid>
@@ -46,7 +75,7 @@ const Register = () => {
             Create an account
           </Typography>
         </Grid>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleReg}>
           <Grid sx={{ display: "grid", gap: 5, p: 5 }}>
             <TextField
               sx={{ width: { xs: 220, sm: "auto" } }}
@@ -54,26 +83,16 @@ const Register = () => {
               variant="standard"
               name="name"
               type="text"
-              onChange={formik.handleChange}
-              value={formik.values.name}
               required
             />
-            <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload Picture
-              <VisuallyHiddenInput required type="file" />
-            </Button>
+
+            <TextField variant="outlined" name="image" type="file" required />
             <TextField
               sx={{ width: { xs: 220, sm: "auto" } }}
               label="Email"
               variant="standard"
               name="email"
               type="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
               required
             />
 
@@ -83,8 +102,6 @@ const Register = () => {
               variant="standard"
               name="password"
               type="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
               required
             />
 
@@ -119,33 +136,40 @@ const Register = () => {
         Or
       </Divider>
       <Grid my={2}>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          gap={{ xs: 3, sm: 13 }}
-          border={1}
-          mx={{ xs: 2, sm: 5 }}
-          mb={2}
-          px={1}
-          py={1}
-          borderRadius={12}
-        >
-          <Avatar src={ggLogo}></Avatar>
-          <Typography variant="h6">Continue With Google</Typography>
-        </Box>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          gap={{ xs: 3, sm: 13 }}
-          border={1}
-          mx={{ xs: 2, sm: 5 }}
-          px={1}
-          py={1}
-          borderRadius={12}
-        >
-          <Avatar src={gitLogo}></Avatar>
-          <Typography variant="h6">Continue With Github</Typography>
-        </Box>
+        {/* google register */}
+        <Button onClick={handleGoogle}>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            gap={{ xs: 3, sm: 13 }}
+            border={1}
+            mx={{ xs: 2, sm: 5 }}
+            mb={2}
+            px={4}
+            py={1}
+            borderRadius={12}
+          >
+            <Avatar src={ggLogo}></Avatar>
+            <Typography variant="h6">Continue With Google</Typography>
+          </Box>
+        </Button>
+
+        {/* github register */}
+        <Button onClick={handleGithub} >
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            gap={{ xs: 3, sm: 13 }}
+            border={1}
+            mx={{ xs: 2, sm: 5 }}
+            px={5}
+            py={1}
+            borderRadius={12}
+          >
+            <Avatar src={gitLogo}></Avatar>
+            <Typography variant="h6">Continue With Github</Typography>
+          </Box>
+        </Button>
       </Grid>
     </Grid>
   );

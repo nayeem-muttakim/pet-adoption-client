@@ -8,6 +8,7 @@ const Main = () => {
         <Grid>
             <NavBar/>
             <Outlet/>
+            
         </Grid>
     );
 };
