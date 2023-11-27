@@ -53,7 +53,7 @@ const PetCategories = () => {
       >
         {" "}
         {categories?.map((pets) => (
-          <CategoryCards key={pets.id} pets={pets} />
+          <CategoryCards key={pets._id} pets={pets} />
         ))}
       </Grid>
     </Grid>
