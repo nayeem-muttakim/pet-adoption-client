@@ -8,7 +8,7 @@ const CategoryCards = ({pets}) => {
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="200"
+                height="300"
                 image={pets.image}
                 alt="green iguana"
               />

@@ -76,7 +76,6 @@ const NavBar = () => {
             }}
             src={logo}
           ></Avatar>
-
           {/* responsive pages */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -141,7 +140,6 @@ const NavBar = () => {
             }}
             src={logo}
           ></Avatar>
-
           {/* Pages */}
           <Box
             sx={{
@@ -167,62 +165,65 @@ const NavBar = () => {
               </Link>
             )}
           </Box>
-          {/* User Setting */}
+          {/* User Setting */}{" "}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              {user && (
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    sx={{
-                      width: { sx: 50, sm: 60 },
-                      height: { sx: 40, sm: 60 },
-                    }}
-                    alt=""
-                    src={user?.photoURL}
-                  />
-                </IconButton>
-              )}
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {/* Settings */}
-              <Box>
+            {user && (
+              <>
                 {" "}
-                <Typography
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1,
-                    fontFamily: "sans-serif",
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <Avatar
+                      sx={{
+                        width: { sx: 50, sm: 60 },
+                        height: { sx: 40, sm: 60 },
+                      }}
+                      src={user?.photoURL}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
+            {user && (
+              <>
+                {" "}
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
-                  textAlign="center"
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  {user && (
-                    <>
+                  {/* Settings */}
+                  <Box>
+                    {" "}
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                        fontFamily: "sans-serif",
+                      }}
+                      textAlign="center"
+                    >
                       {" "}
                       <Link>
                         <Button>Dashboard</Button>
                       </Link>
                       <Button onClick={handleLogout}>Logout</Button>
-                    </>
-                  )}
-                </Typography>
-              </Box>
-            </Menu>
+                    </Typography>
+                  </Box>
+                </Menu>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>
