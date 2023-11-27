@@ -4,10 +4,10 @@ const useAxios = () => {
     const instance = axios.create({
         baseURL:'http://localhost:5589'
     })
-    return (
+    return instance
+  
       
-    instance
-    );
+    
 };
 
 export default useAxios;

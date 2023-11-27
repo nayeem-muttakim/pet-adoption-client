@@ -3,6 +3,7 @@ import Main from "../LayOut/Main";
 import Login from "../Authentications/Login/Login";
 import Register from "../Authentications/Register/Register";
 import Banner from "../HomePage/Banner/Banner";
+import HomePage from "../HomePage/HomePage";
 
 export const MainRoutes = createBrowserRouter([
     {
@@ -21,7 +22,7 @@ export const MainRoutes = createBrowserRouter([
             },
             {
                 path:"/",
-                element:<Banner/>
+                element:<HomePage/>
 
             },
         ]
