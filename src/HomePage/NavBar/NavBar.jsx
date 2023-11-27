@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
 import { Link } from "react-router-dom";
-import userLogo from "/user.png";
+
 import logo from "/pet.jpg";
 import useAuth from "../../Hooks/useAuth";
 const pages = (
@@ -171,10 +171,15 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               {user && (
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 } }>
-                  <Avatar sx={{width:60,height:60}} alt="" src={user?.photoURL} />
-
-                  {/* avatar modifcation needed */}
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    sx={{
+                      width: { sx: 50, sm: 60 },
+                      height: { sx: 40, sm: 60 },
+                    }}
+                    alt=""
+                    src={user?.photoURL}
+                  />
                 </IconButton>
               )}
             </Tooltip>
