@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import gitLogo from "/Github.png";
 import ggLogo from "/google.png";
 import { Helmet } from "react-helmet-async";
@@ -17,6 +17,9 @@ import toast from "react-hot-toast";
 
 const Login = () => {
   const { login, googleLogin, gitLogin } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,6 +32,7 @@ const Login = () => {
       login(email, password)
         .then((res) => {
           toast.success("Logged In", { id: toasted });
+          navigate(from)
         })
         .catch((err) => {
           toast.error("Invalid Email or Password", { id: toasted });
@@ -40,6 +44,7 @@ const Login = () => {
     googleLogin()
       .then((res) => {
         toast.success("Logged In", { id: toasted });
+        navigate(from)
       })
       .catch((err) => {
         toast.error("Invalid User", { id: toasted });
@@ -50,6 +55,7 @@ const Login = () => {
     gitLogin
       .then((res) => {
         toast.success("Logged In", { id: toasted });
+        navigate(from)
       })
       .catch((err) => {
         toast.error("Invalid User", { id: toasted });
@@ -123,15 +129,13 @@ const Login = () => {
       </Divider>
       <Grid my={2}>
         {/* google login */}
-        <Button  onClick={handleGoogle}>
+        <Button onClick={handleGoogle}>
           <Box
             display={"flex"}
             alignItems={"center"}
-            
             gap={{ xs: 3, sm: 13 }}
             border={1}
             mx={{ xs: 2, sm: 5 }}
-           
             px={3}
             py={1}
             borderRadius={12}

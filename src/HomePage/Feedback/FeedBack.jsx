@@ -43,9 +43,10 @@ const FeedBack = () => {
             type="text"
             fullWidth
             multiline
-            sx={{ px: 1, width: { xs: "full", sm: 600 } }}
+            sx={{ mx: 1, width: { xs: "full", sm: 600 },backgroundColor:"white" }}
             required
             label="FeedBack"
+           
           />
           <Button
             type="submit"

@@ -5,40 +5,38 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import logo from "/pet.jpg";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../Hooks/useAuth";
+import { Grid, List, ListItemButton } from "@mui/material";
+import { ListItemContent } from "@mui/joy";
+import { Dashboard } from "@mui/icons-material";
+
 const pages = (
   <>
     <Link to="/">
       {" "}
-      <Button sx={{ color: "#023047", fontSize: { xs: 15, md: 20 } }}>
-        Home
-      </Button>
+      <Button sx={{ fontSize: { xs: 15, md: 20 } }}>Home</Button>
     </Link>
     <Link to="listing">
       {" "}
-      <Button sx={{ color: "#023047", fontSize: { xs: 15, md: 20 } }}>
-        Pet Listing
-      </Button>
+      <Button sx={{ fontSize: { xs: 15, md: 20 } }}>Pet Listing</Button>
     </Link>
     <Link>
       {" "}
-      <Button sx={{ color: "#023047", fontSize: { xs: 15, md: 20 } }}>
-        Donation-CamPaigns
-      </Button>
+      <Button sx={{ fontSize: { xs: 15, md: 20 } }}>Donation-CamPaigns</Button>
     </Link>
   </>
 );
 
-const NavBar = () => {
+const DashNav = () => {
   const { user, logOut } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -86,7 +84,7 @@ const NavBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon sx={{ color: "#023047" }} />
+              <Dashboard fontSize="large" sx={{ color: "#023047" }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -110,22 +108,65 @@ const NavBar = () => {
                 sx={{ display: "flex", flexDirection: "column" }}
                 textAlign="center"
               >
-                {" "}
-                {pages}
-                {!user && (
-                  <Link to="login">
-                    {" "}
-                    <Button
-                      sx={{
-                        color: { xs: "#023047", md: "#ccd5ae" },
-                        fontSize: { xs: 15, md: 20 },
-                        backgroundColor: { md: "#023047" },
-                      }}
-                    >
-                      Login
-                    </Button>
-                  </Link>
-                )}
+                {/*  responisive dash */}
+                <Grid sx={{ bgcolor: "#023047" }}>
+                  <List>
+                    {/* add */}
+                    <NavLink to="add-pet">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          Add a Pet
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                    {/* my added pets */}
+                    <NavLink to="added-pets">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          Added Pets
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                    {/* adoption request */}
+                    <NavLink to="adoption-request">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          Adopt Request
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                    {/* create donation */}
+                    <NavLink to="create-donation">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          Create Donation
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                    {/* my donation campaign */}
+                    <NavLink to="donation-campaign">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          My Donation Campaigns
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                    {/* my donations */}
+                    <NavLink to="donations">
+                      <ListItemButton sx={{ color: "white" }} variant="soft">
+                        <ListItemContent sx={{ color: "white" }}>
+                          {" "}
+                          My Donations
+                        </ListItemContent>
+                      </ListItemButton>
+                    </NavLink>
+                  </List>
+                </Grid>
               </Typography>
             </Menu>
           </Box>
@@ -150,22 +191,22 @@ const NavBar = () => {
             }}
           >
             {pages}
-            {!user && (
-              <Link to="login">
-                {" "}
-                <Button
-                  sx={{
-                    color: { xs: "#023047", md: "#ccd5ae" },
-                    fontSize: { xs: 15, md: 20 },
-                    backgroundColor: { md: "#023047" },
-                  }}
-                >
-                  Login
-                </Button>
-              </Link>
-            )}
           </Box>
-          {/* User Setting */}{" "}
+          {/*  Setting handler */}{" "}
+          {!user && (
+            <Link to="/login">
+              {" "}
+              <Button
+                sx={{
+                  color: "#ccd5ae",
+                  fontSize: { xs: 15, md: 20 },
+                  backgroundColor: "#023047",
+                }}
+              >
+                Login
+              </Button>
+            </Link>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu}>
@@ -184,6 +225,7 @@ const NavBar = () => {
               </IconButton>
             </Tooltip>
 
+            {/* user setting */}
             {user && (
               <>
                 {" "}
@@ -206,19 +248,20 @@ const NavBar = () => {
                   {/* Settings */}
                   <Box>
                     {" "}
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1,
-                        fontFamily: "sans-serif",
-                      }}
-                      textAlign="center"
-                    >
+                    <Typography textAlign="center">
                       {" "}
-                      <Link to="dashboard">
-                        <Button>Dashboard</Button>
-                      </Link>
+                      <Box display={{ xs: "block", md: "none" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 1,
+                            fontFamily: "sans-serif",
+                          }}
+                        >
+                          {pages}
+                        </Box>
+                      </Box>
                       <Button onClick={handleLogout}>Logout</Button>
                     </Typography>
                   </Box>
@@ -231,4 +274,4 @@ const NavBar = () => {
     </AppBar>
   );
 };
-export default NavBar;
+export default DashNav;

@@ -29,38 +29,39 @@ export default function Volunteer() {
           maxWidth: 500,
           mx: "auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(1fr))",
           gap: 2,
+         
         }}
       >
-        <Card>
-          <CardContent>
+        <Card >
+          <CardContent > 
             <Typography variant="h5" level="title-md">Send CV</Typography>
-            <Typography variant="body1"> at petadoption@gmail.com </Typography>
+            <Typography variant="h6"> at petadoption@gmail.com </Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
             <Typography variant="h5" level="title-md">Contact Us</Typography>
-            <Typography variant="body1"> 01760993821</Typography>
+            <Typography variant="h6"> 01760993821</Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
             <Typography variant="h5" level="title-md"> Our FaceBook Page</Typography>
-            <Typography>Pet Adoption</Typography>
+            <Typography variant="h6">Pet Adoption</Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
             <Typography variant="h5" level="title-md" textColor="inherit">
-              Solid card
+              Twiiter
             </Typography>
-            <Typography variant="body1" textColor="inherit">
-              Description of the card.
+            <Typography variant="h6" textColor="inherit">
+              @pet_adoption
             </Typography>
           </CardContent>
         </Card>
