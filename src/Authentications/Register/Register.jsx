@@ -20,7 +20,7 @@ import toast from "react-hot-toast";
 
 const Register = () => {
   const { register, updateUser, googleLogin, gitLogin } = useAuth();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleReg = async (e) => {
     e.preventDefault();
 
@@ -28,7 +28,7 @@ const Register = () => {
     const email = e.target.email.value;
     const pass = e.target.password.value;
     const image = e.target.image.files[0];
-       const toasted =toast.loading("Creating User")
+    const toasted = toast.loading("Creating User");
     try {
       // upload image
       const imageData = await imageUpload(image);
@@ -37,33 +37,37 @@ const Register = () => {
       const result = await register(email, pass);
       // user name and image
       await updateUser(name, imageData?.data?.display_url);
-      toast.success("User Created",{id:toasted})
-         navigate("/")
-      
+      toast.success("User Created", { id: toasted });
+    
+      navigate("/"); 
     } catch (err) {
       console.log(err);
     }
   };
   const handleGoogle = async () => {
-    const toasted = toast.loading("Signning In")
-     googleLogin().then(res=>{
-      toast.success("Signed In",{id:toasted})
-      navigate("/")
-     }).catch(err=>{
-      toast.error("Invalid",{id:toasted})
-     })
+    const toasted = toast.loading("Signning In");
+    googleLogin()
+      .then((res) => {
+        toast.success("Signed In", { id: toasted });
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error("Invalid", { id: toasted });
+      });
   };
-  const handleGithub =async()=>{
-    const toasted = toast.loading("Signning In")
-    gitLogin().then(res=>{
-     toast.success("Signed In",{id:toasted})
-     navigate("/")
-    }).catch(err=>{
-     toast.error("Invalid",{id:toasted})
-    })
-  }
+  const handleGithub = async () => {
+    const toasted = toast.loading("Signning In");
+    gitLogin()
+      .then((res) => {
+        toast.success("Signed In", { id: toasted });
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error("Invalid", { id: toasted });
+      });
+  };
   return (
-    <Grid sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
+    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
       <Helmet>
         <title>Pet Adoption | Register</title>
       </Helmet>
@@ -78,7 +82,6 @@ const Register = () => {
         <form onSubmit={handleReg}>
           <Grid sx={{ display: "grid", gap: 5, p: 5 }}>
             <TextField
-              sx={{ width: { xs: 220, sm: "auto" } }}
               label="Full Name"
               variant="standard"
               name="name"
@@ -88,7 +91,6 @@ const Register = () => {
 
             <TextField variant="outlined" name="image" type="file" required />
             <TextField
-              sx={{ width: { xs: 220, sm: "auto" } }}
               label="Email"
               variant="standard"
               name="email"
@@ -97,7 +99,6 @@ const Register = () => {
             />
 
             <TextField
-              sx={{ width: { xs: 220, sm: "auto" } }}
               label="Password"
               variant="standard"
               name="password"
@@ -144,30 +145,29 @@ const Register = () => {
             gap={{ xs: 3, sm: 13 }}
             border={1}
             mx={{ xs: 2, sm: 5 }}
-            mb={2}
-            px={4}
+            px={3}
             py={1}
             borderRadius={12}
           >
             <Avatar src={ggLogo}></Avatar>
-            <Typography variant="h6">Continue With Google</Typography>
+            <Typography variant="body1">Continue With Google</Typography>
           </Box>
         </Button>
 
         {/* github register */}
-        <Button onClick={handleGithub} >
+        <Button onClick={handleGithub}>
           <Box
             display={"flex"}
             alignItems={"center"}
             gap={{ xs: 3, sm: 13 }}
             border={1}
             mx={{ xs: 2, sm: 5 }}
-            px={5}
+            px={3}
             py={1}
             borderRadius={12}
           >
             <Avatar src={gitLogo}></Avatar>
-            <Typography variant="h6">Continue With Github</Typography>
+            <Typography variant="body1">Continue With Github</Typography>
           </Box>
         </Button>
       </Grid>

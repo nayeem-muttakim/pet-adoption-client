@@ -4,7 +4,7 @@ import Exist from "./Exist";
 
 const AboutUs = () => {
   return (
-    <Grid my={3}>
+    <Grid my={3} pb={1}>
       <Paper
         square={false}
         sx={{

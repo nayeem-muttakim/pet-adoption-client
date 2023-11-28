@@ -19,6 +19,7 @@ export default function Work() {
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"
+        color="white"
       >
         <SwiperSlide>
           <Grid
@@ -29,7 +30,7 @@ export default function Work() {
             flexDirection={"column"}
           >
             <Typography variant="h5"> Pet Adoption </Typography>
-            <Typography color={"black"}>
+            <Typography >
               {" "}
               Browse through profiles of adorable pets seeking a loving home.
               Our platform connects potential adopters with a diverse range of
@@ -49,7 +50,7 @@ export default function Work() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Donation Campaigns</Typography>
-            <Typography color={"black"}>
+            <Typography >
               {" "}
               Join us in making a difference by supporting our donation
               campaigns. These campaigns are designed to raise funds for
@@ -71,7 +72,7 @@ export default function Work() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Easy Navigation</Typography>
-            <Typography  color={"black"}>
+            <Typography >
               {" "}
               Our user-friendly interface ensures a seamless experience. Filter
               your search based on preferences, such as pet category, and

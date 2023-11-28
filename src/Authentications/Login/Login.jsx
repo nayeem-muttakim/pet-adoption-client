@@ -56,7 +56,7 @@ const Login = () => {
       });
   };
   return (
-    <Grid sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
+    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
       <Helmet>
         <title>Pet Adoption | Login</title>
       </Helmet>
@@ -72,7 +72,6 @@ const Login = () => {
         <form onSubmit={formik.handleSubmit}>
           <Grid sx={{ display: "grid", gap: 5, p: 5 }}>
             <TextField
-              sx={{ width: { xs: 220, sm: "auto" } }}
               label="Email"
               variant="standard"
               name="email"
@@ -83,7 +82,6 @@ const Login = () => {
             />
 
             <TextField
-              sx={{ width: { xs: 220, sm: "auto" } }}
               label="Password"
               variant="standard"
               name="password"
@@ -125,20 +123,21 @@ const Login = () => {
       </Divider>
       <Grid my={2}>
         {/* google login */}
-        <Button onClick={handleGoogle}>
+        <Button  onClick={handleGoogle}>
           <Box
             display={"flex"}
             alignItems={"center"}
+            
             gap={{ xs: 3, sm: 13 }}
             border={1}
             mx={{ xs: 2, sm: 5 }}
-            mb={2}
-            px={1}
+           
+            px={3}
             py={1}
             borderRadius={12}
           >
             <Avatar src={ggLogo}></Avatar>
-            <Typography variant="h6">Continue With Google</Typography>
+            <Typography variant="body1">Continue With Google</Typography>
           </Box>
         </Button>
         {/* github login */}
@@ -149,12 +148,12 @@ const Login = () => {
             gap={{ xs: 3, sm: 13 }}
             border={1}
             mx={{ xs: 2, sm: 5 }}
-            px={1}
+            px={3}
             py={1}
             borderRadius={12}
           >
             <Avatar src={gitLogo}></Avatar>
-            <Typography variant="h6">Continue With Github</Typography>
+            <Typography variant="body1">Continue With Github</Typography>
           </Box>
         </Button>
       </Grid>

@@ -23,7 +23,7 @@ const pages = (
         Home
       </Button>
     </Link>
-    <Link>
+    <Link to='listing'>
       {" "}
       <Button sx={{ color: "#023047", fontSize: { xs: 15, md: 20 } }}>
         Pet Listing
@@ -167,11 +167,11 @@ const NavBar = () => {
           </Box>
           {/* User Setting */}{" "}
           <Box sx={{ flexGrow: 0 }}>
-            {user && (
-              <>
-                {" "}
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu}>
+                {user && (
+                  <>
+                    {" "}
                     <Avatar
                       sx={{
                         width: { sx: 50, sm: 60 },
@@ -179,10 +179,11 @@ const NavBar = () => {
                       }}
                       src={user?.photoURL}
                     />
-                  </IconButton>
-                </Tooltip>
-              </>
-            )}
+                  </>
+                )}
+              </IconButton>
+            </Tooltip>
+
             {user && (
               <>
                 {" "}

@@ -4,6 +4,7 @@ import PetCategories from "./PetCategories/PetCategories";
 import AboutUs from "./AboutUs/AboutUs";
 import Encourage from "./Encourage/Encourage";
 import { Helmet } from "react-helmet-async";
+import FeedBack from "./Feedback/FeedBack";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <PetCategories />
       <Encourage />
       <AboutUs />
+      <FeedBack/>
     </Grid>
   );
 };

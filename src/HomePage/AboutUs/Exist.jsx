@@ -19,6 +19,7 @@ export default function Exist() {
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"
+        color="white"
       >
         <SwiperSlide>
           {" "}
@@ -30,7 +31,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Promoting Adoption</Typography>
-            <Typography color={"black"}>
+            <Typography >
               {" "}
               By simplifying the adoption process, we aim to increase the number
               of pets finding forever homes. Adoption not only transforms the
@@ -49,7 +50,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Caring for the Vulnerable</Typography>
-            <Typography color={"black"}>
+            <Typography >
               {" "}
               The donation campaigns are a testament to our commitment to the
               welfare of all animals. Your support directly contributes to
@@ -68,7 +69,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Building a Community</Typography>
-            <Typography color={"black"}>
+            <Typography >
               {" "}
               Beyond being a platform, we aspire to create a community of animal
               lovers who share a common goal—creating a world where every pet is
