@@ -13,7 +13,7 @@ const FeedBack = () => {
     console.log(feedback);
   };
   return (
-    <Grid maxWidth={600} mx={"auto"} py={2}>
+    <Grid maxWidth={1200} mx={"auto"} py={2} px={1}>
       <Paper
         square={false}
         sx={{
@@ -38,12 +38,12 @@ const FeedBack = () => {
       <form onSubmit={handleFeedBack}>
         <Grid display={"flex"}>
           <TextField
-          minRows={2}
+            minRows={2}
             name="feedback"
             type="text"
             fullWidth
             multiline
-            sx={{ px: 1 }}
+            sx={{ px: 1, width: { xs: "full", sm: 600 } }}
             required
             label="FeedBack"
           />

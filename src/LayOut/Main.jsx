@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const Main = () => {
   return (
-    <Grid>
+    <Grid >
       <NavBar />
       <Outlet />
     </Grid>

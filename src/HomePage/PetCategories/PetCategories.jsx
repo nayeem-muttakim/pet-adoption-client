@@ -40,15 +40,18 @@ const PetCategories = () => {
         </Typography>
       </Paper>
       <Grid
+      maxWidth={1200}
+      mx={'auto'}
         display={"grid"}
         columnGap={2}
         rowGap={4}
+        
         gridTemplateColumns={{
           xs: "repeat(1,1fr)",
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
           lg: "repeat(4,1fr)",
-          xl: "repeat(6,1fr)",
+         
         }}
       >
         {" "}
