@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Config/firebase.config";
+import useAxios from "../Hooks/useAxios";
 
 
 export const AuthContext = createContext(null);
@@ -18,7 +19,7 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const axiosPublic =useAxios()
   const ggProvider = new GoogleAuthProvider();
   const fbProvider = new FacebookAuthProvider();
   const register = (email, pass) => {
@@ -56,6 +57,18 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (inUser) => {
       setUser(inUser);
+      if(inUser){
+        //  get token and store client
+        const userInfo = {email:inUser.email}
+        axiosPublic.post('/jwt',userInfo).then(res=>{
+          if(res.data.token){
+            localStorage.setItem('access-token',res.data.token)
+          }
+        })
+      }else{
+        // remove token if stored
+        localStorage.removeItem('access-token')
+      }
       setLoading(false);
     });
     return () => {

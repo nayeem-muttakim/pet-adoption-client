@@ -63,9 +63,9 @@ const SocialAuthentication = () => {
         <Box
           display={"flex"}
           alignItems={"center"}
-          gap={{ xs: 3, sm: 13 }}
+          gap={{ xs: 2, sm: 10 }}
           border={1}
-          mx={{ xs: 2, sm: 5 }}
+          mx={{ xs: 2, sm: 12 }}
           px={3}
           py={1}
           borderRadius={12}
@@ -80,10 +80,10 @@ const SocialAuthentication = () => {
         <Box
           display={"flex"}
           alignItems={"center"}
-          gap={{ xs: 3, sm: 13 }}
+          gap={{ xs: 2, sm: 10 }}
           border={1}
-          mx={{ xs: 2, sm: 5 }}
-          px={3}
+          mx={{ xs: 2, sm: 12 }}
+          px={2}
           py={1}
           borderRadius={12}
         >

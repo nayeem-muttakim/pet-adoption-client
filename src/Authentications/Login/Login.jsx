@@ -33,7 +33,7 @@ const Login = () => {
   });
 
   return (
-    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
+    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my:{xs:3,md:5,xl:10} }}>
       <Helmet>
         <title>Pet Adoption | Login</title>
       </Helmet>

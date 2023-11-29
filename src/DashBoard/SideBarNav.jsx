@@ -2,9 +2,9 @@ import { People, Pets, VolunteerActivism } from "@mui/icons-material";
 import { ListItemContent } from "@mui/joy";
 import { Button, Divider, Grid, List, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
+import useAdmin from "../Hooks/useAdmin";
 const SideBarNav = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
   return (
     <Grid sx={{fontWeight:600}}>
       {/* all user sidebar */}

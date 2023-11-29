@@ -34,7 +34,7 @@ const Register = () => {
         name: name,
         email: email,
         image: imageData?.data?.display_url,
-        role: "user",
+        role: 'user',
       };
       await axiosPublic.post("/users", userInfo);
 

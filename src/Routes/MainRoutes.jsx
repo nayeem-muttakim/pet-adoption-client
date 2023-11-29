@@ -8,6 +8,7 @@ import HomePage from "../HomePage/HomePage";
 import ErrorPage from "../ErrorPage";
 import Dashboard from "../LayOut/Dashboard";
 import PrivateRoute from "../Private/PrivateRoute";
+import AdminRoute from "../Private/AdminRoute";
 import Users from "../DashBoard/Users";
 
 export const MainRoutes = createBrowserRouter([
@@ -65,7 +66,7 @@ export const MainRoutes = createBrowserRouter([
       // admin routes
       {
         path:"users",
-        element:<Users/>
+        element:<AdminRoute><Users/></AdminRoute>
       }
     ],
   },
