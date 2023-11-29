@@ -1,22 +1,14 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import gitLogo from "/Github.png";
-import ggLogo from "/google.png";
+
 import { Helmet } from "react-helmet-async";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import SocialAuthentication from "../../Shared/SocialAuthentication";
 
 const Login = () => {
-  const { login, googleLogin, gitLogin } = useAuth();
+  const { login } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
@@ -32,35 +24,14 @@ const Login = () => {
       login(email, password)
         .then((res) => {
           toast.success("Logged In", { id: toasted });
-          navigate(from)
+          navigate(from);
         })
         .catch((err) => {
           toast.error("Invalid Email or Password", { id: toasted });
         });
     },
   });
-  const handleGoogle = async () => {
-    const toasted = toast.loading("Logging In");
-    googleLogin()
-      .then((res) => {
-        toast.success("Logged In", { id: toasted });
-        navigate(from)
-      })
-      .catch((err) => {
-        toast.error("Invalid User", { id: toasted });
-      });
-  };
-  const hanldeGithub = async () => {
-    const toasted = toast.loading("Logging In");
-    gitLogin
-      .then((res) => {
-        toast.success("Logged In", { id: toasted });
-        navigate(from)
-      })
-      .catch((err) => {
-        toast.error("Invalid User", { id: toasted });
-      });
-  };
+
   return (
     <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
       <Helmet>
@@ -127,40 +98,8 @@ const Login = () => {
       <Divider sx={{ mt: 2 }} orientation="horizontal" variant="middle">
         Or
       </Divider>
-      <Grid my={2}>
-        {/* google login */}
-        <Button onClick={handleGoogle}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={{ xs: 3, sm: 13 }}
-            border={1}
-            mx={{ xs: 2, sm: 5 }}
-            px={3}
-            py={1}
-            borderRadius={12}
-          >
-            <Avatar src={ggLogo}></Avatar>
-            <Typography variant="body1">Continue With Google</Typography>
-          </Box>
-        </Button>
-        {/* github login */}
-        <Button onClick={hanldeGithub}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={{ xs: 3, sm: 13 }}
-            border={1}
-            mx={{ xs: 2, sm: 5 }}
-            px={3}
-            py={1}
-            borderRadius={12}
-          >
-            <Avatar src={gitLogo}></Avatar>
-            <Typography variant="body1">Continue With Github</Typography>
-          </Box>
-        </Button>
-      </Grid>
+      {/* social  */}
+      <SocialAuthentication />
     </Grid>
   );
 };

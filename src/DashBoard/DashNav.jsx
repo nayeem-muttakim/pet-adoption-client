@@ -11,13 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
-import { Link, NavLink } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import logo from "/pet.jpg";
 import useAuth from "../Hooks/useAuth";
-import { Grid, List, ListItemButton } from "@mui/material";
-import { ListItemContent } from "@mui/joy";
+import { Grid } from "@mui/material";
+
 import { Dashboard } from "@mui/icons-material";
+import SideBarNav from "./SideBarNav";
 
 const pages = (
   <>
@@ -74,7 +75,7 @@ const DashNav = () => {
             }}
             src={logo}
           ></Avatar>
-          {/* responsive pages */}
+          {/* responsive dash */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -108,64 +109,9 @@ const DashNav = () => {
                 sx={{ display: "flex", flexDirection: "column" }}
                 textAlign="center"
               >
-                {/*  responisive dash */}
-                <Grid sx={{ bgcolor: "#023047" }}>
-                  <List>
-                    {/* add */}
-                    <NavLink to="add-pet">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          Add a Pet
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                    {/* my added pets */}
-                    <NavLink to="added-pets">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          Added Pets
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                    {/* adoption request */}
-                    <NavLink to="adoption-request">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          Adopt Request
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                    {/* create donation */}
-                    <NavLink to="create-donation">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          Create Donation
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                    {/* my donation campaign */}
-                    <NavLink to="donation-campaign">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          My Donation Campaigns
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                    {/* my donations */}
-                    <NavLink to="donations">
-                      <ListItemButton sx={{ color: "white" }} variant="soft">
-                        <ListItemContent sx={{ color: "white" }}>
-                          {" "}
-                          My Donations
-                        </ListItemContent>
-                      </ListItemButton>
-                    </NavLink>
-                  </List>
+               {/* sidebar */}
+                <Grid sx={{ bgcolor: "#8ecae6" }}>
+                  <SideBarNav  />
                 </Grid>
               </Typography>
             </Menu>
@@ -208,7 +154,7 @@ const DashNav = () => {
             </Link>
           )}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title={user?.displayName}>
               <IconButton onClick={handleOpenUserMenu}>
                 {user && (
                   <>

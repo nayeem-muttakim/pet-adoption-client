@@ -62,7 +62,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#ccd5ae" }}>
+    <AppBar position="sticky" sx={{ backgroundColor: "#ccd5ae" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo */}
@@ -167,7 +167,7 @@ const NavBar = () => {
           </Box>
           {/* User Setting */}{" "}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title={user?.displayName}>
               <IconButton onClick={handleOpenUserMenu}>
                 {user && (
                   <>

@@ -1,25 +1,17 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAxios from "../../Hooks/useAxios";
 import CategoryCards from "./CategoryCards";
 
 const PetCategories = () => {
   const [categories, setCategories] = useState([]);
-  const axios = useAxios();
+  const axiosPublic = useAxios();
 
   useEffect(() => {
-    axios("/categories").then((res) => {
+    axiosPublic("/categories").then((res) => {
       setCategories(res.data);
     });
-  }, [axios]);
+  }, [axiosPublic]);
 
   return (
     <Grid my={3}>
@@ -40,18 +32,16 @@ const PetCategories = () => {
         </Typography>
       </Paper>
       <Grid
-      maxWidth={1200}
-      mx={'auto'}
+        maxWidth={1200}
+        mx={"auto"}
         display={"grid"}
         columnGap={2}
         rowGap={4}
-        
         gridTemplateColumns={{
           xs: "repeat(1,1fr)",
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
           lg: "repeat(4,1fr)",
-         
         }}
       >
         {" "}

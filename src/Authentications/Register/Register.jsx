@@ -1,25 +1,18 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
-import gitLogo from "/Github.png";
-import ggLogo from "/google.png";
 
 import useAuth from "../../Hooks/useAuth";
 import { Helmet } from "react-helmet-async";
 
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
+import useAxios from "../../Hooks/useAxios";
+import SocialAuthentication from "../../Shared/SocialAuthentication";
 
 const Register = () => {
-  const { register, updateUser, googleLogin, gitLogin } = useAuth();
+  const { register, updateUser } = useAuth();
+  const axiosPublic = useAxios();
   const navigate = useNavigate();
   const handleReg = async (e) => {
     e.preventDefault();
@@ -37,42 +30,29 @@ const Register = () => {
       const result = await register(email, pass);
       // user name and image
       await updateUser(name, imageData?.data?.display_url);
+      const userInfo = {
+        name: name,
+        email: email,
+        image: imageData?.data?.display_url,
+        role: "user",
+      };
+      await axiosPublic.post("/users", userInfo);
+
       toast.success("User Created", { id: toasted });
-    
-      navigate("/"); 
+
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
   };
-  const handleGoogle = async () => {
-    const toasted = toast.loading("Signning In");
-    googleLogin()
-      .then((res) => {
-        toast.success("Signed In", { id: toasted });
-        navigate("/");
-      })
-      .catch((err) => {
-        toast.error("Invalid", { id: toasted });
-      });
-  };
-  const handleGithub = async () => {
-    const toasted = toast.loading("Signning In");
-    gitLogin()
-      .then((res) => {
-        toast.success("Signed In", { id: toasted });
-        navigate("/");
-      })
-      .catch((err) => {
-        toast.error("Invalid", { id: toasted });
-      });
-  };
+
   return (
     <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
       <Helmet>
         <title>Pet Adoption | Register</title>
       </Helmet>
+      {/* Email Pass Login */}
       <Grid border={1}>
-        {/* Email Pass Login */}
         <Grid>
           {" "}
           <Typography pl={5} pt={2} variant="h4">
@@ -133,44 +113,11 @@ const Register = () => {
 
         {/* Additionals */}
       </Grid>
-      <Divider sx={{ mt: 2 }} orientation="horizontal" variant="middle">
+      <Divider sx={{ mt: 2 }} orientation="horiontal" variant="middle">
         Or
       </Divider>
-      <Grid my={2}>
-        {/* google register */}
-        <Button onClick={handleGoogle}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={{ xs: 3, sm: 13 }}
-            border={1}
-            mx={{ xs: 2, sm: 5 }}
-            px={3}
-            py={1}
-            borderRadius={12}
-          >
-            <Avatar src={ggLogo}></Avatar>
-            <Typography variant="body1">Continue With Google</Typography>
-          </Box>
-        </Button>
-
-        {/* github register */}
-        <Button onClick={handleGithub}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            gap={{ xs: 3, sm: 13 }}
-            border={1}
-            mx={{ xs: 2, sm: 5 }}
-            px={3}
-            py={1}
-            borderRadius={12}
-          >
-            <Avatar src={gitLogo}></Avatar>
-            <Typography variant="body1">Continue With Github</Typography>
-          </Box>
-        </Button>
-      </Grid>
+      {/* social login */}
+      <SocialAuthentication />
     </Grid>
   );
 };

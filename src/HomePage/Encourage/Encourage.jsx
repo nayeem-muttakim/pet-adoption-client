@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import EncourageCard from "./EncourageCard";
 
 const Encourage = () => {
-  const axios = useAxios();
+  const axiosPublic = useAxios();
   const [inspire, setInspire] = useState([]);
 
   useEffect(() => {
-    axios("/encourages").then((res) => setInspire(res.data));
-  }, [axios]);
+    axiosPublic("/encourages").then((res) => setInspire(res.data));
+  }, [axiosPublic]);
 
   return (
     <Grid my={3}>
