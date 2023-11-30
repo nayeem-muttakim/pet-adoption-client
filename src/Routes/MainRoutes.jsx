@@ -10,6 +10,7 @@ import Dashboard from "../LayOut/Dashboard";
 import PrivateRoute from "../Private/PrivateRoute";
 import AdminRoute from "../Private/AdminRoute";
 import Users from "../DashBoard/Users";
+import AddPet from "../DashBoard/AddPet/AddPet";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -41,7 +42,7 @@ export const MainRoutes = createBrowserRouter([
     children: [
       {
         path: "add-pet",
-        element: <>hi</>,
+        element: <AddPet/>,
       },
       {
         path: "added-pets",

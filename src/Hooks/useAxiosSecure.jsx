@@ -5,6 +5,7 @@ import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
     baseURL:'http://localhost:5589'
+    // baseURL:'https://pet-adoption-server-orcin.vercel.app'
 })
 const useAxiosSecure = () => {
     const navigate=useNavigate()
@@ -28,7 +29,7 @@ const useAxiosSecure = () => {
         // logout user and navigate to login
         if(status === 401 || status === 403 ){
             await logOut()
-            navigate('/login')
+             navigate('/login')
         }
         return Promise.reject(error)
       })

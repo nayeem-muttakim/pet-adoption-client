@@ -55,14 +55,14 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (inUser) => {
+    const unSubscribe = onAuthStateChanged(auth, async(inUser) => {
       setUser(inUser);
       if(inUser){
         //  get token and store client
         const userInfo = {email:inUser.email}
-        axiosPublic.post('/jwt',userInfo).then(res=>{
+       await axiosPublic.post('/jwt',userInfo).then( async res=>{
           if(res.data.token){
-            localStorage.setItem('access-token',res.data.token)
+           await localStorage.setItem('access-token',res.data.token)
           }
         })
       }else{
