@@ -12,6 +12,7 @@ import AdminRoute from "../Private/AdminRoute";
 import Users from "../DashBoard/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
 import AddedPets from "../DashBoard/AddedPets/AddedPets";
+import UpdatePet from "../DashBoard/UpdatePet/UpdatePet";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -48,6 +49,11 @@ export const MainRoutes = createBrowserRouter([
       {
         path: "added-pets",
         element: <AddedPets/>,
+      },
+      {
+        path: "update-pet/:id",
+        element: <UpdatePet/>,
+      
       },
       {
         path: "adoption-request",

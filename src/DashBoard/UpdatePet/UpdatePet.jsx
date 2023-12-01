@@ -4,15 +4,19 @@ import { Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
 import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment/moment";
-import useAuth from "../../Hooks/useAuth";
+
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddPet = () => {
+const UpdatePet = () => {
+    const {id} =useParams()
+    useEffect(()=>{
+        axiosSecure(`/pets/${id}`).then(res=>console.log(res))
+    },[])
   const options = [
     { value: "Dog", label: "Dog" },
     { value: "Cat", label: "Cat" },
@@ -21,7 +25,7 @@ const AddPet = () => {
     { value: "Parrot", label: "Parrot" },
     { value: "Rabbit", label: "Rabbit" },
   ];
-  const { user } = useAuth();
+
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const [selectedOption, setSelectedOption] = useState("");
@@ -67,9 +71,7 @@ const AddPet = () => {
             pet_category: selectedOption.value,
             short_description: values.short_description,
             long_description: values.long_description,
-            listed_time: time,
-            lister_email: user.email,
-            adoption_status: false,
+            updated_time: time,
           };
           if (values.pet_age <= "0") {
             setIsError("Age must be more than 0");
@@ -79,10 +81,10 @@ const AddPet = () => {
             axiosSecure
               .post("/pets", petInfo)
               .then((res) => {
-                if (res.data.insertedId) {
+                if (res.data.modifiedCount) {
                   Swal.fire({
                     title: "Success",
-                    text: `Pet Added`,
+                    text: `Pet Updated`,
                     icon: "success",
                   });
                 }
@@ -201,4 +203,4 @@ const AddPet = () => {
     </Grid>
   );
 };
-export default AddPet;
+export default UpdatePet;
