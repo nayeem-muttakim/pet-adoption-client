@@ -1,11 +1,15 @@
 import { Form, Formik } from "formik";
 
-import { Box, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
 import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import moment from "moment/moment";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
+import Swal from "sweetalert2";
 
 const AddPet = () => {
   const options = [
@@ -16,6 +20,8 @@ const AddPet = () => {
     { value: "Parrot", label: "Parrot" },
     { value: "Rabbit", label: "Rabbit" },
   ];
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [selectedOption, setSelectedOption] = useState("");
   const time = moment().format(" DD/MM/YYYY, h:mm a");
   const [isError, setIsError] = useState("");
@@ -49,16 +55,43 @@ const AddPet = () => {
           long_description: "",
         }}
         onSubmit={async (values) => {
-            const imageData = await imageUpload(values.pet_image);
+        
+          const imageData = await imageUpload(values.pet_image);
 
-        //   if (values.pet_age <= "0") {
-        //     setIsError("Age must be more than 0");
-        //     return;
-        //   } else {
-        //     setIsError("");
-        //     console.log(values);
-        //   }
-        console.log(imageData?.data?.display_url);
+          const petInfo = {
+            pet_image: imageData?.data?.display_url,
+            pet_name: values.pet_name,
+            pet_age: values.pet_age,
+            pet_location: values.pet_location,
+            pet_category: selectedOption.value,
+            short_description: values.short_description,
+            long_description: values.long_description,
+            listed_time: time,
+            lister_email: user.email,
+            adoption_status: false,
+          };
+          if (values.pet_age <= "0") {
+            setIsError("Age must be more than 0");
+            return;
+          } else {
+            setIsError("");
+            axiosSecure
+              .post("/pets", petInfo)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  Swal.fire({
+                    title: "Success",
+                    text: `Pet Added`,
+                    icon: "success",
+                  });
+                }
+                 location.reload()
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+          // console.log(selectedOption);
         }}
       >
         {(formProps) => (

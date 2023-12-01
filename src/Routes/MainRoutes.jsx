@@ -11,6 +11,7 @@ import PrivateRoute from "../Private/PrivateRoute";
 import AdminRoute from "../Private/AdminRoute";
 import Users from "../DashBoard/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
+import AddedPets from "../DashBoard/AddedPets/AddedPets";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "added-pets",
-        element: <>added-pets</>,
+        element: <AddedPets/>,
       },
       {
         path: "adoption-request",
