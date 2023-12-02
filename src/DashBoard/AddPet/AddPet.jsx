@@ -64,7 +64,7 @@ const AddPet = () => {
             pet_name: values.pet_name,
             pet_age: values.pet_age,
             pet_location: values.pet_location,
-            pet_category: selectedOption.value,
+            pet_category: selectedOption,
             short_description: values.short_description,
             long_description: values.long_description,
             listed_time: time,

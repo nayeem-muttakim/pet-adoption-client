@@ -4,19 +4,32 @@ import { Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
 import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
-import { useEffect, useState } from "react";
+
 import moment from "moment/moment";
 
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const UpdatePet = () => {
-    const {id} =useParams()
-    useEffect(()=>{
-        axiosSecure(`/pets/${id}`).then(res=>console.log(res))
-    },[])
+  const { id } = useParams();
+  const { data: pet = {} } = useQuery({
+    queryKey: [id, "pet"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/pet/${id}`);
+      return res.data;
+    },
+  });
+  const name = pet.pet_name;
+  const image = pet.pet_image;
+  const age = pet.pet_age;
+  const category = pet.pet_category;
+  const location = pet.pet_location;
+  const short = pet.short_description;
+  const long = pet.long_description;
+
   const options = [
     { value: "Dog", label: "Dog" },
     { value: "Cat", label: "Cat" },
@@ -47,7 +60,7 @@ const UpdatePet = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Add a Pet
+          {`Update ${name}`}
         </Typography>
       </Paper>
       <Formik
@@ -61,39 +74,74 @@ const UpdatePet = () => {
           long_description: "",
         }}
         onSubmit={async (values) => {
-          const imageData = await imageUpload(values.pet_image);
+          if (values.pet_image) {
+            const imageData = await imageUpload(values.pet_image);
 
-          const petInfo = {
-            pet_image: imageData?.data?.display_url,
-            pet_name: values.pet_name,
-            pet_age: values.pet_age,
-            pet_location: values.pet_location,
-            pet_category: selectedOption.value,
-            short_description: values.short_description,
-            long_description: values.long_description,
-            updated_time: time,
-          };
-          if (values.pet_age <= "0") {
-            setIsError("Age must be more than 0");
-            return;
+            const petInfo = {
+              pet_image: imageData?.data?.display_url,
+              pet_name: values.pet_name || name,
+              pet_age: values.pet_age || age,
+              pet_location: values.pet_location || location,
+              pet_category: selectedOption || category,
+              short_description: values.short_description || short,
+              long_description: values.long_description || long,
+              updated_time: time,
+            };
+            if (values.pet_age <= "0") {
+              setIsError("Age must be more than 0");
+
+              return;
+            } else {
+              setIsError("");
+              axiosSecure
+                .patch(`/pet/${id}`, petInfo)
+                .then((res) => {
+                  if (res.data.modifiedCount) {
+                    Swal.fire({
+                      title: "Success",
+                      text: `${name} Updated`,
+                      icon: "success",
+                    });
+                  }
+
+                  navigate("/dashboard/added-pets");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
           } else {
-            setIsError("");
-            axiosSecure
-              .post("/pets", petInfo)
-              .then((res) => {
-                if (res.data.modifiedCount) {
-                  Swal.fire({
-                    title: "Success",
-                    text: `Pet Updated`,
-                    icon: "success",
-                  });
-                }
+            const petInfo = {
+              pet_name: values.pet_name || name,
+              pet_age: values.pet_age || age,
+              pet_location: values.pet_location || location,
+              pet_category: selectedOption || category,
+              short_description: values.short_description || short,
+              long_description: values.long_description || long,
+              updated_time: time,
+            };
+            if (values.pet_age <= "0") {
+              setIsError("Age must be more than 0");
+              return;
+            } else {
+              setIsError("");
+              axiosSecure
+                .patch(`/pet/${id}`, petInfo)
+                .then((res) => {
+                  if (res.data.modifiedCount) {
+                    Swal.fire({
+                      title: "Success",
+                      text: `${name} Updated`,
+                      icon: "success",
+                    });
+                  }
 
-                navigate("/dashboard/added-pets");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+                  navigate("/dashboard/added-pets");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
           }
         }}
       >
@@ -110,26 +158,29 @@ const UpdatePet = () => {
             <TextField
               name="pet_image"
               type="file"
-              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
+            <Typography
+              color={"blueviolet"}
+              px={2}
+            >{`Current Image =${image}`}</Typography>
             <TextField
+              defaultValue={name}
               name="pet_name"
               label="Pet Name"
               type="text"
-              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_name", event.target.value);
               }}
             />
             <TextField
+              defaultValue={age}
               name="pet_age"
               type="number"
-              required
               label="Pet Age"
               variant="outlined"
               onChange={(event) => {
@@ -139,9 +190,9 @@ const UpdatePet = () => {
             <Typography color={"red"}>{isError}</Typography>
 
             <TextField
+              defaultValue={location}
               name="pet_location"
               type="text"
-              required
               label="Pet Location"
               variant="outlined"
               onChange={(event) => {
@@ -150,18 +201,17 @@ const UpdatePet = () => {
             />
             <Grid my={"auto"}>
               <Select
-                required
                 placeholder="Pet Category"
                 name="pet_category"
                 options={options}
                 onChange={setSelectedOption}
-                defaultValue={selectedOption}
+                defaultValue={category}
               />
             </Grid>
             <Textarea
+              defaultValue={short}
               minRows={2}
               maxRows={3}
-              required
               name="short_description"
               placeholder="Short Description"
               variant="soft"
@@ -173,9 +223,9 @@ const UpdatePet = () => {
               }}
             />
             <Textarea
+              defaultValue={long}
               minRows={4}
               maxRows={5}
-              required
               name="long_description"
               placeholder="Detailed Description"
               variant="soft"
@@ -195,7 +245,7 @@ const UpdatePet = () => {
               }}
               type="submit"
             >
-              Submit
+              Update
             </Button>
           </Form>
         )}

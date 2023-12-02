@@ -28,7 +28,7 @@ const AddedPets = () => {
   const { data: myAdded = [], refetch } = useQuery({
     queryKey: [user?.email, "myAdded"],
     queryFn: async () => {
-      const res = await axiosSecure(`/pets?lister_email=${user?.email}`);
+      const res = await axiosSecure(`/pets/mine?lister_email=${user?.email}`);
       return res.data;
     },
   });
@@ -49,6 +49,9 @@ const AddedPets = () => {
       header: "Status",
     },
     {
+      header: "Adopt",
+    },
+    {
       header: "Update",
     },
     {
@@ -61,16 +64,20 @@ const AddedPets = () => {
     getCoreRowModel: getCoreRowModel(),
   });
   const handleAdopt = (pet) => {
-    axiosSecure.patch(`/pets/${pet._id}`).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          title: "Successful",
-          text: `${pet?.pet_name} is  Adopted`,
-          icon: "success",
-        });
-      }
-    });
+    axiosSecure
+      .patch(`/pet/${pet._id}`, {
+        adoption_status: true,
+      })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            title: "Successful",
+            text: `${pet?.pet_name} is  Adopted`,
+            icon: "success",
+          });
+        }
+      });
   };
   const handleDelete = (pet) => {
     Swal.fire({
@@ -137,13 +144,15 @@ const AddedPets = () => {
               <TableRow key={added._id}>
                 <th>{added?._id}</th>
                 <th>{added?.pet_name}</th>
-                <th>{added?.pet_category}</th>
+                <th>{added?.pet_category.value}</th>
                 <th>
                   <Avatar src={added?.pet_image} />
                 </th>
+                <th>{added.adoption_status ? "Adopted" : "Not Adopted"}</th>
                 <th>
+                  {" "}
                   {added.adoption_status ? (
-                    "Adopted"
+                    <Button disabled>Adopted</Button>
                   ) : (
                     <Button onClick={() => handleAdopt(added)} color="neutral">
                       Adopt
