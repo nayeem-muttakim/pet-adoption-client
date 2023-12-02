@@ -13,6 +13,10 @@ import Users from "../DashBoard/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
 import AddedPets from "../DashBoard/AddedPets/AddedPets";
 import UpdatePet from "../DashBoard/UpdatePet/UpdatePet";
+import CreateDonation from "../DashBoard/CreateDonation/CreateDonation";
+import MyCampaigns from "../DashBoard/MyCampaigns/MyCampaigns";
+import Pets from "../DashBoard/Pets";
+
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -61,11 +65,11 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "create-donation",
-        element: <>create</>,
+        element: <CreateDonation/>,
       },
       {
         path: "donation-campaign",
-        element: <>campaign</>,
+        element: <MyCampaigns/>,
       },
       {
         path: "donations",
@@ -75,7 +79,11 @@ export const MainRoutes = createBrowserRouter([
       {
         path:"users",
         element:<AdminRoute><Users/></AdminRoute>
-      }
+      },
+      {
+        path:"all-pets",
+        element:<AdminRoute><Pets/></AdminRoute>
+      },
     ],
   },
 ]);

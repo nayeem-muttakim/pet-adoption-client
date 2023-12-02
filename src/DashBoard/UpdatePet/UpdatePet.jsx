@@ -10,8 +10,9 @@ import moment from "moment/moment";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const UpdatePet = () => {
   const { id } = useParams();
@@ -26,7 +27,7 @@ const UpdatePet = () => {
   const image = pet.pet_image;
   const age = pet.pet_age;
   const category = pet.pet_category;
-  const location = pet.pet_location;
+  const petLocation = pet.pet_location;
   const short = pet.short_description;
   const long = pet.long_description;
 
@@ -39,7 +40,6 @@ const UpdatePet = () => {
     { value: "Rabbit", label: "Rabbit" },
   ];
 
-  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const [selectedOption, setSelectedOption] = useState("");
   const time = moment().format(" DD/MM/YYYY, h:mm a");
@@ -74,25 +74,22 @@ const UpdatePet = () => {
           long_description: "",
         }}
         onSubmit={async (values) => {
+          // image update given
           if (values.pet_image) {
             const imageData = await imageUpload(values.pet_image);
+                // pet age not updated
+            if (!values.pet_age) {
+              const petInfo = {
+                pet_image:imageData?.data?.display_url,
+                pet_name: values.pet_name || name,
+                pet_age: age,
+                pet_location: values.pet_location || petLocation,
+                pet_category: selectedOption || category,
+                short_description: values.short_description || short,
+                long_description: values.long_description || long,
+                updated_time: time,
+              };
 
-            const petInfo = {
-              pet_image: imageData?.data?.display_url,
-              pet_name: values.pet_name || name,
-              pet_age: values.pet_age || age,
-              pet_location: values.pet_location || location,
-              pet_category: selectedOption || category,
-              short_description: values.short_description || short,
-              long_description: values.long_description || long,
-              updated_time: time,
-            };
-            if (values.pet_age <= "0") {
-              setIsError("Age must be more than 0");
-
-              return;
-            } else {
-              setIsError("");
               axiosSecure
                 .patch(`/pet/${id}`, petInfo)
                 .then((res) => {
@@ -103,28 +100,64 @@ const UpdatePet = () => {
                       icon: "success",
                     });
                   }
-
-                  navigate("/dashboard/added-pets");
+                   location.reload()
+               
                 })
                 .catch((err) => {
                   console.log(err);
                 });
+            } 
+            // pet age updated
+            else {
+              const petInfo = {
+                pet_image:imageData?.data?.display_url,
+                pet_name: values.pet_name || name,
+                pet_age: values.pet_age,
+                pet_location: values.pet_location || petLocation,
+                pet_category: selectedOption || category,
+                short_description: values.short_description || short,
+                long_description: values.long_description || long,
+                updated_time: time,
+              };
+              if (values.pet_age <= "0") {
+                setIsError("Age must be more than 0");
+
+                return;
+              } else {
+                setIsError("");
+                axiosSecure
+                  .patch(`/pet/${id}`, petInfo)
+                  .then((res) => {
+                    if (res.data.modifiedCount) {
+                      Swal.fire({
+                        title: "Success",
+                        text: `${name} Updated`,
+                        icon: "success",
+                      });
+                    }
+                       location.reload()
+                   
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
             }
-          } else {
-            const petInfo = {
-              pet_name: values.pet_name || name,
-              pet_age: values.pet_age || age,
-              pet_location: values.pet_location || location,
-              pet_category: selectedOption || category,
-              short_description: values.short_description || short,
-              long_description: values.long_description || long,
-              updated_time: time,
-            };
-            if (values.pet_age <= "0") {
-              setIsError("Age must be more than 0");
-              return;
-            } else {
-              setIsError("");
+          } 
+          // image not updated
+          else {
+            // pet age not updated
+            if (!values.pet_age) {
+              const petInfo = {
+                pet_name: values.pet_name || name,
+                pet_age: age,
+                pet_location: values.pet_location || petLocation,
+                pet_category: selectedOption || category,
+                short_description: values.short_description || short,
+                long_description: values.long_description || long,
+                updated_time: time,
+              };
+
               axiosSecure
                 .patch(`/pet/${id}`, petInfo)
                 .then((res) => {
@@ -136,11 +169,47 @@ const UpdatePet = () => {
                     });
                   }
 
-                  navigate("/dashboard/added-pets");
+                location.reload()
                 })
                 .catch((err) => {
                   console.log(err);
                 });
+            } 
+            // pet age updated
+            else {
+
+              const petInfo = {
+                pet_name: values.pet_name || name,
+                pet_age: values.pet_age,
+                pet_location: values.pet_location || location,
+                pet_category: selectedOption || category,
+                short_description: values.short_description || short,
+                long_description: values.long_description || long,
+                updated_time: time,
+              };
+              if (values.pet_age <= "0") {
+                setIsError("Age must be more than 0");
+
+                return;
+              } else {
+                setIsError("");
+                axiosSecure
+                  .patch(`/pet/${id}`, petInfo)
+                  .then((res) => {
+                    if (res.data.modifiedCount) {
+                      Swal.fire({
+                        title: "Success",
+                        text: `${name} Updated`,
+                        icon: "success",
+                      });
+                    }
+
+                    location.reload()
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
             }
           }
         }}
@@ -190,7 +259,7 @@ const UpdatePet = () => {
             <Typography color={"red"}>{isError}</Typography>
 
             <TextField
-              defaultValue={location}
+              defaultValue={petLocation}
               name="pet_location"
               type="text"
               label="Pet Location"

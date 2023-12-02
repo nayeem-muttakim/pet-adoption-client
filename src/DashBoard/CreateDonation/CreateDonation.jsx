@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 
 import { Grid, Paper, TextField, Typography } from "@mui/material";
-import Select from "react-select";
+
 import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
@@ -11,20 +11,11 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 
-
-const AddPet = () => {
-  const options = [
-    { value: "Dog", label: "Dog" },
-    { value: "Cat", label: "Cat" },
-    { value: "Fish", label: "Fish" },
-    { value: "Hamster", label: "Hamster" },
-    { value: "Parrot", label: "Parrot" },
-    { value: "Rabbit", label: "Rabbit" },
-  ];
+const CreateDonation = () => {
   const { user } = useAuth();
 
   const axiosSecure = useAxiosSecure();
-  const [selectedOption, setSelectedOption] = useState("");
+
   const time = moment().format(" DD/MM/YYYY, h:mm a");
   const [isError, setIsError] = useState("");
 
@@ -43,51 +34,48 @@ const AddPet = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Add a Pet
+          Create Donation Campaign
         </Typography>
       </Paper>
       <Formik
         initialValues={{
           pet_image: "",
-          pet_name: "",
-          pet_age: "",
-          pet_location: "",
-          pet_category: "",
+          max_donation: "",
+
+          last_date: "",
+
           short_description: "",
           long_description: "",
         }}
         onSubmit={async (values) => {
           const imageData = await imageUpload(values.pet_image);
 
-          const petInfo = {
+          const campaignInfo = {
             pet_image: imageData?.data?.display_url,
-            pet_name: values.pet_name,
-            pet_age: values.pet_age,
-            pet_location: values.pet_location,
-            pet_category: selectedOption,
+            max_donation: values.max_donation,
+            last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
-            listed_time: time,
-            lister_email: user.email,
-            adoption_status: false,
+            created_on: time,
+            creator: user.email,
           };
-          if (values.pet_age <= "0") {
-            setIsError("Age must be more than 0");
+          if (values.max_donation <= "0") {
+            setIsError("Value must be greater than 0");
             return;
           } else {
             setIsError("");
             axiosSecure
-              .post("/pets", petInfo)
+              .post("/campaigns", campaignInfo)
               .then((res) => {
                 if (res.data.insertedId) {
                   Swal.fire({
                     title: "Success",
-                    text: `Pet Added`,
+                    text: `Campaign Created`,
                     icon: "success",
                   });
                 }
-
-             location.reload()
+                location.reload();
+                
               })
               .catch((err) => {
                 console.log(err);
@@ -114,48 +102,29 @@ const AddPet = () => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
+
             <TextField
-              name="pet_name"
-              label="Pet Name"
-              type="text"
-              required
-              variant="outlined"
-              onChange={(event) => {
-                formProps.setFieldValue("pet_name", event.target.value);
-              }}
-            />
-            <TextField
-              name="pet_age"
+              name="max_donation"
               type="number"
               required
-              label="Pet Age (Year)"
+              label="Maximum Donation Amount"
               variant="outlined"
               onChange={(event) => {
-                formProps.setFieldValue("pet_age", event.target.value);
+                formProps.setFieldValue("max_donation", event.target.value);
               }}
             />
             <Typography color={"red"}>{isError}</Typography>
-
+            <Typography variant="body1">Last Date of Donation</Typography>
             <TextField
-              name="pet_location"
-              type="text"
+              name="last_date"
+              type="date"
               required
-              label="Pet Location"
               variant="outlined"
               onChange={(event) => {
-                formProps.setFieldValue("pet_location", event.target.value);
+                formProps.setFieldValue("last_date", event.target.value);
               }}
             />
-            <Grid my={"auto"}>
-              <Select
-                required
-                placeholder="Pet Category"
-                name="pet_category"
-                options={options}
-                onChange={setSelectedOption}
-                defaultValue={selectedOption}
-              />
-            </Grid>
+
             <Textarea
               minRows={2}
               maxRows={3}
@@ -201,4 +170,4 @@ const AddPet = () => {
     </Grid>
   );
 };
-export default AddPet;
+export default CreateDonation;

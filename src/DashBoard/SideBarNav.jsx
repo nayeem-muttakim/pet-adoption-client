@@ -32,7 +32,7 @@ const SideBarNav = () => {
           <Button variant="outlined">
             <ListItemContent sx={{ color: "black" }}>
               {" "}
-              Adopt Request
+              Adoption Request
             </ListItemContent>
           </Button>
         </NavLink>
@@ -41,7 +41,7 @@ const SideBarNav = () => {
           <Button variant="outlined">
             <ListItemContent sx={{ color: "black" }}>
               {" "}
-              Create Donation
+              Add Donation Campaign
             </ListItemContent>
           </Button>
         </NavLink>
