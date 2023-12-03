@@ -18,6 +18,7 @@ const CreateDonation = () => {
 
   const time = moment().format(" DD/MM/YYYY, h:mm a");
   const [isError, setIsError] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <Grid px={1}>
@@ -43,7 +44,7 @@ const CreateDonation = () => {
           max_donation: "",
            pet_name:"",
           last_date: "",
-
+           donation_requirement:'',
           short_description: "",
           long_description: "",
         }}
@@ -59,13 +60,17 @@ const CreateDonation = () => {
             long_description: values.long_description,
             created_on: time,
             creator: user.email,
-            pause:false
+            pause:false,
+            donation_requirement:values.donation_requirement
           };
           if (values.max_donation <= "0") {
             setIsError("Value must be greater than 0");
             return;
+          }else if(values.donation_requirement <= '0'){
+                 setError('Value must be greater than 0')
           } else {
             setIsError("");
+            setError("")
             axiosSecure
               .post("/campaigns", campaignInfo)
               .then((res) => {
@@ -126,6 +131,17 @@ const CreateDonation = () => {
               }}
             />
             <Typography color={"red"}>{isError}</Typography>
+            <TextField
+              name="donation_requirement"
+              type="number"
+              required
+              label="Donation Requirement"
+              variant="outlined"
+              onChange={(event) => {
+                formProps.setFieldValue("donation_requirement", event.target.value);
+              }}
+            />
+            <Typography color={"red"}>{error}</Typography>
       
             <Typography variant="body1">Last Date of Donation</Typography>
             <TextField

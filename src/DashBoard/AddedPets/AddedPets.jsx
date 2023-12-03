@@ -108,7 +108,7 @@ const AddedPets = () => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/pets/${pet._id}`).then((res) => {
+        axiosSecure.delete(`/pet/${pet._id}`).then((res) => {
           if (res.data.deletedCount) {
             Swal.fire({
               title: "Deleted",

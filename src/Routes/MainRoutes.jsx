@@ -17,6 +17,9 @@ import CreateDonation from "../DashBoard/CreateDonation/CreateDonation";
 import MyCampaigns from "../DashBoard/MyCampaigns/MyCampaigns";
 import Pets from "../DashBoard/Pets/Pets";
 import DashHome from "../DashBoard/DashHome";
+import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
+import Campaigns from "../DashBoard/Campaigns/Campaigns";
+import PetList from "../Pages/PetList/PetList";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -35,6 +38,10 @@ export const MainRoutes = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "listing",
+        element: <PetList />,
       },
     ],
   },
@@ -71,6 +78,10 @@ export const MainRoutes = createBrowserRouter([
         element: <CreateDonation />,
       },
       {
+        path: "update-campaign/:id",
+        element: <UpdateCampaign />,
+      },
+      {
         path: "donation-campaign",
         element: <MyCampaigns />,
       },
@@ -92,6 +103,14 @@ export const MainRoutes = createBrowserRouter([
         element: (
           <AdminRoute>
             <Pets />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-campaigns",
+        element: (
+          <AdminRoute>
+            <Campaigns />
           </AdminRoute>
         ),
       },

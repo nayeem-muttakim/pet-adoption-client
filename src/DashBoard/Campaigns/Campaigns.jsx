@@ -1,7 +1,12 @@
 import {
   Avatar,
+  Box,
   Grid,
+  LinearProgress,
+  Modal,
+  Pagination,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableHead,
@@ -10,31 +15,33 @@ import {
 } from "@mui/material";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-
+import useAuth from "../../Hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Button, IconButton } from "@mui/joy";
-import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
+import { AutoFixNormal, DeleteForever} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import toast from "react-hot-toast";
 
-const Pets = () => {
+const Campaigns = () => {
+  
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const axiosSecure = useAxiosSecure();
-  const { data: pets = [], refetch } = useQuery({
-    queryKey: ["pets"],
+  const { data: Campaigns = [], refetch } = useQuery({
+    queryKey: ["Campaigns"],
     queryFn: async () => {
-      const res = await axiosSecure(`/pets`);
+      const res = await axiosSecure(`/campaigns`);
       return res.data;
     },
   });
 
-  const data = useMemo(() => pets, []);
-
+  const data = useMemo(() => Campaigns, []);
   /** @type import("@tanstack/react-table").ColumnDef<any>*/
   const columns = [
     { header: "Serial" },
@@ -42,19 +49,16 @@ const Pets = () => {
       header: "Name",
     },
     {
-      header: "Category",
+      header: "Maximum Donation",
     },
     {
-      header: "Image",
+      header: "Donation Progress",
     },
     {
-      header: "Status",
+      header: "Pause",
     },
     {
-      header: "Adopt",
-    },
-    {
-      header: "Update",
+      header: "Edit",
     },
     {
       header: "Delete",
@@ -65,31 +69,41 @@ const Pets = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  const handleAdopt = (pet) => {
+  const handlePause = (campaign) => {
     axiosSecure
-      .patch(`/pet/${pet?._id}`, {
-        adoption_status: true,
+      .patch(`/campaigns/${campaign._id}`, {
+        pause: true,
       })
       .then((res) => {
+        console.log(res);
         if (res.data.modifiedCount > 0) {
           refetch();
-          toast.success(`${pet?.pet_name} is Adopted`);
+          Swal.fire({
+            title: "Successful",
+            text: `Campaign  Paused`,
+            icon: "success",
+          });
         }
       });
   };
-  const handleUndoAdopt = (pet) => {
+  const handleResume = (campaign) => {
     axiosSecure
-      .patch(`/pet/${pet._id}`, {
-        adoption_status: false,
+      .patch(`/campaigns/${campaign._id}`, {
+        pause: false,
       })
       .then((res) => {
+        console.log(res);
         if (res.data.modifiedCount > 0) {
           refetch();
-          toast.success(`${pet.pet_name} is Returned`);
+          Swal.fire({
+            title: "Successful",
+            text: `Campaign Resumed  `,
+            icon: "success",
+          });
         }
       });
   };
-  const handleDelete = (pet) => {
+  const handleDelete = (campaign) =>{
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -101,12 +115,12 @@ const Pets = () => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/pet/${pet._id}`).then((res) => {
+        axiosSecure.delete(`/campaign/${campaign._id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({
               title: "Deleted",
-              text: `${pet?.pet_name} is Removed`,
+              text: `Campaign  Deleted`,
               icon: "error",
             });
           }
@@ -129,7 +143,7 @@ const Pets = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Total : {pets.length}
+          Total : {Campaigns.length}
         </Typography>
       </Paper>
 
@@ -150,41 +164,48 @@ const Pets = () => {
             ))}
           </TableHead>
           <TableBody>
-            {pets.map((pet) => (
-              <TableRow key={pet._id}>
-                <th>{pet?._id}</th>
-                <th>{pet?.pet_name}</th>
-                <th>{pet?.pet_category.value}</th>
-                <th>
-                  <Avatar src={pet?.pet_image} />
-                </th>
-                <th>{pet?.adoption_status ? "Adopted" : "Not Adopted"}</th>
-                <th>
-                  {" "}
-                  {pet.adoption_status ? (
-                    <Button color="danger" onClick={() => handleUndoAdopt(pet)}>
-                      Undo Adopt
-                    </Button>
-                  ) : (
-                    <Button onClick={() => handleAdopt(pet)} color="success">
-                      Adopt
-                    </Button>
-                  )}
-                </th>
-                <th>
-                  <Link to={`/dashboard/update-pet/${pet?._id}`}>
+            {Campaigns.map((campaign, index) => (
+              <>
+                <TableRow key={campaign._id}>
+                  <th>{index + 1}</th>
+                  <th>{campaign?.pet_name}</th>
+                  <th>{campaign?.max_donation}</th>
+
+                  <th>
+                    <LinearProgress />
+                  </th>
+                  <th>
                     {" "}
-                    <IconButton color="warning">
-                      <AutoFixNormal fontSize="large" />
-                    </IconButton>
-                  </Link>
-                </th>
-                <th>
-                  <IconButton onClick={() => handleDelete(pet)} color="danger">
+                    {campaign?.pause ? (
+                      <Button
+                        onClick={() => handleResume(campaign)}
+                        color="danger"
+                      >
+                        Unpause
+                      </Button>
+                    ) : (
+                      <Button onClick={() => handlePause(campaign)}>
+                        Pause
+                      </Button>
+                    )}
+                  </th>
+                  <th>
+                    <Link to={`/dashboard/update-campaign/${campaign?._id}`}>
+                      {" "}
+                      <IconButton color="warning">
+                        <AutoFixNormal fontSize="large" />
+                      </IconButton>
+                    </Link>
+                  </th>
+                  <th>
+                    {" "}
+                    <IconButton onClick={() => handleDelete(campaign)} color="danger">
                     <DeleteForever fontSize="large" />
                   </IconButton>
-                </th>
-              </TableRow>
+                 
+                  </th>
+                </TableRow>
+              </>
             ))}
           </TableBody>
         </Table>
@@ -193,4 +214,4 @@ const Pets = () => {
   );
 };
 
-export default Pets;
+export default Campaigns;

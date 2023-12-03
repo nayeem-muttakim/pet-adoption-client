@@ -94,14 +94,14 @@ const SideBarNav = () => {
               </Button>
             </NavLink>
             {/* all donation */}
-            <NavLink to="all-donation">
+            <NavLink to="all-campaigns">
               <Button variant="soft">
               <ListItemIcon sx={{ color: "black" }}>
                   <VolunteerActivism />
                 </ListItemIcon>
                 <ListItemContent sx={{ color: "black" }}>
                   {" "}
-                  All Donation
+                  All Campaigns
                 </ListItemContent>
               </Button>
             </NavLink>

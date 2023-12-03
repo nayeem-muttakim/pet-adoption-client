@@ -16,7 +16,7 @@ import { useState } from "react";
 
 const UpdatePet = () => {
   const { id } = useParams();
-  const { data: pet = {} } = useQuery({
+  const { data: pet = {}, refetch } = useQuery({
     queryKey: [id, "pet"],
     queryFn: async () => {
       const res = await axiosSecure(`/pet/${id}`);
@@ -65,152 +65,47 @@ const UpdatePet = () => {
       </Paper>
       <Formik
         initialValues={{
-          pet_image: "",
-          pet_name: "",
-          pet_age: "",
-          pet_location: "",
-          pet_category: "",
-          short_description: "",
-          long_description: "",
+          pet_image: image,
+          pet_name: name,
+          pet_age: age,
+          pet_location: petLocation,
+          pet_category: category,
+          short_description: short,
+          long_description: long,
         }}
         onSubmit={async (values) => {
-          // image update given
-          if (values.pet_image) {
-            const imageData = await imageUpload(values.pet_image);
-                // pet age not updated
-            if (!values.pet_age) {
-              const petInfo = {
-                pet_image:imageData?.data?.display_url,
-                pet_name: values.pet_name || name,
-                pet_age: age,
-                pet_location: values.pet_location || petLocation,
-                pet_category: selectedOption || category,
-                short_description: values.short_description || short,
-                long_description: values.long_description || long,
-                updated_time: time,
-              };
+          const imageData = await imageUpload(values.pet_image);
 
-              axiosSecure
-                .patch(`/pet/${id}`, petInfo)
-                .then((res) => {
-                  if (res.data.modifiedCount) {
-                    Swal.fire({
-                      title: "Success",
-                      text: `${name} Updated`,
-                      icon: "success",
-                    });
-                  }
-                   location.reload()
-               
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } 
-            // pet age updated
-            else {
-              const petInfo = {
-                pet_image:imageData?.data?.display_url,
-                pet_name: values.pet_name || name,
-                pet_age: values.pet_age,
-                pet_location: values.pet_location || petLocation,
-                pet_category: selectedOption || category,
-                short_description: values.short_description || short,
-                long_description: values.long_description || long,
-                updated_time: time,
-              };
-              if (values.pet_age <= "0") {
-                setIsError("Age must be more than 0");
-
-                return;
-              } else {
-                setIsError("");
-                axiosSecure
-                  .patch(`/pet/${id}`, petInfo)
-                  .then((res) => {
-                    if (res.data.modifiedCount) {
-                      Swal.fire({
-                        title: "Success",
-                        text: `${name} Updated`,
-                        icon: "success",
-                      });
-                    }
-                       location.reload()
-                   
-                  })
-                  .catch((err) => {
-                    console.log(err);
+          const petInfo = {
+            pet_image: imageData?.data?.display_url,
+            pet_name: values.pet_name,
+            pet_age: values.pet_age,
+            pet_location: values.pet_location,
+            pet_category: selectedOption,
+            short_description: values.short_description,
+            long_description: values.long_description,
+            updated_time: time,
+          };
+          if (values.pet_age <= "0") {
+            setIsError("Age must be more than 0");
+            return;
+          } else {
+            setIsError("");
+            axiosSecure
+              .patch(`/pet/${id}`, petInfo)
+              .then((res) => {
+                if (res.data.modifiedCount) {
+                  Swal.fire({
+                    title: "Success",
+                    text: `${name} Updated`,
+                    icon: "success",
                   });
-              }
-            }
-          } 
-          // image not updated
-          else {
-            // pet age not updated
-            if (!values.pet_age) {
-              const petInfo = {
-                pet_name: values.pet_name || name,
-                pet_age: age,
-                pet_location: values.pet_location || petLocation,
-                pet_category: selectedOption || category,
-                short_description: values.short_description || short,
-                long_description: values.long_description || long,
-                updated_time: time,
-              };
-
-              axiosSecure
-                .patch(`/pet/${id}`, petInfo)
-                .then((res) => {
-                  if (res.data.modifiedCount) {
-                    Swal.fire({
-                      title: "Success",
-                      text: `${name} Updated`,
-                      icon: "success",
-                    });
-                  }
-
-                location.reload()
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } 
-            // pet age updated
-            else {
-
-              const petInfo = {
-                pet_name: values.pet_name || name,
-                pet_age: values.pet_age,
-                pet_location: values.pet_location || location,
-                pet_category: selectedOption || category,
-                short_description: values.short_description || short,
-                long_description: values.long_description || long,
-                updated_time: time,
-              };
-              if (values.pet_age <= "0") {
-                setIsError("Age must be more than 0");
-
-                return;
-              } else {
-                setIsError("");
-                axiosSecure
-                  .patch(`/pet/${id}`, petInfo)
-                  .then((res) => {
-                    if (res.data.modifiedCount) {
-                      Swal.fire({
-                        title: "Success",
-                        text: `${name} Updated`,
-                        icon: "success",
-                      });
-                    }
-
-                    location.reload()
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }
-            }
+                }
+                refetch();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }
         }}
       >
@@ -224,6 +119,10 @@ const UpdatePet = () => {
               gap: 10,
             }}
           >
+            <Typography
+              color={"blueviolet"}
+              px={2}
+            >{`Current Image =${image}`}</Typography>
             <TextField
               name="pet_image"
               type="file"
@@ -232,10 +131,7 @@ const UpdatePet = () => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
-            <Typography
-              color={"blueviolet"}
-              px={2}
-            >{`Current Image =${image}`}</Typography>
+
             <TextField
               defaultValue={name}
               name="pet_name"
