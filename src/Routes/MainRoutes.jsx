@@ -20,6 +20,7 @@ import DashHome from "../DashBoard/DashHome";
 import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
 import Campaigns from "../DashBoard/Campaigns/Campaigns";
 import PetList from "../Pages/PetList/PetList";
+import PetDetails from "../Pages/PetDetails/PetDetails";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const MainRoutes = createBrowserRouter([
       {
         path: "listing",
         element: <PetList />,
+      },
+      {
+        path: "pet-details/:id",
+        element: <PetDetails />,
       },
     ],
   },
