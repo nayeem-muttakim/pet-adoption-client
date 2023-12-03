@@ -9,14 +9,14 @@ import ErrorPage from "../ErrorPage";
 import Dashboard from "../LayOut/Dashboard";
 import PrivateRoute from "../Private/PrivateRoute";
 import AdminRoute from "../Private/AdminRoute";
-import Users from "../DashBoard/Users";
+import Users from "../DashBoard/Users/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
 import AddedPets from "../DashBoard/AddedPets/AddedPets";
 import UpdatePet from "../DashBoard/UpdatePet/UpdatePet";
 import CreateDonation from "../DashBoard/CreateDonation/CreateDonation";
 import MyCampaigns from "../DashBoard/MyCampaigns/MyCampaigns";
-import Pets from "../DashBoard/Pets";
-
+import Pets from "../DashBoard/Pets/Pets";
+import DashHome from "../DashBoard/DashHome";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -47,17 +47,20 @@ export const MainRoutes = createBrowserRouter([
     ),
     children: [
       {
+        path: "",
+        element: <DashHome />,
+      },
+      {
         path: "add-pet",
-        element: <AddPet/>,
+        element: <AddPet />,
       },
       {
         path: "added-pets",
-        element: <AddedPets/>,
+        element: <AddedPets />,
       },
       {
         path: "update-pet/:id",
-        element: <UpdatePet/>,
-      
+        element: <UpdatePet />,
       },
       {
         path: "adoption-request",
@@ -65,11 +68,11 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "create-donation",
-        element: <CreateDonation/>,
+        element: <CreateDonation />,
       },
       {
         path: "donation-campaign",
-        element: <MyCampaigns/>,
+        element: <MyCampaigns />,
       },
       {
         path: "donations",
@@ -77,12 +80,20 @@ export const MainRoutes = createBrowserRouter([
       },
       // admin routes
       {
-        path:"users",
-        element:<AdminRoute><Users/></AdminRoute>
+        path: "users",
+        element: (
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        ),
       },
       {
-        path:"all-pets",
-        element:<AdminRoute><Pets/></AdminRoute>
+        path: "all-pets",
+        element: (
+          <AdminRoute>
+            <Pets />
+          </AdminRoute>
+        ),
       },
     ],
   },

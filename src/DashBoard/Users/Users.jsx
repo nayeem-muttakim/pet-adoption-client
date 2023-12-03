@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Button } from "@mui/joy";
 import Swal from "sweetalert2";
 
@@ -85,21 +85,18 @@ const Users = () => {
               <TableRow sx={{ textAlign: "center" }} key={user._id}>
                 <th>{index + 1}</th>
                 <td align="center">
-                  <Avatar  src={user?.image} alt="profile" />
+                  <Avatar src={user?.image} alt="profile" />
                 </td>
                 <td>{user?.name}</td>
                 <td>{user?.email}</td>
                 <th>
-                  {
-                   
-                    (user.role === 'admin' ? (
-                      "Admin"
-                    ) : (
-                      <Button onClick={() => handleAdmin(user)}>
-                        Make Admin
-                      </Button>
-                    ))
-                  }
+                  {user.role === "admin" ? (
+                    "Admin"
+                  ) : (
+                    <Button onClick={() => handleAdmin(user)}>
+                      Make Admin
+                    </Button>
+                  )}
                 </th>
               </TableRow>
             ))}

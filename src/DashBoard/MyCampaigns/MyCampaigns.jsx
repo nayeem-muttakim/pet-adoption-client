@@ -1,10 +1,11 @@
+import { Grid } from "@mui/material";
 
 
 const MyCampaigns = () => {
     return (
-        <div>
+        <Grid>
             
-        </div>
+        </Grid>
     );
 };
 

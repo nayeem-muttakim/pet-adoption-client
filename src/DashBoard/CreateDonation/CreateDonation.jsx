@@ -41,7 +41,7 @@ const CreateDonation = () => {
         initialValues={{
           pet_image: "",
           max_donation: "",
-
+           pet_name:"",
           last_date: "",
 
           short_description: "",
@@ -53,11 +53,13 @@ const CreateDonation = () => {
           const campaignInfo = {
             pet_image: imageData?.data?.display_url,
             max_donation: values.max_donation,
+            pet_name:values.pet_name,
             last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
             created_on: time,
             creator: user.email,
+            pause:false
           };
           if (values.max_donation <= "0") {
             setIsError("Value must be greater than 0");
@@ -102,7 +104,17 @@ const CreateDonation = () => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
-
+              
+              <TextField
+              name="pet_name"
+              type="text"
+              label='Pet Name'
+              required
+              variant="outlined"
+              onChange={(event) => {
+                formProps.setFieldValue("pet_name", event.target.value);
+              }}
+            />
             <TextField
               name="max_donation"
               type="number"
@@ -114,6 +126,7 @@ const CreateDonation = () => {
               }}
             />
             <Typography color={"red"}>{isError}</Typography>
+      
             <Typography variant="body1">Last Date of Donation</Typography>
             <TextField
               name="last_date"

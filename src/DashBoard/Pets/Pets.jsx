@@ -8,7 +8,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -67,13 +67,13 @@ const Pets = () => {
   });
   const handleAdopt = (pet) => {
     axiosSecure
-      .patch(`/pet/${pet._id}`, {
+      .patch(`/pet/${pet?._id}`, {
         adoption_status: true,
       })
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           refetch();
-          toast.success(`${pet.pet_name} is Adopted`);
+          toast.success(`${pet?.pet_name} is Adopted`);
         }
       });
   };
@@ -85,7 +85,7 @@ const Pets = () => {
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           refetch();
-         toast.success(`${pet.pet_name} is Returned`)
+          toast.success(`${pet.pet_name} is Returned`);
         }
       });
   };
@@ -129,7 +129,7 @@ const Pets = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Added Pets : {pets.length}
+          Total : {pets.length}
         </Typography>
       </Paper>
 
@@ -158,7 +158,7 @@ const Pets = () => {
                 <th>
                   <Avatar src={pet?.pet_image} />
                 </th>
-                <th>{pet.adoption_status ? "Adopted" : "Not Adopted"}</th>
+                <th>{pet?.adoption_status ? "Adopted" : "Not Adopted"}</th>
                 <th>
                   {" "}
                   {pet.adoption_status ? (
@@ -172,7 +172,7 @@ const Pets = () => {
                   )}
                 </th>
                 <th>
-                  <Link to={`/dashboard/update-pet/${pet._id}`}>
+                  <Link to={`/dashboard/update-pet/${pet?._id}`}>
                     {" "}
                     <IconButton color="warning">
                       <AutoFixNormal fontSize="large" />
