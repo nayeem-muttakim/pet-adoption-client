@@ -21,6 +21,7 @@ import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
 import Campaigns from "../DashBoard/Campaigns/Campaigns";
 import PetList from "../Pages/PetList/PetList";
 import PetDetails from "../Pages/PetDetails/PetDetails";
+import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -76,7 +77,7 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "adoption-request",
-        element: <>adopt req</>,
+        element: <AdoptRequest/>,
       },
       {
         path: "create-donation",

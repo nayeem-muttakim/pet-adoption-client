@@ -26,7 +26,7 @@ const pages = (
       {" "}
       <Button sx={{ fontSize: { xs: 15, md: 20 } }}>Home</Button>
     </Link>
-    <Link to="listing">
+    <Link to="/listing">
       {" "}
       <Button sx={{ fontSize: { xs: 15, md: 20 } }}>Pet Listing</Button>
     </Link>

@@ -12,10 +12,10 @@ const PetList = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [available, setAvailable] = useState([]);
-  const initial ={
-    value:'',
-    label:''
-  }
+  const initial = {
+    value: "",
+    label: "",
+  };
   const [selectedOption, setSelectedOption] = useState(initial);
   const handleSearch = (e) => {
     e.preventDefault();
@@ -24,9 +24,11 @@ const PetList = () => {
   };
 
   const { data: Pets = [] } = useQuery({
-    queryKey: ["Pets", search,selectedOption],
+    queryKey: ["Pets", search, selectedOption],
     queryFn: async () => {
-      const res = await axiosSecure(`/pets?search=${search}&category=${selectedOption.value}`);
+      const res = await axiosSecure(
+        `/pets?search=${search}&category=${selectedOption.value}`
+      );
       return res.data;
     },
   });
@@ -37,7 +39,7 @@ const PetList = () => {
   }, [Pets]);
 
   const options = [
-    { value: '', label: "All" },
+    { value: "", label: "All" },
     { value: "Dog", label: "Dog" },
     { value: "Cat", label: "Cat" },
     { value: "Fish", label: "Fish" },
@@ -45,7 +47,6 @@ const PetList = () => {
     { value: "Parrot", label: "Parrot" },
     { value: "Rabbit", label: "Rabbit" },
   ];
-  
 
   return (
     <Grid px={2} my={3}>
@@ -99,7 +100,6 @@ const PetList = () => {
             name="pet_category"
             options={options}
             onChange={setSelectedOption}
-
           />
         </Grid>
       </Grid>
