@@ -71,7 +71,7 @@ const Campaigns = () => {
   });
   const handlePause = (campaign) => {
     axiosSecure
-      .patch(`/campaigns/${campaign._id}`, {
+      .patch(`/campaign/${campaign._id}`, {
         pause: true,
       })
       .then((res) => {
@@ -88,7 +88,7 @@ const Campaigns = () => {
   };
   const handleResume = (campaign) => {
     axiosSecure
-      .patch(`/campaigns/${campaign._id}`, {
+      .patch(`/campaign/${campaign._id}`, {
         pause: false,
       })
       .then((res) => {

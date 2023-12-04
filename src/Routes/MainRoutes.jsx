@@ -22,6 +22,8 @@ import Campaigns from "../DashBoard/Campaigns/Campaigns";
 import PetList from "../Pages/PetList/PetList";
 import PetDetails from "../Pages/PetDetails/PetDetails";
 import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
+import CampaignList from "../Pages/CampaignList/CampaignList";
+import CampaignDetail from "../Pages/CampaignList/CampaignDetail/CampaignDetail";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ export const MainRoutes = createBrowserRouter([
       {
         path: "listing",
         element: <PetList />,
+      },
+      {
+        path: "campaigns",
+        element: <CampaignList />,
+      },
+      {
+        path: "campaign/:id",
+        element: <CampaignDetail />,
       },
       {
         path: "pet-details/:id",

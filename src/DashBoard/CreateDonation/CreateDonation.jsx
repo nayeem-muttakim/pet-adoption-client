@@ -16,7 +16,7 @@ const CreateDonation = () => {
 
   const axiosSecure = useAxiosSecure();
 
-  const time = moment().format(" DD/MM/YYYY, h:mm a");
+  const time = moment().format("DD/MM/YYYY,h:mm a");
   const [isError, setIsError] = useState("");
   const [error, setError] = useState("");
 
@@ -42,9 +42,9 @@ const CreateDonation = () => {
         initialValues={{
           pet_image: "",
           max_donation: "",
-           pet_name:"",
+          pet_name: "",
           last_date: "",
-           donation_requirement:'',
+          donation_requirement: "",
           short_description: "",
           long_description: "",
         }}
@@ -54,23 +54,23 @@ const CreateDonation = () => {
           const campaignInfo = {
             pet_image: imageData?.data?.display_url,
             max_donation: values.max_donation,
-            pet_name:values.pet_name,
+            pet_name: values.pet_name,
             last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
             created_on: time,
             creator: user.email,
-            pause:false,
-            donation_requirement:values.donation_requirement
+            pause: false,
+            donation_requirement: values.donation_requirement,
           };
           if (values.max_donation <= "0") {
             setIsError("Value must be greater than 0");
             return;
-          }else if(values.donation_requirement <= '0'){
-                 setError('Value must be greater than 0')
+          } else if (values.donation_requirement <= "0") {
+            setError("Value must be greater than 0");
           } else {
             setIsError("");
-            setError("")
+            setError("");
             axiosSecure
               .post("/campaigns", campaignInfo)
               .then((res) => {
@@ -82,7 +82,6 @@ const CreateDonation = () => {
                   });
                 }
                 location.reload();
-                
               })
               .catch((err) => {
                 console.log(err);
@@ -109,11 +108,11 @@ const CreateDonation = () => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
-              
-              <TextField
+
+            <TextField
               name="pet_name"
               type="text"
-              label='Pet Name'
+              label="Pet Name"
               required
               variant="outlined"
               onChange={(event) => {
@@ -138,11 +137,14 @@ const CreateDonation = () => {
               label="Donation Requirement"
               variant="outlined"
               onChange={(event) => {
-                formProps.setFieldValue("donation_requirement", event.target.value);
+                formProps.setFieldValue(
+                  "donation_requirement",
+                  event.target.value
+                );
               }}
             />
             <Typography color={"red"}>{error}</Typography>
-      
+
             <Typography variant="body1">Last Date of Donation</Typography>
             <TextField
               name="last_date"
