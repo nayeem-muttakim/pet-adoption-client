@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, useParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Payment from "./Payment";
+import ExtraCard from "./ExtraCard";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -51,20 +52,28 @@ const style = {
 export default function CampaignDetail() {
   const [expanded, setExpanded] = useState(false);
   const [show, setShow] = useState(false);
+  const [active, setActive] = useState([]);
   const [amount, setAmount] = useState(1);
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { data: campaign = {} } = useQuery({
-    queryKey: ["campaign",amount],
+    queryKey: ["campaign", amount],
     queryFn: async () => {
       const res = await axiosSecure(`/campaign/${id}`);
       return res.data;
     },
   });
+  useEffect(() => {
+    axiosSecure("/campaigns").then((res) => {
+      const active = res.data.filter((act) => act.pause === false);
+      const more = active.filter((e) => e._id !== id).slice(0,3);
+      setActive(more);
+    });
+  }, [axiosSecure, id]);
 
   const [open, setOpen] = useState(false);
-  
+
   const [error, setError] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -80,13 +89,13 @@ export default function CampaignDetail() {
     }
     setAmount(parseInt(amount));
     setError("");
-    setShow(true)
+    setShow(true);
   };
 
   return (
-    <Grid py={4} px={1} bgcolor={"#a3b18a"}>
+    <Grid py={2} px={1} bgcolor={"#a3b18a"}>
       <Card
-        sx={{ maxWidth: 900, mx: "auto", my: 5, px: 1, bgcolor: "#fefae0" }}
+        sx={{ maxWidth: 900, mx: "auto",my:5,  px: 1, bgcolor: "#fefae0" }}
       >
         <CardHeader
           title={campaign?.pet_name}
@@ -125,11 +134,22 @@ export default function CampaignDetail() {
                 onSubmit={handleAmount}
                 style={{ marginBottom: 6, display: "flex", gap: 2 }}
               >
-                <TextField defaultValue={1} label="Enter Amount" name="amount" type="number" />
+                <TextField
+                  defaultValue={1}
+                  label="Enter Amount"
+                  name="amount"
+                  type="number"
+                />
                 <Typography color={"red"}>{error}</Typography>
                 <Button type="submit">Next</Button>
               </Form>
-              {show && <Payment setShow={setShow} amount={amount} campaign={campaign} />}
+              {show && (
+                <Payment
+                  setShow={setShow}
+                  amount={amount}
+                  campaign={campaign}
+                />
+              )}
             </Box>
           </Modal>
           {/* details */}
@@ -148,6 +168,24 @@ export default function CampaignDetail() {
           </CardContent>
         </Collapse>
       </Card>
+      <Grid>
+        <Typography color={"whitesmoke"} variant="h4" textAlign={"center"}>
+          More Active Campaigns
+        </Typography>
+        <Grid
+          px={{ lg: 40 }}
+          py={5}
+          display={"grid"}
+          gridTemplateColumns={{
+            xs: "repeat(1,1fr)",
+            sm: "repeat(2,1fr)",
+            lg: "repeat(3,1fr)",
+          }}
+          gap={2}
+        >
+          {active.map(act=><ExtraCard key={act._id} act={act}/>)}
+        </Grid>
+      </Grid>
     </Grid>
   );
 }

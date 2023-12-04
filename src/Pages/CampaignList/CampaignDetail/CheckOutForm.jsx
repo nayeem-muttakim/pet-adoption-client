@@ -1,7 +1,7 @@
 import { Button } from "@mui/joy";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { Typography } from "@mui/material";
@@ -15,6 +15,7 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
   const [transId, setTransId] = useState("");
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+ 
   useEffect(() => {
     axiosSecure
       .post("/create-payment-intent", { amount: amount })
@@ -68,7 +69,9 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
           icon: "success"
         });
         setShow(false);
+
         const res = await axiosSecure.post("/donations", donation);
+   
       }
     }
   };

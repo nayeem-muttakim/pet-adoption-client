@@ -21,7 +21,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, IconButton } from "@mui/joy";
 import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -29,8 +29,10 @@ import Swal from "sweetalert2";
 
 const MyCampaigns = () => {
   const { user } = useAuth();
+  const [donors, setDonors] = useState([]);
+  const [donor, setDonor] = useState([]);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
   const axiosSecure = useAxiosSecure();
   const { data: myCampaigns = [], refetch } = useQuery({
@@ -40,6 +42,21 @@ const MyCampaigns = () => {
       return res.data;
     },
   });
+
+  useEffect(() => {
+    axiosSecure("/donations").then((res) => {
+      const mine = res.data.filter(
+        (my) => my?.campaign?.creator === user?.email
+      );
+      setDonors(mine);
+    });
+  }, [axiosSecure, user]);
+
+  const handleOpen = (camp) => {
+    setOpen(true);
+    const donor = donors.filter(don=>don.campaign._id === camp._id)
+    setDonor(donor)
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -81,7 +98,7 @@ const MyCampaigns = () => {
   });
   const handlePause = (campaign) => {
     axiosSecure
-      .patch(`/campaigns/${campaign._id}`, {
+      .patch(`/campaign/${campaign._id}`, {
         pause: true,
       })
       .then((res) => {
@@ -98,7 +115,7 @@ const MyCampaigns = () => {
   };
   const handleResume = (campaign) => {
     axiosSecure
-      .patch(`/campaigns/${campaign._id}`, {
+      .patch(`/campaign/${campaign._id}`, {
         pause: false,
       })
       .then((res) => {
@@ -186,7 +203,7 @@ const MyCampaigns = () => {
                   <th>
                     {" "}
                     <Button
-                      onClick={handleOpen}
+                      onClick={() => handleOpen(campaign)}
                       sx={{ bgcolor: "#ccd5ae", color: "black" }}
                     >
                       View
@@ -198,17 +215,24 @@ const MyCampaigns = () => {
                       aria-describedby="modal-modal-description"
                     >
                       <Box sx={style}>
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
-                        >
-                          Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          Duis mollis, est non commodo luctus, nisi erat
-                          porttitor ligula.
-                        </Typography>
+                       <Table>
+                        <TableHead>
+                          <TableRow>
+                            <th>Serial</th>
+                            <th>Donor's Email</th>
+                            <th>Amount</th>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {donor.map((don,index)=>(
+                            <TableRow sx={{py:2}} key={don?._id}>
+                              <th>{index + 1}</th>
+                              <th>{don?.email}</th>
+                              <th>${don?.amount}</th>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                       </Table>
                       </Box>
                     </Modal>
                   </th>

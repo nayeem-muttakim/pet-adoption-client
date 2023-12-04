@@ -121,7 +121,7 @@ const Campaigns = () => {
             Swal.fire({
               title: "Deleted",
               text: `Campaign  Deleted`,
-              icon: "error",
+              icon: "success",
             });
           }
         });
