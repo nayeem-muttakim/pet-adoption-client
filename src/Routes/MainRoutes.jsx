@@ -24,6 +24,7 @@ import PetDetails from "../Pages/PetDetails/PetDetails";
 import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
 import CampaignList from "../Pages/CampaignList/CampaignList";
 import CampaignDetail from "../Pages/CampaignList/CampaignDetail/CampaignDetail";
+import MyDonation from "../DashBoard/MyDonations/MyDonation";
 
 export const MainRoutes = createBrowserRouter([
   {
@@ -103,7 +104,7 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "donations",
-        element: <>donation</>,
+        element: <MyDonation/>,
       },
       // admin routes
       {

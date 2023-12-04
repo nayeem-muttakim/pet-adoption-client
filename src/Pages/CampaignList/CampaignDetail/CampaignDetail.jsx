@@ -22,6 +22,7 @@ import { Box, Grid, Modal, TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Payment from "./Payment";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,7 +40,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  maxWidth: 400,
+
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -49,12 +50,13 @@ const style = {
 
 export default function CampaignDetail() {
   const [expanded, setExpanded] = useState(false);
-
+  const [show, setShow] = useState(false);
+  const [amount, setAmount] = useState(1);
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { data: campaign = {} } = useQuery({
-    queryKey: ["campaign"],
+    queryKey: ["campaign",amount],
     queryFn: async () => {
       const res = await axiosSecure(`/campaign/${id}`);
       return res.data;
@@ -62,14 +64,25 @@ export default function CampaignDetail() {
   });
 
   const [open, setOpen] = useState(false);
+  
+  const [error, setError] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleDonate = (e) => {
+  const handleAmount = (e) => {
     e.preventDefault();
+    const amount = e.target?.amount.value;
+    if (amount <= "0") {
+      setError("Amount must be more than 0");
+      return;
+    }
+    setAmount(parseInt(amount));
+    setError("");
+    setShow(true)
   };
+
   return (
     <Grid py={4} px={1} bgcolor={"#a3b18a"}>
       <Card
@@ -107,7 +120,17 @@ export default function CampaignDetail() {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}></Box>
+            <Box minWidth={{ xs: 300, sm: 400 }} sx={style}>
+              <Form
+                onSubmit={handleAmount}
+                style={{ marginBottom: 6, display: "flex", gap: 2 }}
+              >
+                <TextField defaultValue={1} label="Enter Amount" name="amount" type="number" />
+                <Typography color={"red"}>{error}</Typography>
+                <Button type="submit">Next</Button>
+              </Form>
+              {show && <Payment setShow={setShow} amount={amount} campaign={campaign} />}
+            </Box>
           </Modal>
           {/* details */}
           <ExpandMore
