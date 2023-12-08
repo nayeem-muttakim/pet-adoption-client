@@ -89,6 +89,7 @@ const NavBar = () => {
               <MenuIcon sx={{ color: "#023047" }} />
             </IconButton>
             <Menu
+              
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -104,6 +105,8 @@ const NavBar = () => {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
+                position:{xs:"absolute"}
+                
               }}
             >
               <Typography
