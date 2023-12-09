@@ -1,8 +1,13 @@
-# React + Vite
+# [Live Link ](https://pet-adoption-6b4ee.web.app)
+ 
+## Project shortly described
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### - My first fullstack project with admin panel system
+### - This website is made for pet animals to helo them get adopted and host campaign for them.
+### - A user can see all the available pets and active campaigns.
+### - Campaigns take donation for the pets .Thus this website has payment system included
+### - a user can add pet,see the pets they added,can see who requested to adopt their pets,host campaign and see their details ,also who donated and how much donated
+### - admin can access all these and also see all the pets and campaigns and users. An admin can mak a user admin,mark a pet adopted,update a pe or delete.They can also pause/unpause a campaign ,edit or delete also
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Technologies used**
+### - React JS,Material UI,Firebase,node js,MongoDB,Express JS,Stripe etc
