@@ -2,12 +2,12 @@ import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { Helmet } from "react-helmet-async";
 
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
-import useAxios from "../../Hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 import SocialAuthentication from "../../Shared/SocialAuthentication";
 
 const Register = () => {
@@ -27,6 +27,7 @@ const Register = () => {
       const imageData = await imageUpload(image);
 
       // create user
+      // eslint-disable-next-line no-unused-vars
       const result = await register(email, pass);
       // user name and image
       await updateUser(name, imageData?.data?.display_url);
@@ -34,7 +35,7 @@ const Register = () => {
         name: name,
         email: email,
         image: imageData?.data?.display_url,
-        role: 'user',
+        role: "user",
       };
       await axiosPublic.post("/users", userInfo);
 
@@ -49,7 +50,7 @@ const Register = () => {
   return (
     <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
       <Helmet>
-        <title>Pet Adoption | Register</title>
+        <title>FurNest | Register</title>
       </Helmet>
       {/* Email Pass Login */}
       <Grid border={1}>

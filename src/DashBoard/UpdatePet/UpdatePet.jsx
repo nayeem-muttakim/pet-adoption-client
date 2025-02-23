@@ -7,7 +7,7 @@ import { Button, Textarea } from "@mui/joy";
 
 import moment from "moment/moment";
 
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";

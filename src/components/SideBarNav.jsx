@@ -2,26 +2,23 @@ import { People, Pets, VolunteerActivism } from "@mui/icons-material";
 import { ListItemContent } from "@mui/joy";
 import { Button, Divider, Grid, List, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import useAdmin from "../Hooks/useAdmin";
+import useAdmin from "../hooks/useAdmin";
 const SideBarNav = () => {
   const [isAdmin] = useAdmin();
   return (
-    <Grid sx={{fontWeight:600}}>
+    <Grid sx={{ fontWeight: 600 }}>
       {/* all user sidebar */}
-      <List sx={{ display: "grid",gap:1,px:1}}>
+      <List sx={{ display: "grid", gap: 1, px: 1 }}>
         {/* add */}
-        <NavLink to="add-pet" >
-          <Button variant="outlined">
-            <ListItemContent sx={{ color: "black" }}>
-              {" "}
-              Add a Pet
-            </ListItemContent>
+        <NavLink to="add-pet">
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent> Add a Pet</ListItemContent>
           </Button>
         </NavLink>
         {/* my added pets */}
         <NavLink to="added-pets">
-          <Button variant="outlined">
-            <ListItemContent t sx={{ color: "black" }}>
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent >
               {" "}
               Added Pets
             </ListItemContent>
@@ -29,8 +26,8 @@ const SideBarNav = () => {
         </NavLink>
         {/* adoption request */}
         <NavLink to="adoption-request">
-          <Button variant="outlined">
-            <ListItemContent sx={{ color: "black" }}>
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent >
               {" "}
               Adoption Request
             </ListItemContent>
@@ -38,8 +35,8 @@ const SideBarNav = () => {
         </NavLink>
         {/* create donation */}
         <NavLink to="create-donation">
-          <Button variant="outlined">
-            <ListItemContent sx={{ color: "black" }}>
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent >
               {" "}
               Add Donation Campaign
             </ListItemContent>
@@ -47,8 +44,8 @@ const SideBarNav = () => {
         </NavLink>
         {/* my donation campaign */}
         <NavLink to="donation-campaign">
-          <Button variant="outlined">
-            <ListItemContent sx={{ color: "black" }}>
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent >
               {" "}
               My Donation Campaigns
             </ListItemContent>
@@ -56,8 +53,8 @@ const SideBarNav = () => {
         </NavLink>
         {/* my donations */}
         <NavLink to="donations">
-          <Button variant="outlined">
-            <ListItemContent sx={{ color: "black" }}>
+          <Button variant="contained" sx={{ width: "100%", textAlign: "left" }}>
+            <ListItemContent >
               {" "}
               My Donations
             </ListItemContent>
@@ -68,10 +65,13 @@ const SideBarNav = () => {
       {isAdmin && (
         <>
           <Divider variant="middle">Admin</Divider>
-          <List sx={{ display: "grid",textAlign:"left" }}>
+          <List sx={{ display: "grid", gap: 1, paddingX: 1 }}>
             {/* users */}
             <NavLink to="users">
-              <Button variant="soft">
+              <Button
+                variant="outlined"
+                sx={{ width: "100%", textAlign: "left" }}
+              >
                 <ListItemIcon>
                   <People sx={{ color: "black" }} />
                 </ListItemIcon>
@@ -83,7 +83,10 @@ const SideBarNav = () => {
             </NavLink>
             {/* all pets */}
             <NavLink to="all-pets">
-              <Button variant="soft">
+              <Button
+                variant="outlined"
+                sx={{ width: "100%", textAlign: "left" }}
+              >
                 <ListItemIcon sx={{ color: "black" }}>
                   <Pets />
                 </ListItemIcon>
@@ -95,8 +98,11 @@ const SideBarNav = () => {
             </NavLink>
             {/* all donation */}
             <NavLink to="all-campaigns">
-              <Button variant="soft">
-              <ListItemIcon sx={{ color: "black" }}>
+              <Button
+                variant="outlined"
+                sx={{ width: "100%", textAlign: "left" }}
+              >
+                <ListItemIcon sx={{ color: "black" }}>
                   <VolunteerActivism />
                 </ListItemIcon>
                 <ListItemContent sx={{ color: "black" }}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, useParams } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 
 import { styled } from "@mui/material/styles";

@@ -1,17 +1,14 @@
-import { Grid, ListItemButton } from "@mui/material";
-import List from "@mui/joy/List";
-
+import { Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-import {  Outlet } from "react-router-dom";
-
-import DashNav from "../DashBoard/DashNav";
-import SideBarNav from "../DashBoard/SideBarNav";
+import { Outlet } from "react-router-dom";
+import DashNav from "../components/DashNav";
+import SideBarNav from "../components/SideBarNav";
 
 const Dashboard = () => {
   return (
     <Grid>
       <Helmet>
-        <title>Pet Adoption | Dashboard</title>
+        <title>FurNest | Dashboard</title>
       </Helmet>
       <DashNav />
       <Grid display={{ xs: "none", md: "block" }}>
@@ -19,11 +16,15 @@ const Dashboard = () => {
         <Grid display={"flex"}>
           {/* sidebar */}
           <Grid
-            width={{ xs: 120, sm: 250 }}
-            minHeight={"90vh"}
-            sx={{ bgcolor: "#8ecae6"}}
+            minHeight={"93.1vh"}
+            sx={{
+              backgroundColor: "rgba(221, 218, 221, 0.75)",
+              backdropFilter: "blur(12px)",
+              transition: "all 0.3s ease-in-out",
+              
+            }}
           >
-          <SideBarNav/>
+            <SideBarNav />
           </Grid>
           {/* sidebar content */}
           <Grid flex={1}>
@@ -31,7 +32,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
-    {/* responsive dashboard */}
+      {/* responsive dashboard */}
       <Grid display={{ md: "none" }}>
         <Outlet />
       </Grid>

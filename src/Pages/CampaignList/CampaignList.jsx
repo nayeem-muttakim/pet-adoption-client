@@ -1,9 +1,8 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import CampaignCard from "./CampaignCard";
-
 
 const CampaignList = () => {
   const axiosSecure = useAxiosSecure();
@@ -15,11 +14,11 @@ const CampaignList = () => {
       return res.data;
     },
   });
- 
+
   return (
     <Grid px={2} my={3}>
       <Helmet>
-        <title>Pet Adoption | Campaigns</title>
+        <title>FurNest | Campaigns</title>
       </Helmet>
       <Paper
         square={false}
@@ -55,8 +54,8 @@ const CampaignList = () => {
         }}
         gap={2}
       >
-        {campaigns.map((camp) => (<CampaignCard key={camp._id} camp={camp}/>
-         
+        {campaigns.map((camp) => (
+          <CampaignCard key={camp._id} camp={camp} />
         ))}
       </Grid>
     </Grid>

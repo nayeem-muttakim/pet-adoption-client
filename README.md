@@ -3,7 +3,7 @@
 ## Project shortly described
 
 ### - My first fullstack project with admin panel system
-### - This website is made for pet animals to helo them get adopted and host campaign for them.
+### - This website is made for pet animals to help them get adopted and host campaign for them.
 ### - A user can see all the available pets and active campaigns.
 ### - Campaigns take donation for the pets .Thus this website has payment system included
 ### - a user can add pet,see the pets they added,can see who requested to adopt their pets,host campaign and see their details ,also who donated and how much donated

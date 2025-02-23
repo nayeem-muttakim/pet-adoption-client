@@ -1,13 +1,13 @@
 import { Grid, Paper, Typography } from "@mui/material";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import DonationCard from "./DonationCard";
 
 const MyDonation = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: mydonations = [],refetch } = useQuery({
+  const { data: mydonations = [], refetch } = useQuery({
     queryKey: ["myDonations"],
     queryFn: async () => {
       const res = await axiosSecure(`/donations/mine?email=${user?.email}`);

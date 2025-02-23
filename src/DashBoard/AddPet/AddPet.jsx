@@ -6,12 +6,11 @@ import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import moment from "moment/moment";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
 
 const AddPet = () => {
   const options = [
@@ -23,7 +22,7 @@ const AddPet = () => {
     { value: "Rabbit", label: "Rabbit" },
   ];
   const { user } = useAuth();
- const navigate =useNavigate()
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const [selectedOption, setSelectedOption] = useState("");
   const time = moment().format(" DD/MM/YYYY, h:mm a");
@@ -87,7 +86,7 @@ const AddPet = () => {
                     icon: "success",
                   });
                 }
-                     navigate('/dashboard/added-pets')
+                navigate("/dashboard/added-pets");
               })
               .catch((err) => {
                 console.log(err);

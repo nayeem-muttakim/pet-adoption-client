@@ -26,32 +26,43 @@ export default function Volunteer() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: 500,
+          maxWidth: 1200,
           mx: "auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(1fr))",
+          gridTemplateColumns: {
+            xs: "repeat(1,1fr)",
+            sm: "repeat(2,1fr)",
+            lg: "repeat(3,1fr)",
+          },
+
           gap: 2,
-         
         }}
       >
-        <Card >
-          <CardContent > 
-            <Typography variant="h5" level="title-md">Send CV</Typography>
+        <Card>
+          <CardContent>
+            <Typography variant="h5" level="title-md">
+              Send CV
+            </Typography>
             <Typography variant="h6"> at petadoption@gmail.com </Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
-            <Typography variant="h5" level="title-md">Contact Us</Typography>
+            <Typography variant="h5" level="title-md">
+              Contact Us
+            </Typography>
             <Typography variant="h6"> 01760993821</Typography>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent>
-            <Typography variant="h5" level="title-md"> Our FaceBook Page</Typography>
-            <Typography variant="h6">Pet Adoption</Typography>
+            <Typography variant="h5" level="title-md">
+              {" "}
+              Our FaceBook Page
+            </Typography>
+            <Typography variant="h6">FurNest</Typography>
           </CardContent>
         </Card>
 

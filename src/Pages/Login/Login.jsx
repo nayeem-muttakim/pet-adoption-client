@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Helmet } from "react-helmet-async";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialAuthentication from "../../Shared/SocialAuthentication";
 
@@ -33,9 +33,12 @@ const Login = () => {
   });
 
   return (
-    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my:{xs:3,md:5,xl:10} }}>
+    <Grid
+      px={1}
+      sx={{ maxWidth: 600, mx: "auto", my: { xs: 3, md: 5, xl: 10 } }}
+    >
       <Helmet>
-        <title>Pet Adoption | Login</title>
+        <title>FurNest | Login</title>
       </Helmet>
 
       <Grid border={1}>

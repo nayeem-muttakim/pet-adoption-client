@@ -2,8 +2,8 @@ import { Button } from "@mui/joy";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { Form, useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 import { Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
@@ -15,7 +15,7 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
   const [transId, setTransId] = useState("");
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
- 
+
   useEffect(() => {
     axiosSecure
       .post("/create-payment-intent", { amount: amount })
@@ -66,12 +66,11 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
         Swal.fire({
           title: "Congratulation",
           text: `You have made a donation , Your transaction ID id ${paymentIntent.id} `,
-          icon: "success"
+          icon: "success",
         });
         setShow(false);
 
         const res = await axiosSecure.post("/donations", donation);
-   
       }
     }
   };

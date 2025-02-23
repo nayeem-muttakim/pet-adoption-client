@@ -1,14 +1,14 @@
 import { Grid, Paper, TextField, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Form } from "react-router-dom";
 import { Button } from "@mui/joy";
 import { Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import ListCard from "./ListCard";
-const PetList = () => {
+import PetCard from "./PetCard";
+const Pets = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [available, setAvailable] = useState([]);
@@ -51,7 +51,7 @@ const PetList = () => {
   return (
     <Grid px={2} my={3}>
       <Helmet>
-        <title>Pet Adoption |Listing</title>
+        <title>FurNest |Listing</title>
       </Helmet>
       <Paper
         square={false}
@@ -116,11 +116,11 @@ const PetList = () => {
         gap={2}
       >
         {available.map((pet) => (
-          <ListCard key={pet._id} pet={pet} />
+          <PetCard key={pet._id} pet={pet} />
         ))}
       </Grid>
     </Grid>
   );
 };
 
-export default PetList;
+export default Pets;

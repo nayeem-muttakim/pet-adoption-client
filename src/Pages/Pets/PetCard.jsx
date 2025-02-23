@@ -6,10 +6,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
-
-export default function ListCard({ pet }) {
+import PropTypes from "prop-types";
+export default function PetCard({ pet }) {
   return (
-    <Card sx={{ width: { xs: 280, sm: 345 }, mx: "auto", pb: 1,bgcolor:"#fefae0" }}>
+    <Card
+      sx={{
+        width: { xs: 280, sm: 345 },
+        mx: "auto",
+        pb: 1,
+        bgcolor: "#fefae0",
+      }}
+    >
       <CardMedia
         sx={{ height: 250 }}
         image={pet?.pet_image}
@@ -26,7 +33,11 @@ export default function ListCard({ pet }) {
       </CardContent>
       <CardActions>
         <Link to={`/pet-details/${pet?._id}`}>
-          <Button sx={{bgcolor:"#ccd5ae",color:"black"}} variant="contained" size="small">
+          <Button
+            sx={{ bgcolor: "#ccd5ae", color: "black" }}
+            variant="contained"
+            size="small"
+          >
             Learn More
           </Button>
         </Link>
@@ -34,3 +45,12 @@ export default function ListCard({ pet }) {
     </Card>
   );
 }
+PetCard.propTypes = {
+  pet: PropTypes.shape({
+    pet_image: PropTypes.string.isRequired,
+    pet_name: PropTypes.string.isRequired,
+    pet_age: PropTypes.number.isRequired,
+    pet_location: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+};

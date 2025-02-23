@@ -1,31 +1,28 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../LayOut/Main";
-import Login from "../Authentications/Login/Login";
-import Register from "../Authentications/Register/Register";
-
-import HomePage from "../HomePage/HomePage";
-
 import ErrorPage from "../ErrorPage";
 import Dashboard from "../LayOut/Dashboard";
-import PrivateRoute from "../Private/PrivateRoute";
-import AdminRoute from "../Private/AdminRoute";
 import Users from "../DashBoard/Users/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
 import AddedPets from "../DashBoard/AddedPets/AddedPets";
 import UpdatePet from "../DashBoard/UpdatePet/UpdatePet";
 import CreateDonation from "../DashBoard/CreateDonation/CreateDonation";
 import MyCampaigns from "../DashBoard/MyCampaigns/MyCampaigns";
-import Pets from "../DashBoard/Pets/Pets";
-import DashHome from "../DashBoard/DashHome";
+import DashHome from "../Pages/DashHome";
 import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
 import Campaigns from "../DashBoard/Campaigns/Campaigns";
-import PetList from "../Pages/PetList/PetList";
+import AllPets from "../DashBoard/AllPets/AllPets";
 import PetDetails from "../Pages/PetDetails/PetDetails";
 import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
 import CampaignList from "../Pages/CampaignList/CampaignList";
 import CampaignDetail from "../Pages/CampaignList/CampaignDetail/CampaignDetail";
 import MyDonation from "../DashBoard/MyDonations/MyDonation";
-
+import Pets from "../Pages/Pets/Pets";
+import HomePage from "../Pages/HomePage";
+import PrivateRoute from "./Private/AdminRoute";
+import AdminRoute from "./Private/AdminRoute";
+import Login from "../Pages/Login/Login";
+import Register from "../Pages/Register/Register";
 export const MainRoutes = createBrowserRouter([
   {
     path: "/",
@@ -45,8 +42,8 @@ export const MainRoutes = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "listing",
-        element: <PetList />,
+        path: "pets",
+        element: <Pets />,
       },
       {
         path: "campaigns",
@@ -88,7 +85,7 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "adoption-request",
-        element: <AdoptRequest/>,
+        element: <AdoptRequest />,
       },
       {
         path: "create-donation",
@@ -104,7 +101,7 @@ export const MainRoutes = createBrowserRouter([
       },
       {
         path: "donations",
-        element: <MyDonation/>,
+        element: <MyDonation />,
       },
       // admin routes
       {
@@ -119,7 +116,7 @@ export const MainRoutes = createBrowserRouter([
         path: "all-pets",
         element: (
           <AdminRoute>
-            <Pets />
+            <AllPets />
           </AdminRoute>
         ),
       },

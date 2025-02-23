@@ -6,8 +6,8 @@ import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import moment from "moment/moment";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 

@@ -2,8 +2,8 @@ import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 import fbLogo from "/facebook.webp";
 import ggLogo from "/google.png";
 import toast from "react-hot-toast";
-import useAuth from "../Hooks/useAuth";
-import useAxios from "../Hooks/useAxios";
+import useAuth from "../hooks/useAuth";
+import useAxios from "../hooks/useAxios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialAuthentication = () => {

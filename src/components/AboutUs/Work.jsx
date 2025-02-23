@@ -29,8 +29,8 @@ export default function Work() {
             textAlign={"center"}
             flexDirection={"column"}
           >
-            <Typography variant="h5"> Pet Adoption </Typography>
-            <Typography >
+            <Typography variant="h5"> FurNest </Typography>
+            <Typography>
               {" "}
               Browse through profiles of adorable pets seeking a loving home.
               Our platform connects potential adopters with a diverse range of
@@ -41,7 +41,6 @@ export default function Work() {
           </Grid>
         </SwiperSlide>
         <SwiperSlide>
-         
           <Grid
             display={"flex"}
             gap={1}
@@ -50,7 +49,7 @@ export default function Work() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Donation Campaigns</Typography>
-            <Typography >
+            <Typography>
               {" "}
               Join us in making a difference by supporting our donation
               campaigns. These campaigns are designed to raise funds for
@@ -67,17 +66,16 @@ export default function Work() {
             display={"flex"}
             gap={1}
             px={1}
-            
             textAlign={"center"}
             flexDirection={"column"}
           >
             <Typography variant="h5">Easy Navigation</Typography>
-            <Typography >
+            <Typography>
               {" "}
               Our user-friendly interface ensures a seamless experience. Filter
-              your search based on preferences, such as pet category, and
-              name. The adoption process is streamlined, allowing you to
-              connect with shelters and rescue organizations effortlessly.
+              your search based on preferences, such as pet category, and name.
+              The adoption process is streamlined, allowing you to connect with
+              shelters and rescue organizations effortlessly.
             </Typography>
           </Grid>
         </SwiperSlide>

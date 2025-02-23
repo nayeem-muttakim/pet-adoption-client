@@ -20,8 +20,8 @@ import { useState } from "react";
 import { Button } from "@mui/joy";
 import { Box, Grid, Modal, TextField } from "@mui/material";
 import toast from "react-hot-toast";
-import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Payment from "./Payment";
 import ExtraCard from "./ExtraCard";
 
@@ -67,7 +67,7 @@ export default function CampaignDetail() {
   useEffect(() => {
     axiosSecure("/campaigns").then((res) => {
       const active = res.data.filter((act) => act.pause === false);
-      const more = active.filter((e) => e._id !== id).slice(0,3);
+      const more = active.filter((e) => e._id !== id).slice(0, 3);
       setActive(more);
     });
   }, [axiosSecure, id]);
@@ -95,7 +95,7 @@ export default function CampaignDetail() {
   return (
     <Grid py={2} px={1} bgcolor={"#a3b18a"}>
       <Card
-        sx={{ maxWidth: 900, mx: "auto",my:5,  px: 1, bgcolor: "#fefae0" }}
+        sx={{ maxWidth: 900, mx: "auto", my: 5, px: 1, bgcolor: "#fefae0" }}
       >
         <CardHeader
           title={campaign?.pet_name}
@@ -183,7 +183,9 @@ export default function CampaignDetail() {
           }}
           gap={2}
         >
-          {active.map(act=><ExtraCard key={act._id} act={act}/>)}
+          {active.map((act) => (
+            <ExtraCard key={act._id} act={act} />
+          ))}
         </Grid>
       </Grid>
     </Grid>

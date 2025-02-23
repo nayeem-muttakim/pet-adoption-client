@@ -13,9 +13,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,
@@ -23,12 +23,11 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { Button, IconButton } from "@mui/joy";
-import { AutoFixNormal, DeleteForever} from "@mui/icons-material";
+import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Campaigns = () => {
-  
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -103,7 +102,7 @@ const Campaigns = () => {
         }
       });
   };
-  const handleDelete = (campaign) =>{
+  const handleDelete = (campaign) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -199,10 +198,12 @@ const Campaigns = () => {
                   </th>
                   <th>
                     {" "}
-                    <IconButton onClick={() => handleDelete(campaign)} color="danger">
-                    <DeleteForever fontSize="large" />
-                  </IconButton>
-                 
+                    <IconButton
+                      onClick={() => handleDelete(campaign)}
+                      color="danger"
+                    >
+                      <DeleteForever fontSize="large" />
+                    </IconButton>
                   </th>
                 </TableRow>
               </>

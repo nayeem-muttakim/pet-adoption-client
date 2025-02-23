@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import {
   FacebookAuthProvider,
-
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -11,15 +10,14 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Config/firebase.config";
-import useAxios from "../Hooks/useAxios";
-
+import useAxios from "../hooks/useAxios";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const axiosPublic =useAxios()
+  const axiosPublic = useAxios();
   const ggProvider = new GoogleAuthProvider();
   const fbProvider = new FacebookAuthProvider();
   const register = (email, pass) => {
@@ -35,19 +33,18 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, ggProvider);
   };
 
-
-  
   const fbLogin = () => {
     setLoading(true);
     return signInWithPopup(auth, fbProvider);
   };
 
-  const updateUser=(name,image)=>{
-    setLoading(true)
-      return updateProfile(auth.currentUser,{
-        displayName:name,photoURL: image
-      })
-  }
+  const updateUser = (name, image) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: image,
+    });
+  };
   const logOut = () => {
     setLoading(true);
 
@@ -55,19 +52,19 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, async(inUser) => {
+    const unSubscribe = onAuthStateChanged(auth, async (inUser) => {
       setUser(inUser);
-      if(inUser){
+      if (inUser) {
         //  get token and store client
-        const userInfo = {email:inUser.email}
-       await axiosPublic.post('/jwt',userInfo).then( async res=>{
-          if(res.data.token){
-           await localStorage.setItem('access-token',res.data.token)
+        const userInfo = { email: inUser.email };
+        await axiosPublic.post("/jwt", userInfo).then(async (res) => {
+          if (res.data.token) {
+            await localStorage.setItem("access-token", res.data.token);
           }
-        })
-      }else{
+        });
+      } else {
         // remove token if stored
-        localStorage.removeItem('access-token')
+        localStorage.removeItem("access-token");
       }
       setLoading(false);
     });

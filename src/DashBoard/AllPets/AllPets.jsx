@@ -8,7 +8,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
-const Pets = () => {
+const AllPets = () => {
   const axiosSecure = useAxiosSecure();
   const { data: pets = [], refetch } = useQuery({
     queryKey: ["pets"],
@@ -193,4 +193,4 @@ const Pets = () => {
   );
 };
 
-export default Pets;
+export default AllPets;

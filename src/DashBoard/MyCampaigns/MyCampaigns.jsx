@@ -13,9 +13,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,
@@ -54,8 +54,8 @@ const MyCampaigns = () => {
 
   const handleOpen = (camp) => {
     setOpen(true);
-    const donor = donors.filter(don=>don.campaign._id === camp._id)
-    setDonor(donor)
+    const donor = donors.filter((don) => don.campaign._id === camp._id);
+    setDonor(donor);
   };
   const style = {
     position: "absolute",
@@ -215,24 +215,24 @@ const MyCampaigns = () => {
                       aria-describedby="modal-modal-description"
                     >
                       <Box sx={style}>
-                       <Table>
-                        <TableHead>
-                          <TableRow>
-                            <th>Serial</th>
-                            <th>Donor's Email</th>
-                            <th>Amount</th>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {donor.map((don,index)=>(
-                            <TableRow sx={{py:2}} key={don?._id}>
-                              <th>{index + 1}</th>
-                              <th>{don?.email}</th>
-                              <th>${don?.amount}</th>
+                        <Table>
+                          <TableHead>
+                            <TableRow>
+                              <th>Serial</th>
+                              <th>Donor's Email</th>
+                              <th>Amount</th>
                             </TableRow>
-                          ))}
-                        </TableBody>
-                       </Table>
+                          </TableHead>
+                          <TableBody>
+                            {donor.map((don, index) => (
+                              <TableRow sx={{ py: 2 }} key={don?._id}>
+                                <th>{index + 1}</th>
+                                <th>{don?.email}</th>
+                                <th>${don?.amount}</th>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
                       </Box>
                     </Modal>
                   </th>

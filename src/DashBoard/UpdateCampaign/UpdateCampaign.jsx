@@ -7,7 +7,7 @@ import { Button, Textarea } from "@mui/joy";
 
 import moment from "moment/moment";
 
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
@@ -131,7 +131,7 @@ const UpdateCampaign = () => {
               name="pet_name"
               type="text"
               label="Pet Name"
-             defaultValue={name}
+              defaultValue={name}
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_name", event.target.value);
@@ -140,7 +140,7 @@ const UpdateCampaign = () => {
             <TextField
               name="max_donation"
               type="number"
-             defaultValue={max}
+              defaultValue={max}
               label="Maximum Donation Amount"
               variant="outlined"
               onChange={(event) => {
@@ -177,7 +177,7 @@ const UpdateCampaign = () => {
             <Textarea
               minRows={2}
               maxRows={3}
-            defaultValue={short}
+              defaultValue={short}
               name="short_description"
               placeholder="Short Description"
               variant="soft"
