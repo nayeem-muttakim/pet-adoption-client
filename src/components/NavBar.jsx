@@ -138,8 +138,8 @@ const NavBar = () => {
                   sx={{
                     color: "#ffffff",
                     fontSize: 12,
-                    backgroundColor: "#7c3aed",
-                    ":hover": { backgroundColor: "#7c3aedE6" },
+                    bgcolor: "#7c3aed",
+                    ":hover": { bgcolor: "#7c3aedE6" },
                   }}
                 >
                   Login

@@ -48,77 +48,128 @@ const Register = () => {
   };
 
   return (
-    <Grid px={1} sx={{ maxWidth: 600, mx: "auto", my: 10 }}>
+    <Grid
+      px={2}
+      display={"grid"}
+      alignItems={"center"}
+      height={"80vh"}
+      sx={{ maxWidth: 400, mx: "auto", my: 10 }}
+    >
       <Helmet>
         <title>FurNest | Register</title>
       </Helmet>
-      {/* Email Pass Login */}
-      <Grid border={1}>
+
+      <Grid>
         <Grid>
           {" "}
-          <Typography pl={5} pt={2} variant="h4">
-            Create an account
-          </Typography>
+          <Typography variant="h5">Register</Typography>
+          {/* social registration */}
+          <SocialAuthentication />
+          <Divider variant="middle">Or</Divider>
         </Grid>
+
+        {/* email pass registration */}
         <form onSubmit={handleReg}>
-          <Grid sx={{ display: "grid", gap: 5, p: 5 }}>
+          <Grid sx={{ display: "grid", gap: 3, py: 5 }}>
             <TextField
-              label="Full Name"
-              variant="standard"
+              label="Name"
+              variant="outlined"
               name="name"
               type="text"
               required
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#7c3aed",
+                    },
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#7c3aed",
+                },
+              }}
             />
 
-            <TextField variant="outlined" name="image" type="file" required />
+            <TextField
+              variant="outlined"
+              name="image"
+              type="file"
+              required
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#7c3aed",
+                    },
+                  },
+                },
+              }}
+            />
             <TextField
               label="Email"
-              variant="standard"
+              variant="outlined"
               name="email"
               type="email"
               required
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#7c3aed",
+                    },
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#7c3aed",
+                },
+              }}
             />
 
             <TextField
               label="Password"
-              variant="standard"
+              variant="outlined"
               name="password"
               type="password"
               required
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#7c3aed",
+                    },
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#7c3aed",
+                },
+              }}
             />
 
             <Button
               variant="contained"
               type="submit"
               sx={{
-                backgroundColor: "#ccd5ae",
-                color: "black",
-                px: { xs: 10, sm: 19 },
-                py: 1,
-                fontSize: { sx: 10, md: 18 },
-                fontWeight: 700,
+                bgcolor: "#683DB3",
+                ":hover": { bgcolor: "#7c3aed" },
+                color: "#FFFFFF",
+                px: 11,
+                py: 1.5,
+                fontSize: 15,
+                borderRadius: 1,
               }}
             >
-              Create an account
+              Create Your Account
             </Button>
-            <Typography>
+            <Typography textAlign={"center"}>
               Already have an account?{" "}
               <Link to="/login">
-                <Typography variant="span" sx={{ color: "#d4a373" }}>
-                  Login
-                </Typography>
+                <Typography variant="span">Login</Typography>
               </Link>
             </Typography>
           </Grid>
         </form>
-
-        {/* Additionals */}
       </Grid>
-      <Divider sx={{ mt: 2 }} orientation="horiontal" variant="middle">
-        Or
-      </Divider>
-      {/* social login */}
-      <SocialAuthentication />
     </Grid>
   );
 };

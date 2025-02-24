@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 
 const Main = () => {
   return (
-    <Grid>
+    <Grid >
       <NavBar />
       <Outlet />
     </Grid>

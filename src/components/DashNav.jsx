@@ -85,7 +85,7 @@ const DashNav = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { md: "none" },
               }}
             >
               {/* sidebar */}
@@ -93,6 +93,7 @@ const DashNav = () => {
               <SideBarNav />
             </Menu>
           </Box>
+
           {/* Logo */}
           <Link style={{ textDecoration: "none" }} to={"/"}>
             <Typography
@@ -109,17 +110,23 @@ const DashNav = () => {
               </Typography>
             </Typography>
           </Link>
-          {/* Pages */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              gap: 2,
-            }}
-          >
-            {pages}
-          </Box>
-          {/*  Setting handler */}
-          <Box>
+
+          <Box display={"flex"} alignItems={"center"}>
+            {/* Pages */}
+            <Box
+              sx={{
+                display: { xs: "none", md: "flex" },
+                gap: 2,
+              }}
+            >
+              {pages}
+            </Box>
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{ marginX: 2, display: { xs: "none", md: "block" } }}
+            />
+            {/*  Setting handler */}
             {user && (
               <>
                 {" "}
@@ -128,6 +135,7 @@ const DashNav = () => {
                   sx={{
                     width: 40,
                     height: 40,
+                    cursor: "pointer",
                   }}
                   src={user?.photoURL}
                 />
