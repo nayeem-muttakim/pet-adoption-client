@@ -1,9 +1,7 @@
-import React from "react";
-import { Form, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -11,19 +9,16 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { useState } from "react";
 import { Button } from "@mui/joy";
 import { Box, Grid, Modal, TextField } from "@mui/material";
 import toast from "react-hot-toast";
 
 const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
+  const { ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
@@ -34,16 +29,13 @@ const ExpandMore = styled((props) => {
 }));
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   maxWidth: 400,
+  mx: "auto",
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
   px: 2,
   py: 4,
+  borderRadius: 2,
+  my:"25%"
 };
 
 export default function PetDetails() {
@@ -88,60 +80,68 @@ export default function PetDetails() {
     });
   };
   return (
-    <Grid py={4} px={1} bgcolor={"#a3b18a"}>
+    <Grid py={1} px={1} bgcolor={"#F0EAF3"} height={"93vh"}>
       <Card
-        sx={{ maxWidth: 900, mx: "auto", my: 5, px: 1, bgcolor: "#fefae0" }}
+        sx={{ maxWidth: 650, mx: "auto", my: 5, px: 1, bgcolor: "#ffffff" }}
       >
         <CardHeader
           title={pet?.pet_name}
-          subheader={`Locaton : ${pet?.pet_location}`}
+          subheader={`Location : ${pet?.pet_location}`}
         />
-        <CardMedia component="img" height="500" image={pet?.pet_image} alt="" />
+        <CardMedia component="img" height="400" image={pet?.pet_image} alt="" />
         <CardContent>
           <Typography variant="body1">{pet?.short_description}</Typography>
         </CardContent>
         <CardActions disableSpacing>
           {/* adopt */}
-          <Button color="warning" onClick={handleOpen}>
+          <Button color="success" onClick={handleOpen}>
             Adopt
           </Button>
-          {/* adoption form */}
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
+          {/* modal form */}
+          <Modal open={open} onClose={handleClose} sx={{px:1}}>
             <Box sx={style}>
-              <Form onSubmit={handleAdopt} style={{ display: "grid", gap: 10 }}>
+              <form onSubmit={handleAdopt}>
                 <TextField
                   name="name"
                   type="text"
-                  label="User Name"
+                  label="Name"
                   defaultValue={user?.displayName}
+                  sx={{ width: "100%" }}
                 />
                 <TextField
                   name="email"
                   defaultValue={user?.email}
                   label="Email"
                   type="text"
+                  sx={{ width: "100%", my: 2 }}
                 />
                 <TextField
                   name="phone"
                   label="Phone Number"
                   type="number"
                   required
+                  sx={{
+                    "& input[type=number]::-webkit-inner-spin-button, & input[type=number]::-webkit-outer-spin-button":
+                      {
+                        display: "none",
+                      },
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                    width: "100%",
+                  }}
                 />
                 <TextField
                   name="address"
                   label="Address"
                   required
                   type="text"
+                  sx={{ width: "100%", my: 2 }}
                 />
-                <Button type="submit" color="neutral">
+                <Button type="submit" color="warning" sx={{ width: "100%" }}>
                   Submit
                 </Button>
-              </Form>
+              </form>
             </Box>
           </Modal>
           {/* details */}

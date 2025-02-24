@@ -1,42 +1,36 @@
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { CardHeader } from "@mui/material";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 export default function PetCard({ pet }) {
   return (
     <Card
       sx={{
-        width: { xs: 280, sm: 345 },
-        mx: "auto",
-        pb: 1,
-        bgcolor: "#fefae0",
+        width: 270,
+        p: 1,
+        bgcolor: "#F0EAF3",
       }}
+      variant="outlined"
     >
-      <CardMedia
-        sx={{ height: 250 }}
-        image={pet?.pet_image}
-        title="green iguana"
+      <CardHeader
+        title={pet?.pet_name}
+        subheader={`Location : ${pet?.pet_location}`}
       />
-      <CardContent sx={{ textAlign: "center" }}>
-        <Typography gutterBottom variant="h5" component="div">
-          Name : {pet?.pet_name}
-        </Typography>
-        <Box display={"flex"} justifyContent={"space-evenly"}>
-          <Typography variant="h6">Age : {pet?.pet_age}</Typography>
-          <Typography variant="h6">Age : {pet?.pet_location}</Typography>
-        </Box>
-      </CardContent>
+      <CardMedia
+        sx={{ height: 200, width: 200, borderRadius: 35, mx: "auto" }}
+        image={pet?.pet_image}
+        title={pet.pet_name}
+      />
+
       <CardActions>
         <Link to={`/pet-details/${pet?._id}`}>
           <Button
-            sx={{ bgcolor: "#ccd5ae", color: "black" }}
+            sx={{ bgcolor: "#7c3aed", color: "#ffffff" }}
             variant="contained"
-            size="small"
+            size="medium"
           >
             Learn More
           </Button>
@@ -49,7 +43,6 @@ PetCard.propTypes = {
   pet: PropTypes.shape({
     pet_image: PropTypes.string.isRequired,
     pet_name: PropTypes.string.isRequired,
-    pet_age: PropTypes.number.isRequired,
     pet_location: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
   }).isRequired,

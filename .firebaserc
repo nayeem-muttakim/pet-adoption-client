@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "pet-adoption-6b4ee"
-  }
+  },
+  "targets": {
+    "pet-adoption-6b4ee": {
+      "hosting": {
+        "pet-adoption": [
+          "pet-adoption-6b4ee"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

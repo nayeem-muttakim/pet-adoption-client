@@ -8,6 +8,26 @@ import { Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import PetCard from "./PetCard";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    borderColor: state.isFocused ? "#7c3aed" : provided.borderColor,
+    boxShadow: state.isFocused ? "0 0 0 1px #7c3aed" : provided.boxShadow,
+    "&:hover": {
+      borderColor: state.isFocused ? "#7c3aed" : provided.borderColor,
+    },
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? "#F0EAF3" : provided.backgroundColor,
+    color: state.isFocused ? "#333" : provided.color,
+    "&:hover": {
+      backgroundColor: "#F0EAF3",
+      color: "#333",
+    },
+  }),
+};
+
 const Pets = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
@@ -49,32 +69,29 @@ const Pets = () => {
   ];
 
   return (
-    <Grid px={2} my={3}>
+    <Grid px={2} my={1} maxWidth={"xl"} mx={"auto"}>
       <Helmet>
-        <title>FurNest |Listing</title>
+        <title>FurNest | Listing</title>
       </Helmet>
-      <Paper
-        square={false}
-        sx={{
-          width: "fit-content",
-          px: 4,
-          py: 2,
-          mb: 2,
-          mx: "auto",
-          backgroundColor: "#ccd5ae",
-        }}
-        elevation={3}
-      >
-        <Typography
-          textAlign={"center"}
-          sx={{ fontWeight: "bold" }}
-          variant="h4"
+      <Grid maxWidth={"lg"} mx={"auto"} display={"grid"} gap={1}>
+        <Paper
+          sx={{
+            px: 3,
+            py: 1,
+            my: 2,
+            bgcolor: "#7c3aed",
+            color: "#ffffff",
+          }}
+          elevation={2}
         >
-          Pet List
-        </Typography>
-      </Paper>
-
-      <Grid maxWidth={700} mx={"auto"} display={"grid"} gap={1}>
+          <Typography
+            textAlign={"center"}
+            sx={{ fontWeight: "bold" }}
+            variant="h5"
+          >
+            Pets
+          </Typography>
+        </Paper>
         {/* search bar */}
         <Form onSubmit={handleSearch} style={{ display: "flex", gap: 2 }}>
           <TextField
@@ -82,14 +99,29 @@ const Pets = () => {
             label="Search by Name"
             name="search"
             type="text"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused": {
+                  "& fieldset": {
+                    borderColor: "#7c3aed",
+                  },
+                },
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#7c3aed",
+              },
+            }}
           />
-          <Button color="neutral" type="submit">
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "gray",
+              ":hover": { bgcolor: "#F0EAF3", borderColor: "#7c3aed" },
+            }}
+            type="submit"
+          >
             {" "}
-            <Search
-              fontSize="large"
-              sx={{ position: "absolute", left: -45, color: "black" }}
-            />
-            Search
+            <Search fontSize="large" sx={{ color: "#7c3aed" }} />
           </Button>
         </Form>
         {/* category search */}
@@ -100,20 +132,20 @@ const Pets = () => {
             name="pet_category"
             options={options}
             onChange={setSelectedOption}
+            styles={customStyles}
           />
         </Grid>
       </Grid>
       {/* pets */}
       <Grid
-        px={{ lg: 40 }}
+        px={{ lg: 20 }}
         py={5}
         display={"grid"}
         gridTemplateColumns={{
           xs: "repeat(1,1fr)",
-          sm: "repeat(2,1fr)",
-          lg: "repeat(3,1fr)",
+          sm: "repeat(3,1fr)",
+          lg: "repeat(4,1fr)",
         }}
-        gap={2}
       >
         {available.map((pet) => (
           <PetCard key={pet._id} pet={pet} />
