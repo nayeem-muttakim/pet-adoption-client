@@ -26,7 +26,7 @@ const pages = (
     <Link to="/campaigns">
       {" "}
       <Button sx={{ color: "#7c3aed", fontSize: 12, fontWeight: 600 }}>
-        CamPaigns
+        Campaigns
       </Button>
     </Link>
   </>

@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { Form, useParams } from "react-router-dom";
-
+import { Form, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -10,20 +8,17 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { useState } from "react";
 import { Button } from "@mui/joy";
 import { Box, Grid, Modal, TextField } from "@mui/material";
-import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+
 import Payment from "./Payment";
 import ExtraCard from "./ExtraCard";
+import useAxios from "../../../hooks/useAxios";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -36,77 +31,57 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  px: 2,
-  py: 4,
-};
-
 export default function CampaignDetail() {
   const [expanded, setExpanded] = useState(false);
-  const [show, setShow] = useState(false);
-  const [active, setActive] = useState([]);
-  const [amount, setAmount] = useState(1);
+  const [activeCampaigns, setActiveCampaigns] = useState([]);
+  const [amount, setAmount] = useState(5);
   const { id } = useParams();
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
-  const { data: campaign = {} } = useQuery({
+  const navigate = useNavigate();
+  const axiosPublic = useAxios();
+
+  const { data: campaign = {}, refetch } = useQuery({
     queryKey: ["campaign", amount],
     queryFn: async () => {
-      const res = await axiosSecure(`/campaign/${id}`);
+      const res = await axiosPublic(`/campaign/${id}`);
       return res.data;
     },
   });
+
   useEffect(() => {
-    axiosSecure("/campaigns").then((res) => {
-      const active = res.data.filter((act) => act.pause === false);
-      const more = active.filter((e) => e._id !== id).slice(0, 3);
-      setActive(more);
+    axiosPublic("/campaigns").then((res) => {
+      const activeCampaigns = res.data.filter((campaign) => !campaign.pause);
+      const filtered = activeCampaigns.filter((e) => e._id !== id);
+
+      const randomSelection = filtered
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
+      setActiveCampaigns(randomSelection);
     });
-  }, [axiosSecure, id]);
+    refetch();
+  }, [axiosPublic, id]);
 
   const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    if (!user) navigate("/login");
+    setOpen(true);
+  };
 
-  const [error, setError] = useState("");
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleAmount = (e) => {
-    e.preventDefault();
-    const amount = e.target?.amount.value;
-    if (amount <= "0") {
-      setError("Amount must be more than 0");
-      return;
-    }
-    setAmount(parseInt(amount));
-    setError("");
-    setShow(true);
-  };
 
   return (
-    <Grid py={2} px={1} bgcolor={"#a3b18a"}>
+    <Grid p={1} bgcolor={"#F0EAF3"}>
       <Card
-        sx={{ maxWidth: 900, mx: "auto", my: 5, px: 1, bgcolor: "#fefae0" }}
+        sx={{ maxWidth: 800, mx: "auto", my: 5, px: 1, bgcolor: "#ffffff" }}
       >
         <CardHeader
           title={campaign?.pet_name}
           subheader={`Maximum Donation : ${campaign?.max_donation}`}
         />
-        <CardMedia
-          component="img"
-          height="500"
-          image={campaign?.pet_image}
-          alt=""
-        />
+        <CardMedia component="img" image={campaign?.pet_image} alt="" />
         <CardContent>
           <Typography variant="body1">{campaign?.short_description}</Typography>
           <Typography variant="body1">
@@ -116,40 +91,59 @@ export default function CampaignDetail() {
         <CardActions disableSpacing>
           {/* donate */}
           {!campaign?.pause ? (
-            <Button color="warning" onClick={handleOpen}>
+            <Button color="success" onClick={handleOpen}>
               Donate
             </Button>
           ) : (
             <Button disabled>Donate</Button>
           )}
           {/* transaction  */}
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box minWidth={{ xs: 300, sm: 400 }} sx={style}>
-              <Form
-                onSubmit={handleAmount}
-                style={{ marginBottom: 6, display: "flex", gap: 2 }}
-              >
-                <TextField
-                  defaultValue={1}
-                  label="Enter Amount"
-                  name="amount"
-                  type="number"
-                />
-                <Typography color={"red"}>{error}</Typography>
-                <Button type="submit">Next</Button>
-              </Form>
-              {show && (
-                <Payment
-                  setShow={setShow}
-                  amount={amount}
-                  campaign={campaign}
-                />
-              )}
+          <Modal open={open} onClose={handleClose} sx={{px:1}}>
+            <Box
+              sx={{
+                maxWidth: 400,
+                display: "grid",
+                gap: 2,
+                mx: "auto",
+                bgcolor: "background.paper",
+                p: 3,
+                borderRadius: 2,
+                my: {xs:"65%",sm:"30%",lg:"20%"},
+              }}
+            >
+              <TextField
+                defaultValue={5}
+                label="Enter Amount"
+                name="amount"
+                type="number"
+                onChange={(e) => setAmount(parseInt(e.target.value))}
+                inputProps={{ min: 1 }}
+                sx={{
+                  "& input[type=number]::-webkit-inner-spin-button, & input[type=number]::-webkit-outer-spin-button":
+                    {
+                      display: "none",
+                    },
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused": {
+                      "& fieldset": {
+                        borderColor: "#7c3aed",
+                      },
+                    },
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#7c3aed",
+                  },
+                }}
+              />{" "}
+              <Payment
+                handleClose={handleClose}
+                amount={amount}
+                campaign={campaign}
+              />
             </Box>
           </Modal>
           {/* details */}
@@ -169,22 +163,23 @@ export default function CampaignDetail() {
         </Collapse>
       </Card>
       <Grid>
-        <Typography color={"whitesmoke"} variant="h4" textAlign={"center"}>
+        <Typography color={"#7c3aed"} variant="h4" textAlign={"center"}>
           More Active Campaigns
         </Typography>
         <Grid
-          px={{ lg: 40 }}
+          px={{ lg: 45 }}
           py={5}
           display={"grid"}
           gridTemplateColumns={{
             xs: "repeat(1,1fr)",
             sm: "repeat(2,1fr)",
-            lg: "repeat(3,1fr)",
+            md: "repeat(3,1fr)",
+            lg: "repeat(4,1fr)",
           }}
-          gap={2}
+          gap={1.5}
         >
-          {active.map((act) => (
-            <ExtraCard key={act._id} act={act} />
+          {activeCampaigns.map((active) => (
+            <ExtraCard key={active._id} active={active} />
           ))}
         </Grid>
       </Grid>

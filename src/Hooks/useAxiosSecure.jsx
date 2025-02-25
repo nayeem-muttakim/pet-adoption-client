@@ -29,7 +29,7 @@ const useAxiosSecure = () => {
     },
     async function (error) {
       const status = error.response.status;
-      console.log(status);
+      // console.log(status);
       // logout user and navigate to login
       if (status === 401 || status === 403) {
         await logOut();

@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,42 +8,55 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-
 import { Link } from "react-router-dom";
-
 import useAuth from "../hooks/useAuth";
-import { Divider } from "@mui/material";
+import { Divider, Drawer, List } from "@mui/material";
+import { useState } from "react";
 const pages = (
   <>
-    <Link to="pets">
+    <Link to="pets" style={{ textDecoration: "none" }}>
       {" "}
-      <Button sx={{ color: "#7c3aed", fontSize: 12, fontWeight: 600 }}>
+      <Typography
+        sx={{
+          color: "#7c3aed",
+          fontWeight: 600,
+          px: 2,
+          py: 1,
+          ":hover": { bgcolor: "#FAF5FD" },
+          borderRadius: 1,
+        }}
+      >
         Pets
-      </Button>
+      </Typography>
     </Link>
-    <Link to="campaigns">
+    <Link to="campaigns" style={{ textDecoration: "none" }}>
       {" "}
-      <Button sx={{ color: "#7c3aed", fontSize: 12, fontWeight: 600 }}>
+      <Typography
+        sx={{
+          color: "#7c3aed",
+          fontWeight: 600,
+          px: 2,
+          py: 1,
+          ":hover": { bgcolor: "#FAF5FD" },
+          borderRadius: 1,
+        }}
+      >
         Campaigns
-      </Button>
+      </Typography>
     </Link>
   </>
 );
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [navOpen, setNavOpen] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenNavMenu = () => {
+    setNavOpen((prev) => !prev);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -54,6 +66,29 @@ const NavBar = () => {
     await logOut();
   };
 
+  const navMenu = (
+    <Box onClick={handleOpenNavMenu} sx={{ textAlign: "center" }}>
+      <Link style={{ textDecoration: "none" }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", color: "black", my: 2 }}
+        >
+          Fur
+          <Typography
+            variant="h6"
+            component="span"
+            sx={{ color: "#7c3aed", fontWeight: "bold" }}
+          >
+            Nest
+          </Typography>
+        </Typography>
+      </Link>
+      <Divider />
+      <List sx={{ display: "grid", gap: 1 }}>{pages}</List>
+    </Box>
+  );
+  const container =
+    window !== undefined ? () => window.document.body : undefined;
   return (
     <AppBar
       position="sticky"
@@ -67,35 +102,30 @@ const NavBar = () => {
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           {/* responsive pages */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton onClick={handleOpenNavMenu}>
-              <MenuIcon sx={{ color: "#023047" }} />
-            </IconButton>
-            <Menu
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { md: "none" },
-              }}
-            >
-              <Typography
-                sx={{ display: "flex", flexDirection: "column" }}
-                textAlign="center"
-              >
-                {" "}
-                {pages}
-              </Typography>
-            </Menu>
-          </Box>
+          <IconButton
+            sx={{ display: { md: "none" } }}
+            onClick={handleOpenNavMenu}
+          >
+            <MenuIcon sx={{ color: "#023047" }} />
+          </IconButton>
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={navOpen}
+            onClose={handleOpenNavMenu}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { md: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: 240,
+              },
+            }}
+          >
+            {navMenu}
+          </Drawer>
           {/* Logo */}
           <Link style={{ textDecoration: "none" }}>
             <Typography

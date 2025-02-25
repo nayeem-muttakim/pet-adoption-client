@@ -10,8 +10,10 @@ export default function PetCard({ pet }) {
     <Card
       sx={{
         width: 270,
+        mx: "auto",
         p: 1,
         bgcolor: "#F0EAF3",
+        my: 1,
       }}
       variant="outlined"
     >
@@ -28,7 +30,11 @@ export default function PetCard({ pet }) {
       <CardActions>
         <Link to={`/pet-details/${pet?._id}`}>
           <Button
-            sx={{ bgcolor: "#7c3aed", color: "#ffffff" }}
+            sx={{
+              bgcolor: "#7c3aed",
+              color: "#ffffff",
+              ":hover": { bgcolor: "#683DB3" },
+            }}
             variant="contained"
             size="medium"
           >

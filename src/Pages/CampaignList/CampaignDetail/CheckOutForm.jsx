@@ -4,15 +4,12 @@ import { useEffect, useState } from "react";
 import { Form, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
-import { Typography } from "@mui/material";
 import toast from "react-hot-toast";
-import Swal from "sweetalert2";
 
-const CheckOutForm = ({ amount, campaign, setShow }) => {
+const CheckOutForm = ({ amount, campaign, handleClose }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
-  const [transId, setTransId] = useState("");
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
@@ -32,7 +29,7 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
     if (card === null) {
       return;
     }
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
@@ -55,25 +52,34 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
       console.log("confirm error");
     } else {
       if (paymentIntent.status === "succeeded") {
-        setTransId(paymentIntent.id);
-
+        handleClose();
         const donation = {
           transactionId: paymentIntent.id,
           email: user?.email,
           amount: amount,
           campaign,
         };
-        Swal.fire({
-          title: "Congratulation",
-          text: `You have made a donation , Your transaction ID id ${paymentIntent.id} `,
-          icon: "success",
-        });
-        setShow(false);
 
-        const res = await axiosSecure.post("/donations", donation);
+        toast.success(
+          `Donation successful.\nYour transaction ID\n is ${paymentIntent.id}`,
+          {
+            duration: 4000,
+            style: {
+              border: "1px solid #7c3aed",
+              width: "450px",
+              textAlign: "center",
+            },
+            iconTheme: {
+              primary: "#7c3aed",
+              secondary: "#FFFAEE",
+            },
+          }
+        );
+        await axiosSecure.post("/donations", donation);
       }
     }
   };
+
   return (
     <Form onSubmit={handleSubmit}>
       <CardElement
@@ -83,7 +89,7 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
               fontSize: "16px",
               color: "#424770",
               "::placeholder": {
-                color: "#aab7c4",
+                color: "#7c3aed",
               },
             },
             invalid: {
@@ -92,7 +98,11 @@ const CheckOutForm = ({ amount, campaign, setShow }) => {
           },
         }}
       />
-      <Button sx={{ mt: 2 }} type="submit" disabled={!stripe || !clientSecret}>
+      <Button
+        sx={{ mt: 2, bgcolor: "#7c3aed", width: "100%" }}
+        type="submit"
+        disabled={!stripe || !clientSecret}
+      >
         Pay
       </Button>
     </Form>

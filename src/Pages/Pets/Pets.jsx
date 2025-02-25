@@ -1,13 +1,14 @@
 import { Grid, Paper, TextField, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+
 import { Form } from "react-router-dom";
 import { Button } from "@mui/joy";
 import { Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import PetCard from "./PetCard";
+import useAxios from "../../hooks/useAxios";
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -29,7 +30,7 @@ const customStyles = {
 };
 
 const Pets = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxios();
   const [search, setSearch] = useState("");
   const [available, setAvailable] = useState([]);
   const initial = {
@@ -46,7 +47,7 @@ const Pets = () => {
   const { data: Pets = [] } = useQuery({
     queryKey: ["Pets", search, selectedOption],
     queryFn: async () => {
-      const res = await axiosSecure(
+      const res = await axiosPublic(
         `/pets?search=${search}&category=${selectedOption.value}`
       );
       return res.data;
@@ -96,7 +97,7 @@ const Pets = () => {
         <Form onSubmit={handleSearch} style={{ display: "flex", gap: 2 }}>
           <TextField
             fullWidth
-            label="Search by Name"
+            label="Search Name"
             name="search"
             type="text"
             sx={{
@@ -138,7 +139,7 @@ const Pets = () => {
       </Grid>
       {/* pets */}
       <Grid
-        px={{ lg: 20 }}
+        px={{ lg: 17 }}
         py={5}
         display={"grid"}
         gridTemplateColumns={{
@@ -146,6 +147,7 @@ const Pets = () => {
           sm: "repeat(3,1fr)",
           lg: "repeat(4,1fr)",
         }}
+        gap={1}
       >
         {available.map((pet) => (
           <PetCard key={pet._id} pet={pet} />

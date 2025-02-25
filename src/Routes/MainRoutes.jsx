@@ -12,7 +12,7 @@ import DashHome from "../Pages/DashHome";
 import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
 import Campaigns from "../DashBoard/Campaigns/Campaigns";
 import AllPets from "../DashBoard/AllPets/AllPets";
-import PetDetails from "../Pages/PetDetails/PetDetails";
+
 import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
 import CampaignList from "../Pages/CampaignList/CampaignList";
 import CampaignDetail from "../Pages/CampaignList/CampaignDetail/CampaignDetail";
@@ -23,6 +23,8 @@ import PrivateRoute from "./Private/AdminRoute";
 import AdminRoute from "./Private/AdminRoute";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import PetDetails from "../Pages/Pets/PetDetails";
+
 export const MainRoutes = createBrowserRouter([
   {
     path: "/",

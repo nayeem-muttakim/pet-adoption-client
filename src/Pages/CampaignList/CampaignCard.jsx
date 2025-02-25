@@ -8,7 +8,15 @@ import { Link } from "react-router-dom";
 
 export default function CampaignCard({ camp }) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        width: 270,
+        mx: "auto",
+        bgcolor: "#F0EAF3",
+        borderRadius: 3,
+      }}
+      variant="outlined"
+    >
       <CardActionArea>
         <CardMedia
           component="img"
@@ -23,12 +31,22 @@ export default function CampaignCard({ camp }) {
           <Typography>
             Maximum Donation Amount : ${camp?.max_donation}
           </Typography>
-          <Typography>Donated Amount : $</Typography>
+          {/* <Typography>Donated Amount : $</Typography> */}
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Link to={`/campaign/${camp?._id}`}>
-          <Button variant="contained">View Details</Button>
+          <Button
+            sx={{
+              bgcolor: "#7c3aed",
+              color: "#ffffff",
+              ":hover": { bgcolor: "#683DB3" },
+            }}
+            variant="contained"
+            size="medium"
+          >
+            View Details
+          </Button>
         </Link>
       </CardActions>
     </Card>

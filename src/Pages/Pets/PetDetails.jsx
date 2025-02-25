@@ -1,6 +1,5 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -16,6 +15,7 @@ import { useState } from "react";
 import { Button } from "@mui/joy";
 import { Box, Grid, Modal, TextField } from "@mui/material";
 import toast from "react-hot-toast";
+import useAxios from "../../hooks/useAxios";
 
 const ExpandMore = styled((props) => {
   const { ...other } = props;
@@ -35,25 +35,29 @@ const style = {
   px: 2,
   py: 4,
   borderRadius: 2,
-  my:"25%"
+  my: "25%",
 };
 
 export default function PetDetails() {
   const [expanded, setExpanded] = useState(false);
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxios();
   const { data: pet = {} } = useQuery({
     queryKey: ["pet"],
     queryFn: async () => {
-      const res = await axiosSecure(`/pet/${id}`);
+      const res = await axiosPublic(`/pet/${id}`);
       return res.data;
     },
   });
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (!user) navigate("/login");
+
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -73,14 +77,15 @@ export default function PetDetails() {
       req_status: false,
       lister: pet?.lister_email,
     };
-    axiosSecure.post("/pets/adoptions", adoption_req).then((res) => {
+    axiosPublic.post("/pets/adoptions", adoption_req).then((res) => {
       if (res.data.insertedId) {
         toast.success("Adoption Request Sent");
       }
     });
   };
+
   return (
-    <Grid py={1} px={1} bgcolor={"#F0EAF3"} height={"93vh"}>
+    <Grid p={1}  bgcolor={"#F0EAF3"} height={"93vh"}>
       <Card
         sx={{ maxWidth: 650, mx: "auto", my: 5, px: 1, bgcolor: "#ffffff" }}
       >
@@ -98,7 +103,7 @@ export default function PetDetails() {
             Adopt
           </Button>
           {/* modal form */}
-          <Modal open={open} onClose={handleClose} sx={{px:1}}>
+          <Modal open={open} onClose={handleClose} sx={{ px: 1 }}>
             <Box sx={style}>
               <form onSubmit={handleAdopt}>
                 <TextField
@@ -106,14 +111,39 @@ export default function PetDetails() {
                   type="text"
                   label="Name"
                   defaultValue={user?.displayName}
-                  sx={{ width: "100%" }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused": {
+                        "& fieldset": {
+                          borderColor: "#7c3aed",
+                        },
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#7c3aed",
+                    },
+                  }}
                 />
                 <TextField
                   name="email"
                   defaultValue={user?.email}
                   label="Email"
                   type="text"
-                  sx={{ width: "100%", my: 2 }}
+                  sx={{
+                    width: "100%",
+                    my: 2,
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused": {
+                        "& fieldset": {
+                          borderColor: "#7c3aed",
+                        },
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#7c3aed",
+                    },
+                  }}
                 />
                 <TextField
                   name="phone"
@@ -129,6 +159,16 @@ export default function PetDetails() {
                       MozAppearance: "textfield",
                     },
                     width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused": {
+                        "& fieldset": {
+                          borderColor: "#7c3aed",
+                        },
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#7c3aed",
+                    },
                   }}
                 />
                 <TextField
@@ -136,9 +176,29 @@ export default function PetDetails() {
                   label="Address"
                   required
                   type="text"
-                  sx={{ width: "100%", my: 2 }}
+                  sx={{
+                    width: "100%",
+                    my: 2,
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused": {
+                        "& fieldset": {
+                          borderColor: "#7c3aed",
+                        },
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#7c3aed",
+                    },
+                  }}
                 />
-                <Button type="submit" color="warning" sx={{ width: "100%" }}>
+                <Button
+                  type="submit"
+                  sx={{
+                    width: "100%",
+                    bgcolor: "#7c3aed",
+                    ":hover": { bgcolor: "#683DB3" },
+                  }}
+                >
                   Submit
                 </Button>
               </form>
