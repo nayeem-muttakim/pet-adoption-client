@@ -20,8 +20,8 @@ const pages = (
         sx={{
           color: "#7c3aed",
           fontWeight: 600,
-          px: 2,
-          py: 1,
+          px: 1,
+          py: 0.5,
           ":hover": { bgcolor: "#FAF5FD" },
           borderRadius: 1,
         }}
@@ -35,8 +35,8 @@ const pages = (
         sx={{
           color: "#7c3aed",
           fontWeight: 600,
-          px: 2,
-          py: 1,
+          px: 1,
+          py: 0.5,
           ":hover": { bgcolor: "#FAF5FD" },
           borderRadius: 1,
         }}
@@ -89,6 +89,7 @@ const NavBar = () => {
   );
   const container =
     window !== undefined ? () => window.document.body : undefined;
+
   return (
     <AppBar
       position="sticky"
@@ -96,7 +97,6 @@ const NavBar = () => {
         backgroundColor: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(12px)",
         transition: "all 0.3s ease-in-out",
-        paddingX: { xs: 1, sm: 3, md: 4 },
       }}
     >
       <Container maxWidth="lg">
@@ -110,12 +110,8 @@ const NavBar = () => {
           </IconButton>
           <Drawer
             container={container}
-            variant="temporary"
             open={navOpen}
             onClose={handleOpenNavMenu}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
             sx={{
               display: { md: "none" },
               "& .MuiDrawer-paper": {
@@ -123,6 +119,9 @@ const NavBar = () => {
                 width: 240,
               },
             }}
+            disableScrollLock={true}
+            disableAutoFocus={true}
+            disableEnforceFocus={true}
           >
             {navMenu}
           </Drawer>
@@ -149,7 +148,6 @@ const NavBar = () => {
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
-                gap: 2,
               }}
             >
               {pages}
@@ -197,23 +195,22 @@ const NavBar = () => {
                     anchorEl={anchorElUser}
                     anchorOrigin={{
                       vertical: "bottom",
-                      horizontal: "right",
+                      horizontal: "left",
                     }}
                     transformOrigin={{
                       vertical: "top",
-                      horizontal: "right",
+                      horizontal: "left",
                     }}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
+                    disableScrollLock={true}
                   >
                     {/* Settings */}
                     <Box>
                       {" "}
                       <Typography
                         sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 1,
+                          display: "grid",
                         }}
                       >
                         {" "}

@@ -16,18 +16,19 @@ const Dashboard = () => {
         <Grid display={"flex"}>
           {/* sidebar */}
           <Grid
-            minHeight={"93.1vh"}
             sx={{
               backgroundColor: "rgba(221, 218, 221, 0.75)",
               backdropFilter: "blur(12px)",
               transition: "all 0.3s ease-in-out",
-              
+              position: "fixed",
+              left: 0,
+              height: "100vh",
             }}
           >
             <SideBarNav />
           </Grid>
           {/* sidebar content */}
-          <Grid flex={1}>
+          <Grid item flex={1} sx={{ marginLeft: { md: 25, lg: 0 } }}>
             <Outlet />
           </Grid>
         </Grid>

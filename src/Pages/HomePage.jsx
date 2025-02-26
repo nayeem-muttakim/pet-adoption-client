@@ -9,7 +9,7 @@ import Encourage from "../components/Encourage/Encourage";
 
 const HomePage = () => {
   return (
-    <Grid display={"grid"} gap={4}>
+    <Grid display={"grid"}>
       <Helmet>
         <title>FurNest</title>
       </Helmet>

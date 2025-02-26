@@ -57,12 +57,11 @@ const DashNav = () => {
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       sx={{
         backgroundColor: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(12px)",
         transition: "all 0.3s ease-in-out",
-        paddingX: { xs: 1, sm: 3, md: 4 },
       }}
     >
       <Container maxWidth="lg">
@@ -87,6 +86,7 @@ const DashNav = () => {
               sx={{
                 display: { md: "none" },
               }}
+              disableScrollLock={true}
             >
               {/* sidebar */}
 
@@ -159,6 +159,7 @@ const DashNav = () => {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  disableScrollLock={true}
                 >
                   {/* Settings */}
                   <Box>

@@ -19,16 +19,10 @@ export default function Work() {
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"
-        color="white"
+        // color="white"
       >
         <SwiperSlide>
-          <Grid
-            display={"flex"}
-            gap={1}
-            px={1}
-            textAlign={"center"}
-            flexDirection={"column"}
-          >
+          <Grid display={"grid"} gap={1} px={1} textAlign={"center"}>
             <Typography variant="h5"> FurNest </Typography>
             <Typography>
               {" "}
@@ -41,13 +35,7 @@ export default function Work() {
           </Grid>
         </SwiperSlide>
         <SwiperSlide>
-          <Grid
-            display={"flex"}
-            gap={1}
-            px={1}
-            textAlign={"center"}
-            flexDirection={"column"}
-          >
+          <Grid display={"grid"} gap={1} px={1} textAlign={"center"}>
             <Typography variant="h5">Donation Campaigns</Typography>
             <Typography>
               {" "}

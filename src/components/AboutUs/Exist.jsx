@@ -5,8 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 
-import "./work.css";
-
 // import required modules
 import { EffectCards } from "swiper/modules";
 import { Grid, Typography } from "@mui/material";
@@ -31,7 +29,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Promoting Adoption</Typography>
-            <Typography >
+            <Typography>
               {" "}
               By simplifying the adoption process, we aim to increase the number
               of pets finding forever homes. Adoption not only transforms the
@@ -50,7 +48,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Caring for the Vulnerable</Typography>
-            <Typography >
+            <Typography>
               {" "}
               The donation campaigns are a testament to our commitment to the
               welfare of all animals. Your support directly contributes to
@@ -69,7 +67,7 @@ export default function Exist() {
             flexDirection={"column"}
           >
             <Typography variant="h5">Building a Community</Typography>
-            <Typography >
+            <Typography>
               {" "}
               Beyond being a platform, we aspire to create a community of animal
               lovers who share a common goal—creating a world where every pet is
