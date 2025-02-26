@@ -1,13 +1,18 @@
 import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialAuthentication from "../../Shared/SocialAuthentication";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
@@ -32,7 +37,7 @@ const Login = () => {
         });
     },
   });
-
+  if (user) navigate("/");
   return (
     <Grid
       px={2}

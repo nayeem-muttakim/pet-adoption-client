@@ -204,21 +204,17 @@ const NavBar = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     disableScrollLock={true}
+                    
                   >
                     {/* Settings */}
-                    <Box>
+                    <Box display={"grid"}>
                       {" "}
-                      <Typography
-                        sx={{
-                          display: "grid",
-                        }}
-                      >
-                        {" "}
-                        <Link to="dashboard">
-                          <Button>Dashboard</Button>
-                        </Link>
-                        <Button onClick={handleLogout}>Logout</Button>
-                      </Typography>
+                      <Link to="dashboard">
+                        <Button sx={{ color: "#7c3aed" }}>Dashboard</Button>
+                      </Link>
+                      <Button sx={{ color: "#7c3aed" }} onClick={handleLogout}>
+                        Logout
+                      </Button>
                     </Box>
                   </Menu>
                 </>

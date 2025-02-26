@@ -51,7 +51,6 @@ const AddedPets = () => {
   const data = useMemo(() => myAdded, []);
   /** @type import("@tanstack/react-table").ColumnDef<any>*/
   const columns = [
-    { header: "Serial" },
     {
       header: "Name",
     },
@@ -59,13 +58,10 @@ const AddedPets = () => {
       header: "Category",
     },
     {
-      header: "Image",
+      header: "Details",
     },
     {
-      header: "Status",
-    },
-    {
-      header: "Adopt",
+      header: "Adoption Status",
     },
     {
       header: "Update",
@@ -99,13 +95,12 @@ const AddedPets = () => {
   const handleDelete = (pet) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to delete?",
-      icon: "warning",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/pet/${pet._id}`).then((res) => {
@@ -122,24 +117,30 @@ const AddedPets = () => {
   };
 
   return (
-    <Grid className="w3-container">
+    <Grid
+      className="w3-container"
+      maxWidth={"lg"}
+      mx={"auto"}
+      display={"grid"}
+      gap={1}
+    >
       <Paper
-        square={false}
         sx={{
-          width: "fit-content",
-          px: 4,
-          py: 2,
+          px: 3,
+          py: 1,
           my: 2,
-          mx: "auto",
-          backgroundColor: "#ccd5ae",
+          bgcolor: "#7c3aed",
+          color: "#ffffff",
         }}
-        elevation={3}
+        elevation={2}
       >
-        <Typography sx={{ fontWeight: "bold" }} variant="h4">
+        <Typography
+          sx={{ fontWeight: "bold", textAlign: "center" }}
+          variant="h5"
+        >
           Added Pets : {total}
         </Typography>
       </Paper>
-
       <Grid className="w3-responsive">
         <Table className="w3-table-all">
           <TableHead>
@@ -160,13 +161,15 @@ const AddedPets = () => {
             {myAdded.map((added) => (
               <>
                 <TableRow key={added._id}>
-                  <th>{added?._id}</th>
                   <th>{added?.pet_name}</th>
                   <th>{added?.pet_category.value}</th>
                   <th>
-                    <Avatar src={added?.pet_image} />
+                    {/* <Avatar src={added?.pet_image} /> */}
+                    <Link to={`/pet-details/${added?._id}`}>
+                      <Button>View</Button>
+                    </Link>
                   </th>
-                  <th>{added?.adoption_status ? "Adopted" : "Not Adopted"}</th>
+
                   <th>
                     {" "}
                     {added?.adoption_status ? (
@@ -174,27 +177,25 @@ const AddedPets = () => {
                     ) : (
                       <Button
                         onClick={() => handleAdopt(added)}
-                        color="neutral"
+                        color="warning"
                       >
-                        Adopt
+                        Mark Adopted
                       </Button>
                     )}
                   </th>
                   <th>
                     <Link to={`/dashboard/update-pet/${added?._id}`}>
                       {" "}
-                      <IconButton color="warning">
-                        <AutoFixNormal fontSize="large" />
-                      </IconButton>
+                      <AutoFixNormal fontSize="large" color="secondary" />
                     </Link>
                   </th>
                   <th>
-                    <IconButton
+                    <DeleteForever
                       onClick={() => handleDelete(added)}
-                      color="danger"
-                    >
-                      <DeleteForever fontSize="large" />
-                    </IconButton>
+                      fontSize="large"
+                      color="error"
+                      sx={{ cursor: "pointer" }}
+                    />
                   </th>
                 </TableRow>
               </>

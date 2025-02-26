@@ -4,7 +4,6 @@ import ErrorPage from "../ErrorPage";
 import Dashboard from "../LayOut/Dashboard";
 import Users from "../DashBoard/Users/Users";
 import AddPet from "../DashBoard/AddPet/AddPet";
-import AddedPets from "../DashBoard/AddedPets/AddedPets";
 import UpdatePet from "../DashBoard/UpdatePet/UpdatePet";
 import CreateDonation from "../DashBoard/CreateDonation/CreateDonation";
 import MyCampaigns from "../DashBoard/MyCampaigns/MyCampaigns";
@@ -12,7 +11,6 @@ import DashHome from "../Pages/DashHome";
 import UpdateCampaign from "../DashBoard/UpdateCampaign/UpdateCampaign";
 import Campaigns from "../DashBoard/Campaigns/Campaigns";
 import AllPets from "../DashBoard/AllPets/AllPets";
-
 import AdoptRequest from "../DashBoard/AdoptRequest/AdoptRequest";
 import CampaignList from "../Pages/CampaignList/CampaignList";
 import CampaignDetail from "../Pages/CampaignList/CampaignDetail/CampaignDetail";
@@ -24,6 +22,7 @@ import AdminRoute from "./Private/AdminRoute";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PetDetails from "../Pages/Pets/PetDetails";
+import AddedPets from "../Pages/AddedPets/AddedPets";
 
 export const MainRoutes = createBrowserRouter([
   {

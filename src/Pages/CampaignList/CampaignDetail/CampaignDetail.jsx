@@ -98,7 +98,12 @@ export default function CampaignDetail() {
             <Button disabled>Donate</Button>
           )}
           {/* transaction  */}
-          <Modal open={open} onClose={handleClose} sx={{px:1}}>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            sx={{ px: 1 }}
+            disableScrollLock={true}
+          >
             <Box
               sx={{
                 maxWidth: 400,
@@ -108,7 +113,7 @@ export default function CampaignDetail() {
                 bgcolor: "background.paper",
                 p: 3,
                 borderRadius: 2,
-                my: {xs:"65%",sm:"30%",lg:"20%"},
+                my: { xs: "65%", sm: "30%", lg: "20%" },
               }}
             >
               <TextField

@@ -1,17 +1,14 @@
 import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import useAuth from "../../hooks/useAuth";
 import { Helmet } from "react-helmet-async";
-
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
 import useAxios from "../../hooks/useAxios";
 import SocialAuthentication from "../../Shared/SocialAuthentication";
 
 const Register = () => {
-  const { register, updateUser } = useAuth();
+  const { register, updateUser, user } = useAuth();
   const axiosPublic = useAxios();
   const navigate = useNavigate();
   const handleReg = async (e) => {
@@ -27,8 +24,7 @@ const Register = () => {
       const imageData = await imageUpload(image);
 
       // create user
-      // eslint-disable-next-line no-unused-vars
-      const result = await register(email, pass);
+      await register(email, pass);
       // user name and image
       await updateUser(name, imageData?.data?.display_url);
       const userInfo = {
@@ -46,7 +42,7 @@ const Register = () => {
       console.log(err);
     }
   };
-
+  if (user) navigate("/");
   return (
     <Grid
       px={2}

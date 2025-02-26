@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 
-import { Grid, Paper, TextField, Typography } from "@mui/material";
+import { Avatar, Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
 import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
@@ -119,10 +119,8 @@ const UpdatePet = () => {
               gap: 10,
             }}
           >
-            <Typography
-              color={"blueviolet"}
-              px={2}
-            >{`Current Image =${image}`}</Typography>
+            <Avatar src={image} sx={{ mx: "auto", height: 60, width: 60 }} />
+
             <TextField
               name="pet_image"
               type="file"
