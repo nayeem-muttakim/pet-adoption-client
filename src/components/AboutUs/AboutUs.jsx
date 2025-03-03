@@ -4,31 +4,26 @@ import Exist from "./Exist";
 
 const AboutUs = () => {
   return (
-    <Grid my={3} pb={1}>
+    <Grid my={1} px={1} maxWidth={"lg"} mx="auto">
       <Paper
-        square={false}
         sx={{
+          px: 3,
+          py: 1,
+          my: 2,
+          bgcolor: "#7c3aed",
+          color: "#ffffff",
+          textAlign: "center",
           width: "fit-content",
-          px: 4,
-          py: 2,
           mx: "auto",
-          backgroundColor: "#ccd5ae",
         }}
-        elevation={3}
+        elevation={2}
       >
-        <Typography sx={{ fontWeight: "bold" }} variant="h4">
+        <Typography sx={{ fontWeight: "bold" }} variant="h5">
           About Us
         </Typography>
       </Paper>
       <Grid>
-        <Typography
-          variant="body1"
-          textAlign={"center"}
-          fontWeight={600}
-          my={2}
-          maxWidth={600}
-          mx={"auto"}
-        >
+        <Typography variant="h6" textAlign={"center"} my={2}>
           Welcome to our pet adoption and donation platform, where compassion
           meets connection. Our website is dedicated to facilitating the
           adoption of lovable pets in need of forever homes while also running
@@ -42,15 +37,13 @@ const AboutUs = () => {
         >
           <Box>
             <Typography
-              my={2}
+              my={1.5}
               variant="h6"
-              fontWeight={500}
-              textAlign={"center"}
-              sx={{ backgroundColor: "#ccd5ae" }}
+              sx={{ bgcolor: "#7c3aed",color: "#ffffff", }}
               width={"fit-content"}
               mx={"auto"}
               px={1}
-              borderRadius={2}
+              borderRadius={1}
             >
               How the Website Works
             </Typography>
@@ -59,27 +52,21 @@ const AboutUs = () => {
 
           <Box>
             <Typography
-              my={1}
+              my={1.5}
               variant="h6"
               textAlign={"center"}
-              sx={{ backgroundColor: "#ccd5ae" }}
+              sx={{ bgcolor: "#7c3aed",color: "#ffffff", }}
               width={"fit-content"}
               mx={"auto"}
               px={1}
-              borderRadius={2}
+              borderRadius={1}
             >
               Why it Exists
             </Typography>
             <Exist />
           </Box>
         </Grid>
-        <Typography 
-        variant="body1"
-          textAlign={"center"}
-          fontWeight={600}
-          my={2}
-          maxWidth={600}
-          mx={"auto"}>
+        <Typography variant="h6" textAlign={"center"} my={2}>
           Join us on this compassionate journey, where every click, share, and
           donation brings us one step closer to a world where every pet is loved
           and cared for. Together, we can make tails wag, purrs resonate, and

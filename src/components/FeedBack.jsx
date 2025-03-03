@@ -1,8 +1,7 @@
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Send } from "@mui/icons-material";
 
 import toast from "react-hot-toast";
-
-
 
 const FeedBack = () => {
   const handleFeedBack = (e) => {
@@ -15,40 +14,46 @@ const FeedBack = () => {
   };
 
   return (
-    <Grid maxWidth={1200} mx={"auto"} py={2} px={1}>
+    <Grid maxWidth={"lg"} mx={"auto"} py={2} px={1}>
       <Paper
-        square={false}
         sx={{
+          px: 3,
+          py: 1,
+          my: 2,
+          bgcolor: "#7c3aed",
+          color: "#ffffff",
+          textAlign: "center",
           width: "fit-content",
-          px: 4,
-          py: 2,
-          mb: 2,
           mx: "auto",
-          backgroundColor: "#ccd5ae",
         }}
-        elevation={3}
+        elevation={2}
       >
-        <Typography
-          textAlign={"center"}
-          sx={{ fontWeight: "bold" }}
-          variant="h4"
-        >
+        <Typography sx={{ fontWeight: "bold" }} variant="h5">
           Give Your FeedBack
         </Typography>
       </Paper>
-      <Grid></Grid>
+
       <form onSubmit={handleFeedBack}>
         <Grid display={"flex"}>
           <TextField
             minRows={2}
             name="feedback"
             type="text"
-            fullWidth
             multiline
             sx={{
               mx: 1,
               width: { xs: "full", sm: 600 },
               backgroundColor: "white",
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused": {
+                  "& fieldset": {
+                    borderColor: "#7c3aed",
+                  },
+                },
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#7c3aed",
+              },
             }}
             required
             label="FeedBack"
@@ -57,14 +62,12 @@ const FeedBack = () => {
             type="submit"
             variant="contained"
             sx={{
-              backgroundColor: "#ccd5ae",
-              color: "#023047",
+              backgroundColor: "#7c3aed",
+              ":hover": { bgcolor: "#683DB3" },
               fontSize: 14,
-              fontWeight: 600,
-              fontFamily: "serif",
             }}
           >
-            Submit
+            <Send />
           </Button>
         </Grid>
       </form>

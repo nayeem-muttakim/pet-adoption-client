@@ -13,20 +13,21 @@ const Encourage = () => {
   }, [axiosPublic]);
 
   return (
-    <Grid my={3}>
+    <Grid my={1} maxWidth={"lg"} mx={"auto"}>
       <Paper
-        square={false}
         sx={{
+          px: 3,
+          py: 1,
+          my: 2,
+          bgcolor: "#7c3aed",
+          color: "#ffffff",
+          textAlign: "center",
           width: "fit-content",
-          px: 4,
-          py: 2,
           mx: "auto",
-          mb: 2,
-          backgroundColor: "#ccd5ae",
         }}
-        elevation={3}
+        elevation={2}
       >
-        <Typography sx={{ fontWeight: "bold" }} variant="h4">
+        <Typography sx={{ fontWeight: "bold" }} variant="h5">
           Adopt A Life
         </Typography>
       </Paper>

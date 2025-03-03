@@ -19,11 +19,10 @@ export default function Work() {
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"
-        // color="white"
       >
         <SwiperSlide>
-          <Grid display={"grid"} gap={1} px={1} textAlign={"center"}>
-            <Typography variant="h5"> FurNest </Typography>
+          <Grid display={"grid"} px={1} textAlign={"center"}>
+            <Typography variant="h6"> FurNest </Typography>
             <Typography>
               {" "}
               Browse through profiles of adorable pets seeking a loving home.
@@ -35,16 +34,15 @@ export default function Work() {
           </Grid>
         </SwiperSlide>
         <SwiperSlide>
-          <Grid display={"grid"} gap={1} px={1} textAlign={"center"}>
-            <Typography variant="h5">Donation Campaigns</Typography>
+          <Grid display={"grid"} px={1} textAlign={"center"}>
+            <Typography variant="h6">Donation Campaigns</Typography>
             <Typography>
               {" "}
               Join us in making a difference by supporting our donation
-              campaigns. These campaigns are designed to raise funds for
-              veterinary care, shelter, and other essential needs of pets
-              awaiting adoption. Every contribution, no matter how small, plays
-              a crucial role in ensuring these animals receive the care they
-              deserve.
+              campaigns. These initiatives help fund veterinary care, shelter,
+              and essential needs for pets awaiting adoption. Every
+              contribution, big or small, plays a crucial role in ensuring these
+              animals receive the love and care they deserve
             </Typography>
           </Grid>
         </SwiperSlide>
@@ -52,12 +50,12 @@ export default function Work() {
           {" "}
           <Grid
             display={"flex"}
-            gap={1}
+  
             px={1}
             textAlign={"center"}
             flexDirection={"column"}
           >
-            <Typography variant="h5">Easy Navigation</Typography>
+            <Typography variant="h6">Easy Navigation</Typography>
             <Typography>
               {" "}
               Our user-friendly interface ensures a seamless experience. Filter

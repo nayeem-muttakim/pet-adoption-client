@@ -17,18 +17,11 @@ export default function Exist() {
         grabCursor={true}
         modules={[EffectCards]}
         className="mySwiper"
-        color="white"
       >
         <SwiperSlide>
           {" "}
-          <Grid
-            display={"flex"}
-            gap={1}
-            px={1}
-            textAlign={"center"}
-            flexDirection={"column"}
-          >
-            <Typography variant="h5">Promoting Adoption</Typography>
+          <Grid display={"grid"} px={1} textAlign={"center"}>
+            <Typography variant="h6">Promoting Adoption</Typography>
             <Typography>
               {" "}
               By simplifying the adoption process, we aim to increase the number
@@ -42,12 +35,11 @@ export default function Exist() {
           {" "}
           <Grid
             display={"flex"}
-            gap={1}
             px={1}
             textAlign={"center"}
             flexDirection={"column"}
           >
-            <Typography variant="h5">Caring for the Vulnerable</Typography>
+            <Typography variant="h6">Caring for the Vulnerable</Typography>
             <Typography>
               {" "}
               The donation campaigns are a testament to our commitment to the
@@ -61,12 +53,11 @@ export default function Exist() {
           {" "}
           <Grid
             display={"flex"}
-            gap={1}
             px={1}
             textAlign={"center"}
             flexDirection={"column"}
           >
-            <Typography variant="h5">Building a Community</Typography>
+            <Typography variant="h6">Building a Community</Typography>
             <Typography>
               {" "}
               Beyond being a platform, we aspire to create a community of animal
