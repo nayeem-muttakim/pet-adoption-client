@@ -10,9 +10,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,

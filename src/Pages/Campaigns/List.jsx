@@ -2,7 +2,7 @@ import { Grid, Paper, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 
-import CampaignCard from "./CampaignCard";
+import CampaignCard from "./Card";
 import useAxios from "../../hooks/useAxios";
 
 const CampaignList = () => {

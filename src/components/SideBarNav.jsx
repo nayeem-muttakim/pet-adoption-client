@@ -74,7 +74,7 @@ const SideBarNav = () => {
                 </ListItemIcon>
                 <ListItemContent sx={{ color: "black" }}>
                   {" "}
-                  All Pets
+                  Pets
                 </ListItemContent>
               </Button>
             </NavLink>
@@ -93,7 +93,7 @@ const SideBarNav = () => {
                 </ListItemIcon>
                 <ListItemContent sx={{ color: "black" }}>
                   {" "}
-                  All Campaigns
+                  Campaigns
                 </ListItemContent>
               </Button>
             </NavLink>

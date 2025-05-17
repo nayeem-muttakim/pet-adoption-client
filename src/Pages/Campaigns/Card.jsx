@@ -17,7 +17,7 @@ export default function CampaignCard({ camp }) {
       }}
       variant="outlined"
     >
-      <CardActionArea>
+      <CardActionArea sx={{minHeight:245}}>
         <CardMedia
           component="img"
           height="240"

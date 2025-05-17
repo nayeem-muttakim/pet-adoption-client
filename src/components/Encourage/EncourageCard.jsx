@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 export default function EncourageCard({ inspire }) {
   return (
-    <Card sx={{ maxWidth: 345, mx: "auto", maxHeight: 360 }}>
+    <Card sx={{ maxWidth: 345, mx: "auto", maxHeight: 360 ,borderRadius:5}}>
       <CardActionArea>
         <CardMedia
           component="img"

@@ -14,8 +14,9 @@ export default function PetCard({ pet }) {
         p: 1,
         bgcolor: "#F0EAF3",
         my: 1,
+        borderRadius:5
       }}
-      variant="outlined"
+      
     >
       <CardHeader
         title={pet?.pet_name}

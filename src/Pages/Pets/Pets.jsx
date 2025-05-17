@@ -7,7 +7,7 @@ import { Button } from "@mui/joy";
 import { Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import PetCard from "./PetCard";
+import PetCard from "./Card";
 import useAxios from "../../hooks/useAxios";
 const customStyles = {
   control: (provided, state) => ({

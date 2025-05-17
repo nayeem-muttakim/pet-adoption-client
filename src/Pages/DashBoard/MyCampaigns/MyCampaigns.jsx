@@ -13,34 +13,62 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, IconButton } from "@mui/joy";
-import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
+import { AutoFixNormal} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
-const Campaigns = () => {
+const MyCampaigns = () => {
+  const { user } = useAuth();
+  const [donors, setDonors] = useState([]);
+  const [donor, setDonor] = useState([]);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
   const axiosSecure = useAxiosSecure();
-  const { data: Campaigns = [], refetch } = useQuery({
-    queryKey: ["Campaigns"],
+  const { data: myCampaigns = [], refetch } = useQuery({
+    queryKey: [user?.email, "myCampaigns"],
     queryFn: async () => {
-      const res = await axiosSecure(`/campaigns`);
+      const res = await axiosSecure(`/campaigns/mine?creator=${user?.email}`);
       return res.data;
     },
   });
 
-  const data = useMemo(() => Campaigns, []);
+  useEffect(() => {
+    axiosSecure("/donations").then((res) => {
+      const mine = res.data.filter(
+        (my) => my?.campaign?.creator === user?.email
+      );
+      setDonors(mine);
+    });
+  }, [axiosSecure, user]);
+
+  const handleOpen = (camp) => {
+    setOpen(true);
+    const donor = donors.filter((don) => don.campaign._id === camp._id);
+    setDonor(donor);
+  };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+  const data = useMemo(() => myCampaigns, []);
   /** @type import("@tanstack/react-table").ColumnDef<any>*/
   const columns = [
     { header: "Serial" },
@@ -60,7 +88,7 @@ const Campaigns = () => {
       header: "Edit",
     },
     {
-      header: "Delete",
+      header: "Donators",
     },
   ];
   const table = useReactTable({
@@ -102,31 +130,7 @@ const Campaigns = () => {
         }
       });
   };
-  const handleDelete = (campaign) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to delete?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure.delete(`/campaign/${campaign._id}`).then((res) => {
-          if (res.data.deletedCount > 0) {
-            refetch();
-            Swal.fire({
-              title: "Deleted",
-              text: `Campaign  Deleted`,
-              icon: "success",
-            });
-          }
-        });
-      }
-    });
-  };
+
   return (
     <Grid className="w3-container">
       <Paper
@@ -142,7 +146,7 @@ const Campaigns = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Total : {Campaigns.length}
+          Created : {myCampaigns.length}
         </Typography>
       </Paper>
 
@@ -163,7 +167,7 @@ const Campaigns = () => {
             ))}
           </TableHead>
           <TableBody>
-            {Campaigns.map((campaign, index) => (
+            {myCampaigns.map((campaign, index) => (
               <>
                 <TableRow key={campaign._id}>
                   <th>{index + 1}</th>
@@ -198,12 +202,39 @@ const Campaigns = () => {
                   </th>
                   <th>
                     {" "}
-                    <IconButton
-                      onClick={() => handleDelete(campaign)}
-                      color="danger"
+                    <Button
+                      onClick={() => handleOpen(campaign)}
+                      sx={{ bgcolor: "#ccd5ae", color: "black" }}
                     >
-                      <DeleteForever fontSize="large" />
-                    </IconButton>
+                      View
+                    </Button>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Table>
+                          <TableHead>
+                            <TableRow>
+                              <th>Serial</th>
+                              <th>Donor's Email</th>
+                              <th>Amount</th>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {donor.map((don, index) => (
+                              <TableRow sx={{ py: 2 }} key={don?._id}>
+                                <th>{index + 1}</th>
+                                <th>{don?.email}</th>
+                                <th>${don?.amount}</th>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </Box>
+                    </Modal>
                   </th>
                 </TableRow>
               </>
@@ -215,4 +246,4 @@ const Campaigns = () => {
   );
 };
 
-export default Campaigns;
+export default MyCampaigns;

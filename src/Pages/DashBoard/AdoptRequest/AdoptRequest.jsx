@@ -10,19 +10,19 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { Button, IconButton } from "@mui/joy";
 import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AdoptRequest = () => {
   const petPerPage = 10;

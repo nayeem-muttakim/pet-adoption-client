@@ -1,32 +1,38 @@
 import { Form, Formik } from "formik";
-
 import { Grid, Paper, TextField, Typography } from "@mui/material";
-import Select from "react-select";
-import { imageUpload } from "../../api/utils";
+import { imageUpload } from "../../../api/utils";
 import { Button, Textarea } from "@mui/joy";
-import { useState } from "react";
 import moment from "moment/moment";
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const AddPet = () => {
-  const options = [
-    { value: "Dog", label: "Dog" },
-    { value: "Cat", label: "Cat" },
-    { value: "Fish", label: "Fish" },
-    { value: "Hamster", label: "Hamster" },
-    { value: "Parrot", label: "Parrot" },
-    { value: "Rabbit", label: "Rabbit" },
-  ];
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
-  const [selectedOption, setSelectedOption] = useState("");
+
+const UpdateCampaign = () => {
+  const { id } = useParams();
+    const axiosSecure = useAxiosSecure();
+  const { data: campaign = {}, refetch } = useQuery({
+    queryKey: [id, "campaign"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/campaign/${id}`);
+      return res.data;
+    },
+  });
+  const name = campaign.pet_name;
+  const image = campaign.pet_image;
+  const max = campaign.max_donation;
+  const requirement = campaign.donation_requirement;
+  const last = campaign.last_date;
+  const short = campaign.short_description;
+  const long = campaign.long_description;
+
+
+
   const time = moment().format(" DD/MM/YYYY, h:mm a");
   const [isError, setIsError] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <Grid px={1}>
@@ -43,50 +49,51 @@ const AddPet = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Add a Pet
+          {`Update ${name}`}
         </Typography>
       </Paper>
       <Formik
         initialValues={{
-          pet_image: "",
-          pet_name: "",
-          pet_age: "",
-          pet_location: "",
-          pet_category: "",
-          short_description: "",
-          long_description: "",
+          pet_image: image,
+          pet_name: name,
+          max_donation: max,
+          donation_requirement: requirement,
+          last_date: last,
+          short_description: short,
+          long_description: long,
         }}
         onSubmit={async (values) => {
           const imageData = await imageUpload(values.pet_image);
 
-          const petInfo = {
+          const campaignInfo = {
             pet_image: imageData?.data?.display_url,
+            max_donation: values.max_donation,
             pet_name: values.pet_name,
-            pet_age: values.pet_age,
-            pet_location: values.pet_location,
-            pet_category: selectedOption,
+            last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
-            listed_time: time,
-            lister_email: user.email,
-            adoption_status: false,
+            updated_on: time,
+            donation_requirement: values.donation_requirement,
           };
-          if (values.pet_age <= "0") {
-            setIsError("Age must be more than 0");
+          if (values.max_donation <= "0") {
+            setIsError("Value must be greater than 0");
             return;
+          } else if (values.donation_requirement <= "0") {
+            setError("Value must be greater than 0");
           } else {
             setIsError("");
+            setError("");
             axiosSecure
-              .post("/pets", petInfo)
+              .patch(`/campaign/${id}`, campaignInfo)
               .then((res) => {
-                if (res.data.insertedId) {
+                if (res.data.modifiedCount) {
                   Swal.fire({
                     title: "Success",
-                    text: `Pet Added`,
+                    text: `Campaign Updated`,
                     icon: "success",
                   });
                 }
-                navigate("/dashboard/added-pets");
+                refetch();
               })
               .catch((err) => {
                 console.log(err);
@@ -104,61 +111,70 @@ const AddPet = () => {
               gap: 10,
             }}
           >
+            <Typography
+              color={"blueviolet"}
+              px={2}
+            >{`Current Image =${image}`}</Typography>
             <TextField
               name="pet_image"
               type="file"
-              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
               }}
             />
+
             <TextField
               name="pet_name"
-              label="Pet Name"
               type="text"
-              required
+              label="Pet Name"
+              defaultValue={name}
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_name", event.target.value);
               }}
             />
             <TextField
-              name="pet_age"
+              name="max_donation"
               type="number"
-              required
-              label="Pet Age (Year)"
+              defaultValue={max}
+              label="Maximum Donation Amount"
               variant="outlined"
               onChange={(event) => {
-                formProps.setFieldValue("pet_age", event.target.value);
+                formProps.setFieldValue("max_donation", event.target.value);
               }}
             />
             <Typography color={"red"}>{isError}</Typography>
-
             <TextField
-              name="pet_location"
-              type="text"
-              required
-              label="Pet Location"
+              name="donation_requirement"
+              type="number"
+              defaultValue={requirement}
+              label="Donation Requirement"
               variant="outlined"
               onChange={(event) => {
-                formProps.setFieldValue("pet_location", event.target.value);
+                formProps.setFieldValue(
+                  "donation_requirement",
+                  event.target.value
+                );
               }}
             />
-            <Grid my={"auto"}>
-              <Select
-                required
-                placeholder="Pet Category"
-                name="pet_category"
-                options={options}
-                onChange={setSelectedOption}
-                defaultValue={selectedOption}
-              />
-            </Grid>
+            <Typography color={"red"}>{error}</Typography>
+
+            <Typography variant="body1">Last Date of Donation</Typography>
+            <TextField
+              name="last_date"
+              type="date"
+              defaultValue={last}
+              variant="outlined"
+              onChange={(event) => {
+                formProps.setFieldValue("last_date", event.target.value);
+              }}
+            />
+
             <Textarea
               minRows={2}
               maxRows={3}
-              required
+              defaultValue={short}
               name="short_description"
               placeholder="Short Description"
               variant="soft"
@@ -172,7 +188,7 @@ const AddPet = () => {
             <Textarea
               minRows={4}
               maxRows={5}
-              required
+              defaultValue={long}
               name="long_description"
               placeholder="Detailed Description"
               variant="soft"
@@ -200,4 +216,4 @@ const AddPet = () => {
     </Grid>
   );
 };
-export default AddPet;
+export default UpdateCampaign;

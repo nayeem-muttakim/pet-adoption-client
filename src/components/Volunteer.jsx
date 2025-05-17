@@ -33,7 +33,7 @@ export default function Volunteer() {
           mx: "auto",
         }}
       >
-        <Card sx={{ minWidth: { md: 350 } }}>
+        <Card sx={{ minWidth: { md: 350 ,borderRadius:5} }}>
           <CardContent>
             <Typography variant="h5" level="title-md">
               Send CV
@@ -42,7 +42,7 @@ export default function Volunteer() {
           </CardContent>
         </Card>
 
-        <Card sx={{ minWidth: { md: 350 } }}>
+        <Card sx={{ minWidth: { md: 350 ,borderRadius:5} }}>
           <CardContent>
             <Typography variant="h5" level="title-md">
               Contact Us
@@ -51,7 +51,7 @@ export default function Volunteer() {
           </CardContent>
         </Card>
 
-        <Card sx={{ minWidth: { md: 350 } }}>
+        <Card sx={{ minWidth: { md: 350,borderRadius:5 } }}>
           <CardContent>
             <Typography variant="h5" level="title-md">
               {" "}
@@ -61,7 +61,7 @@ export default function Volunteer() {
           </CardContent>
         </Card>
 
-        <Card sx={{ minWidth: { md: 350 } }}>
+        <Card sx={{ minWidth: { md: 350 ,borderRadius:5} }}>
           <CardContent>
             <Typography variant="h5" level="title-md" textColor="inherit">
               Twitter

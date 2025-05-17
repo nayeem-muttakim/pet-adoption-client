@@ -4,12 +4,13 @@ import {
   Paper,
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Button } from "@mui/joy";
 import Swal from "sweetalert2";
 
@@ -72,32 +73,32 @@ const Users = () => {
           {/* head */}
           <TableHead>
             <TableRow>
-              <th>Serial</th>
-              <th>Profile</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
+              <TableCell>Serial</TableCell>
+              <TableCell>Profile</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Role</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {/* rows*/}
             {users.map((user, index) => (
               <TableRow sx={{ textAlign: "center" }} key={user._id}>
-                <th>{index + 1}</th>
-                <td align="center">
+                <TableCell>{index + 1}</TableCell>
+                <TableCell align="center">
                   <Avatar src={user?.image} alt="profile" />
-                </td>
-                <td>{user?.name}</td>
-                <td>{user?.email}</td>
-                <th>
+                </TableCell>
+                <TableCell>{user?.name}</TableCell>
+                <TableCell>{user?.email}</TableCell>
+                <TableCell>
                   {user.role === "admin" ? (
-                    "Admin"
+                    <Button  disabled>Admin</Button>
                   ) : (
                     <Button onClick={() => handleAdmin(user)}>
                       Make Admin
                     </Button>
                   )}
-                </th>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
