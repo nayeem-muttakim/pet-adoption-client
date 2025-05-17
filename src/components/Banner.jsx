@@ -5,10 +5,13 @@ const Banner = () => {
     <Grid>
       <Grid
         height={{ xs: 430, lg: 500, xl: 650 }}
-        sx={{ backgroundColor: "black", opacity: 0.5 }}
+        sx={{
+          backgroundImage: "linear-gradient(135deg,#7c3aed,#3b82f6)",
+          position: "relative",
+        }}
       ></Grid>
       <Grid
-        height={{ xs: 430, lg: 500, xl: 650 }}
+        height={{ xs: 520, lg: 700 }}
         display="flex"
         gap={5}
         textAlign={"center"}
@@ -16,7 +19,7 @@ const Banner = () => {
         justifyContent={"center"}
         alignItems={"center"}
         color={"white"}
-        sx={{ position: "relative", marginTop: { xs: -55, xl: -80 } }}
+        sx={{ position: "absolute", top: 0, left: 0, right: 0 }}
       >
         <Typography variant="h3">
           Don't Shop,

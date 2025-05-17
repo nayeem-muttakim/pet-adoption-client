@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 
 export default function Volunteer() {
   return (
-    <Grid px={1} maxWidth={"1200px"} mx={"auto"}>
+    <Grid mx={2}>
       <Paper
         sx={{
           px: 3,
@@ -17,7 +17,7 @@ export default function Volunteer() {
         elevation={2}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h5">
-          Become A Volunteer
+          Volunteer
         </Typography>
       </Paper>
       <Box
@@ -29,6 +29,8 @@ export default function Volunteer() {
             lg: "repeat(3,1fr)",
           },
           gap: 2,
+          maxWidth: "lg",
+          mx: "auto",
         }}
       >
         <Card sx={{ minWidth: { md: 350 } }}>

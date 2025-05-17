@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import { Send } from "@mui/icons-material";
 
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ const FeedBack = () => {
   };
 
   return (
-    <Grid maxWidth={"lg"} mx={"auto"} py={2} px={1}>
+    <Grid py={2} mx={2}>
       <Paper
         sx={{
           px: 3,
@@ -29,20 +29,20 @@ const FeedBack = () => {
         elevation={2}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h5">
-          Give Your FeedBack
+          Give FeedBack
         </Typography>
       </Paper>
 
       <form onSubmit={handleFeedBack}>
-        <Grid display={"flex"}>
+        <Box display={'flex'} gap={1} maxWidth={'lg'} mx="auto" width={{xs:'100%',sm:'fit-content'}}>
           <TextField
-            minRows={2}
+            minRows={3}
             name="feedback"
             type="text"
             multiline
+            fullWidth
             sx={{
-              mx: 1,
-              width: { xs: "full", sm: 600 },
+              width: {  sm: 600 },
               backgroundColor: "white",
               "& .MuiOutlinedInput-root": {
                 "&.Mui-focused": {
@@ -56,6 +56,8 @@ const FeedBack = () => {
               },
             }}
             required
+           
+            
             label="FeedBack"
           />
           <Button
@@ -69,7 +71,7 @@ const FeedBack = () => {
           >
             <Send />
           </Button>
-        </Grid>
+        </Box>
       </form>
     </Grid>
   );

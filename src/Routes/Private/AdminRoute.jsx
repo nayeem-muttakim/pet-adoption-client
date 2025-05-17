@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import Loader from "./loader";
+import Loader from "./Loader";
 import useAuth from "../../hooks/useAuth";
 import useAdmin from "../../hooks/useAdmin";
 
