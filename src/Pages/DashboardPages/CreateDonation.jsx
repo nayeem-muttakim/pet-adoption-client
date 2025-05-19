@@ -1,36 +1,19 @@
 import { Form, Formik } from "formik";
 import { Grid, Paper, TextField, Typography } from "@mui/material";
-import { imageUpload } from "../../../api/utils";
+import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
+import { useState } from "react";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
-const UpdateCampaign = () => {
-  const { id } = useParams();
-    const axiosSecure = useAxiosSecure();
-  const { data: campaign = {}, refetch } = useQuery({
-    queryKey: [id, "campaign"],
-    queryFn: async () => {
-      const res = await axiosSecure(`/campaign/${id}`);
-      return res.data;
-    },
-  });
-  const name = campaign.pet_name;
-  const image = campaign.pet_image;
-  const max = campaign.max_donation;
-  const requirement = campaign.donation_requirement;
-  const last = campaign.last_date;
-  const short = campaign.short_description;
-  const long = campaign.long_description;
+const CreateDonation = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
-
-
-  const time = moment().format(" DD/MM/YYYY, h:mm a");
+  const time = moment().format("DD/MM/YYYY,h:mm a");
   const [isError, setIsError] = useState("");
   const [error, setError] = useState("");
 
@@ -49,18 +32,18 @@ const UpdateCampaign = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          {`Update ${name}`}
+          Create Donation Campaign
         </Typography>
       </Paper>
       <Formik
         initialValues={{
-          pet_image: image,
-          pet_name: name,
-          max_donation: max,
-          donation_requirement: requirement,
-          last_date: last,
-          short_description: short,
-          long_description: long,
+          pet_image: "",
+          max_donation: "",
+          pet_name: "",
+          last_date: "",
+          donation_requirement: "",
+          short_description: "",
+          long_description: "",
         }}
         onSubmit={async (values) => {
           const imageData = await imageUpload(values.pet_image);
@@ -72,7 +55,9 @@ const UpdateCampaign = () => {
             last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
-            updated_on: time,
+            created_on: time,
+            creator: user.email,
+            pause: false,
             donation_requirement: values.donation_requirement,
           };
           if (values.max_donation <= "0") {
@@ -84,16 +69,16 @@ const UpdateCampaign = () => {
             setIsError("");
             setError("");
             axiosSecure
-              .patch(`/campaign/${id}`, campaignInfo)
+              .post("/campaigns", campaignInfo)
               .then((res) => {
-                if (res.data.modifiedCount) {
+                if (res.data.insertedId) {
                   Swal.fire({
                     title: "Success",
-                    text: `Campaign Updated`,
+                    text: `Campaign Created`,
                     icon: "success",
                   });
                 }
-                refetch();
+                location.reload();
               })
               .catch((err) => {
                 console.log(err);
@@ -111,13 +96,10 @@ const UpdateCampaign = () => {
               gap: 10,
             }}
           >
-            <Typography
-              color={"blueviolet"}
-              px={2}
-            >{`Current Image =${image}`}</Typography>
             <TextField
               name="pet_image"
               type="file"
+              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
@@ -128,7 +110,7 @@ const UpdateCampaign = () => {
               name="pet_name"
               type="text"
               label="Pet Name"
-              defaultValue={name}
+              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_name", event.target.value);
@@ -137,7 +119,7 @@ const UpdateCampaign = () => {
             <TextField
               name="max_donation"
               type="number"
-              defaultValue={max}
+              required
               label="Maximum Donation Amount"
               variant="outlined"
               onChange={(event) => {
@@ -148,7 +130,7 @@ const UpdateCampaign = () => {
             <TextField
               name="donation_requirement"
               type="number"
-              defaultValue={requirement}
+              required
               label="Donation Requirement"
               variant="outlined"
               onChange={(event) => {
@@ -164,7 +146,7 @@ const UpdateCampaign = () => {
             <TextField
               name="last_date"
               type="date"
-              defaultValue={last}
+              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("last_date", event.target.value);
@@ -174,7 +156,7 @@ const UpdateCampaign = () => {
             <Textarea
               minRows={2}
               maxRows={3}
-              defaultValue={short}
+              required
               name="short_description"
               placeholder="Short Description"
               variant="soft"
@@ -188,7 +170,7 @@ const UpdateCampaign = () => {
             <Textarea
               minRows={4}
               maxRows={5}
-              defaultValue={long}
+              required
               name="long_description"
               placeholder="Detailed Description"
               variant="soft"
@@ -216,4 +198,4 @@ const UpdateCampaign = () => {
     </Grid>
   );
 };
-export default UpdateCampaign;
+export default CreateDonation;

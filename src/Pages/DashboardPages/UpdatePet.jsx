@@ -1,10 +1,10 @@
 import { Form, Formik } from "formik";
 import { Avatar, Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
-import { imageUpload } from "../../../api/utils";
+import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import moment from "moment/moment";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";

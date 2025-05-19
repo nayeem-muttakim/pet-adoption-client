@@ -7,9 +7,9 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
-import SocialAuthentication from "../../Shared/SocialAuthentication";
+import SocialAuthentication from "../Shared/SocialAuthentication";
 
 const Login = () => {
   const { user, login } = useAuth();

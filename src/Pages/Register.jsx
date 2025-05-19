@@ -1,11 +1,11 @@
 import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import { Helmet } from "react-helmet-async";
-import { imageUpload } from "../../api/utils";
+import { imageUpload } from "../api/utils";
 import toast from "react-hot-toast";
-import useAxios from "../../hooks/useAxios";
-import SocialAuthentication from "../../Shared/SocialAuthentication";
+import useAxios from "../hooks/useAxios";
+import SocialAuthentication from "../Shared/SocialAuthentication";
 
 const Register = () => {
   const { register, updateUser, user } = useAuth();

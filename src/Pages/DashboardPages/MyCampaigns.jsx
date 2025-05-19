@@ -24,8 +24,8 @@ import { Button, IconButton } from "@mui/joy";
 import { AutoFixNormal} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const MyCampaigns = () => {
   const { user } = useAuth();

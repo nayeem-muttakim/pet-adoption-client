@@ -21,8 +21,8 @@ import { Button, IconButton } from "@mui/joy";
 import { AutoFixNormal, DeleteForever } from "@mui/icons-material";
 
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AdoptRequest = () => {
   const petPerPage = 10;

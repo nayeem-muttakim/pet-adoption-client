@@ -2,14 +2,14 @@ import { Form, Formik } from "formik";
 
 import { Grid, Paper, TextField, Typography } from "@mui/material";
 import Select from "react-select";
-import { imageUpload } from "../../../api/utils";
+import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
 import { useState } from "react";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddPet = () => {
   const options = [

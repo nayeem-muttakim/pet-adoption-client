@@ -1,19 +1,36 @@
 import { Form, Formik } from "formik";
 import { Grid, Paper, TextField, Typography } from "@mui/material";
-import { imageUpload } from "../../../api/utils";
+import { imageUpload } from "../../api/utils";
 import { Button, Textarea } from "@mui/joy";
-import { useState } from "react";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
-const CreateDonation = () => {
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+const UpdateCampaign = () => {
+  const { id } = useParams();
+    const axiosSecure = useAxiosSecure();
+  const { data: campaign = {}, refetch } = useQuery({
+    queryKey: [id, "campaign"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/campaign/${id}`);
+      return res.data;
+    },
+  });
+  const name = campaign.pet_name;
+  const image = campaign.pet_image;
+  const max = campaign.max_donation;
+  const requirement = campaign.donation_requirement;
+  const last = campaign.last_date;
+  const short = campaign.short_description;
+  const long = campaign.long_description;
 
-  const time = moment().format("DD/MM/YYYY,h:mm a");
+
+
+  const time = moment().format(" DD/MM/YYYY, h:mm a");
   const [isError, setIsError] = useState("");
   const [error, setError] = useState("");
 
@@ -32,18 +49,18 @@ const CreateDonation = () => {
         elevation={3}
       >
         <Typography sx={{ fontWeight: "bold" }} variant="h4">
-          Create Donation Campaign
+          {`Update ${name}`}
         </Typography>
       </Paper>
       <Formik
         initialValues={{
-          pet_image: "",
-          max_donation: "",
-          pet_name: "",
-          last_date: "",
-          donation_requirement: "",
-          short_description: "",
-          long_description: "",
+          pet_image: image,
+          pet_name: name,
+          max_donation: max,
+          donation_requirement: requirement,
+          last_date: last,
+          short_description: short,
+          long_description: long,
         }}
         onSubmit={async (values) => {
           const imageData = await imageUpload(values.pet_image);
@@ -55,9 +72,7 @@ const CreateDonation = () => {
             last_date: values.last_date,
             short_description: values.short_description,
             long_description: values.long_description,
-            created_on: time,
-            creator: user.email,
-            pause: false,
+            updated_on: time,
             donation_requirement: values.donation_requirement,
           };
           if (values.max_donation <= "0") {
@@ -69,16 +84,16 @@ const CreateDonation = () => {
             setIsError("");
             setError("");
             axiosSecure
-              .post("/campaigns", campaignInfo)
+              .patch(`/campaign/${id}`, campaignInfo)
               .then((res) => {
-                if (res.data.insertedId) {
+                if (res.data.modifiedCount) {
                   Swal.fire({
                     title: "Success",
-                    text: `Campaign Created`,
+                    text: `Campaign Updated`,
                     icon: "success",
                   });
                 }
-                location.reload();
+                refetch();
               })
               .catch((err) => {
                 console.log(err);
@@ -96,10 +111,13 @@ const CreateDonation = () => {
               gap: 10,
             }}
           >
+            <Typography
+              color={"blueviolet"}
+              px={2}
+            >{`Current Image =${image}`}</Typography>
             <TextField
               name="pet_image"
               type="file"
-              required
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_image", event.target.files[0]);
@@ -110,7 +128,7 @@ const CreateDonation = () => {
               name="pet_name"
               type="text"
               label="Pet Name"
-              required
+              defaultValue={name}
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("pet_name", event.target.value);
@@ -119,7 +137,7 @@ const CreateDonation = () => {
             <TextField
               name="max_donation"
               type="number"
-              required
+              defaultValue={max}
               label="Maximum Donation Amount"
               variant="outlined"
               onChange={(event) => {
@@ -130,7 +148,7 @@ const CreateDonation = () => {
             <TextField
               name="donation_requirement"
               type="number"
-              required
+              defaultValue={requirement}
               label="Donation Requirement"
               variant="outlined"
               onChange={(event) => {
@@ -146,7 +164,7 @@ const CreateDonation = () => {
             <TextField
               name="last_date"
               type="date"
-              required
+              defaultValue={last}
               variant="outlined"
               onChange={(event) => {
                 formProps.setFieldValue("last_date", event.target.value);
@@ -156,7 +174,7 @@ const CreateDonation = () => {
             <Textarea
               minRows={2}
               maxRows={3}
-              required
+              defaultValue={short}
               name="short_description"
               placeholder="Short Description"
               variant="soft"
@@ -170,7 +188,7 @@ const CreateDonation = () => {
             <Textarea
               minRows={4}
               maxRows={5}
-              required
+              defaultValue={long}
               name="long_description"
               placeholder="Detailed Description"
               variant="soft"
@@ -198,4 +216,4 @@ const CreateDonation = () => {
     </Grid>
   );
 };
-export default CreateDonation;
+export default UpdateCampaign;
